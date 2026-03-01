@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPTV_NTX - Streaming Premium</title>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #E50914;
+            --bg-dark: #080808;
+            --card-bg: #141414;
+            --text-main: #ffffff;
+            --text-dim: rgba(255, 255, 255, 0.6);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background-color: var(--bg-dark); 
+            color: var(--text-main); 
+            font-family: 'Roboto', sans-serif; 
+            overflow-x: hidden; 
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 10%, 30%, 50%, 70%, 90% { transform: translateX(-6px); } 20%, 40%, 60%, 80% { transform: translateX(6px); } }
+        @keyframes liquidLoad { 0% { height: 0%; } 100% { height: 100%; } }
+
+        .page-transition { animation: fadeIn 0.9s ease-out; }
+
+        /* --- AUTHENTIFICATION --- */
+        #auth-page {
+            position: fixed; inset: 0; z-index: 9999;
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover; display: flex; align-items: center; justify-content: center;
+        }
+
+        .auth-card {
+            background: rgba(0,0,0,0.85); padding: 50px; border-radius: 12px;
+            width: 100%; max-width: 450px; border: 1px solid rgba(255,255,255,0.1);
+            text-align: center; backdrop-filter: blur(10px);
+        }
+
+        .auth-card h1 { font-family: 'Bebas Neue'; font-size: 3rem; color: var(--primary); letter-spacing: 4px; }
+        .auth-input {
+            width: 100%; padding: 15px; margin: 20px 0; background: #333;
+            border: none; border-radius: 5px; color: white; text-align: center;
+            font-size: 1.2rem; letter-spacing: 5px;
+        }
+        .auth-btn {
+            width: 100%; padding: 15px; background: var(--primary); border: none;
+            color: white; font-weight: 900; cursor: pointer; border-radius: 5px; transition: 0.3s;
+        }
+        .auth-btn:hover { background: #ff1a25; transform: scale(1.02); }
+
+        /* --- LOADER --- */
+        #loader {
+            display: none; position: fixed; inset: 0; z-index: 999;
+            background: var(--bg-dark); flex-direction: column; align-items: center; justify-content: center;
+        }
+        .liquid-container {
+            width: 80px; height: 120px; border: 4px solid white; position: relative;
+            overflow: hidden; border-radius: 0 0 10px 10px;
+        }
+        .liquid-fill {
+            position: absolute; bottom: 0; width: 100%; background: var(--primary);
+            animation: liquidLoad 1.5s infinite ease-in-out;
+        }
+
+        /* --- MAIN LAYOUT --- */
+        nav {
+            position: fixed; top: 0; width: 100%; height: 70px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
+            display: flex; align-items: center; px: 4%; z-index: 100; padding: 0 40px;
+        }
+        .logo { font-family: 'Bebas Neue'; font-size: 1.8rem; color: var(--primary); margin-right: 40px; }
+        .nav-links { display: flex; gap: 20px; flex-grow: 1; }
+        .nav-links a { text-decoration: none; color: white; font-size: 0.9rem; opacity: 0.7; transition: 0.3s; cursor: pointer; }
+        .nav-links a:hover { opacity: 1; }
+
+        /* --- PLAYER --- */
+        .player-section { margin-top: 80px; padding: 0 4%; }
+        .video-container { 
+            width: 100%; aspect-ratio: 16/9; background: #000; 
+            border-radius: 8px; overflow: hidden; position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        video { width: 100%; height: 100%; }
+
+        /* --- GRID CHAINES --- */
+        .content-row { padding: 40px 4%; }
+        .content-row h2 { margin-bottom: 20px; font-size: 1.5rem; }
+        .grid-channels {
+            display: grid; 
+            gap: 15px;
+            /* Desktop: 4 colonnes */
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .channel-card {
+            background: var(--card-bg); border-radius: 4px; padding: 15px;
+            cursor: pointer; transition: 0.3s; border: 1px solid transparent;
+            text-align: center;
+        }
+        .channel-card:hover { transform: scale(1.05); border-color: var(--primary); }
+        .channel-card img { width: 60px; height: 60px; object-fit: contain; margin-bottom: 10px; }
+        .channel-name { font-weight: bold; font-size: 0.9rem; display: block; }
+        .epg-info { font-size: 0.7rem; color: var(--text-dim); margin-top: 5px; }
+
+        /* Responsive Mobile: 3 colonnes */
+        @media (max-width: 768px) {
+            .grid-channels { grid-template-columns: repeat(3, 1fr); }
+            .auth-card { margin: 20px; padding: 30px; }
+        }
+
+        /* Admin Tab */
+        #admin-panel { display: none; padding: 40px 4%; background: #111; margin-top: 20px; border-radius: 10px; }
+        pre { background: #000; padding: 15px; border-radius: 5px; font-size: 0.8rem; overflow-x: auto; color: #0f0; }
+    </style>
+</head>
+<body>
+
+    <div id="auth-page">
+        <div class="auth-card" id="auth-box">
+            <h1>IPTV_NTX</h1>
+            <p style="color: rgba(255,255,255,0.4)">Entrez votre code d'accès</p>
+            <input type="text" id="auth-code" class="auth-input" placeholder="••••••">
+            <button class="auth-btn" onclick="checkAuth()">SE CONNECTER</button>
+            <p id="error-msg" style="color: var(--primary); margin-top: 15px; font-size: 0.8rem; display: none;">CODE INVALIDE</p>
+        </div>
+    </div>
+
+    <div id="loader">
+        <div class="liquid-container">
+            <div class="liquid-fill"></div>
+        </div>
+        <p style="margin-top: 20px; font-family: 'Bebas Neue'; letter-spacing: 2px;">CHARGEMENT DU FLUX...</p>
+    </div>
+
+    <div id="main-content" style="display: none;">
+        <nav>
+            <div class="logo">IPTV_NTX</div>
+            <div class="nav-links">
+                <a onclick="showTab('home')">Accueil</a>
+                <a onclick="showTab('tv')">TV en direct</a>
+                <a onclick="showTab('movies')">Films</a>
+                <a onclick="showTab('series')">Séries</a>
+                <a id="nav-admin" style="display: none;" onclick="showTab('admin')">ADMIN</a>
+            </div>
+            <div id="user-info" style="font-size: 0.8rem; color: var(--text-dim);"></div>
+        </nav>
+
+        <section class="player-section page-transition">
+            <div class="video-container">
+                <video id="main-video" controls autoplay></video>
+            </div>
+            <div id="current-channel-title" style="margin-top: 15px; font-size: 1.2rem; font-weight: 900;">TF1 - HD 4K</div>
+        </section>
+
+        <section class="content-row">
+            <h2>Chaînes TV</h2>
+            <div class="grid-channels" id="channels-list">
+                </div>
+        </section>
+
+        <section id="admin-panel" class="page-transition">
+            <h2 style="color: var(--primary);">PANNEAU D'ADMINISTRATION</h2>
+            <p>Voici le format pour ajouter des comptes dans le code source :</p>
+            <pre>
+{ code: "NOUVEAU_CODE", role: "user", expiry: "2026-12-31" }
+            </pre>
+            <div id="stats" style="margin-top: 20px;"></div>
+        </section>
+    </div>
+
+    <script>
+        // ==========================================
+        // BASE DE DONNÉES COMPTES (A MODIFIER ICI)
+        // ==========================================
+        const ACCOUNTS = [
+            { code: "Treza670", role: "admin", expiry: "Illimité", user: "Admin_Brice" },
+            { code: "Gogo67000", role: "user", expiry: "2027-01-01", user: "Gogo" },
+        ];
+
+        // Génération automatique de 100 comptes pour l'exemple
+        for(let i=1; i<=100; i++) {
+            ACCOUNTS.push({ code: "USER" + (1000 + i), role: "user", expiry: "2026-06-01", user: "Client_" + i });
+        }
+
+        // ==========================================
+        // CONFIGURATION DES CHAINES (M3U FORMAT)
+        // ==========================================
+        const M3U_DATA = `
+#EXTINF:-1 tvg-id="TF1.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tf1-fr.png",TF1
+https://viamotionhsi.netplus.ch/live/eds/tf1hd/browser-HLS8/tf1hd.m3u8
+#EXTINF:-1 tvg-id="France2.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-2-fr.png",FRANCE 2
+https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/france2.m3u8
+#EXTINF:-1 tvg-id="France3.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-3-fr.png",FRANCE 3
+https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/france3.m3u8
+#EXTINF:-1 tvg-id="M6.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/m6-fr.png",M6
+https://viamotionhsi.netplus.ch/live/eds/m6hd/browser-HLS8/m6hd.m3u8
+#EXTINF:-1 tvg-id="Arte.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/arte-fr.png",ARTE
+https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/arte.m3u8
+#EXTINF:-1 tvg-id="W9.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/w9-fr.png",W9
+https://viamotionhsi.netplus.ch/live/eds/w9/browser-HLS8/w9.m3u8
+#EXTINF:-1 tvg-id="Gulli.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/gulli-fr.png",GULLI
+https://lbcdn.6cloud.fr/resource/m6web/l/gulli_hls_sd_short_q2hyb21h.m3u8?groups[]=m6web-live-gulli_ext
+#EXTINF:-1 tvg-id="CStar.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/c-star-fr.png",CSTAR
+https://raw.githubusercontent.com/schumijo/iptv/main/playlists/canalplus/cstar.m3u8
+#EXTINF:-1 tvg-id="Eurosport1.fr" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/eurosport-1-fr.png",EUROSPORT 1
+https://raw.githubusercontent.com/schumijo/iptv/main/playlists/lequipe/eurosport1.m3u8
+        `;
+        // let currentUser = null;
+        const video = document.getElementById('main-video');
+
+        function checkAuth() {
+            const input = document.getElementById('auth-code').value;
+            const account = ACCOUNTS.find(a => a.code === input);
+            const box = document.getElementById('auth-box');
+
+            if (account) {
+                currentUser = account;
+                document.getElementById('auth-page').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+                document.getElementById('user-info').innerHTML = `Utilisateur: ${account.user} | Fin: ${account.expiry}`;
+                
+                if(account.role === 'admin') {
+                    document.getElementById('nav-admin').style.display = 'block';
+                }
+                
+                initApp();
+            } else {
+                box.style.animation = 'shake 0.5s';
+                document.getElementById('error-msg').style.display = 'block';
+                setTimeout(() => box.style.animation = '', 500);
+            }
+        }
+
+        function initApp() {
+            parseAndRenderChannels();
+            // Lancer TF1 par défaut
+            playChannel('https://viamotionhsi.netplus.ch/live/eds/tf1hd/browser-HLS8/tf1hd.m3u8', 'TF1');
+        }
+
+        function parseAndRenderChannels() {
+            const lines = M3U_DATA.trim().split('\n');
+            const grid = document.getElementById('channels-list');
+            grid.innerHTML = '';
+
+            for (let i = 0; i < lines.length; i++) {
+                if (lines[i].startsWith('#EXTINF')) {
+                    const info = lines[i];
+                    const url = lines[i + 1];
+                    const name = info.split(',')[1];
+                    const logoMatch = info.match(/tvg-logo="([^"]+)"/);
+                    const logo = logoMatch ? logoMatch[1] : 'https://via.placeholder.com/60';
+
+                    const card = document.createElement('div');
+                    card.className = 'channel-card';
+                    card.onclick = () => playChannel(url, name);
+                    card.innerHTML = `
+                        <img src="${logo}" alt="${name}">
+                        <span class="channel-name">${name}</span>
+                        <div class="epg-info">
+                            🔴 En direct: JT 20H<br>
+                            🕒 Suivant: Film M6 (21h10)
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                }
+            }
+        }
+
+        function playChannel(url, name) {
+            const loader = document.getElementById('loader');
+            loader.style.display = 'flex';
+            
+            document.getElementById('current-channel-title').innerText = name + " - Qualité Ultra HD 4K";
+
+            setTimeout(() => {
+                if (Hls.isSupported()) {
+                    const hls = new Hls();
+                    hls.loadSource(url);
+                    hls.attachMedia(video);
+                    hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                        video.play();
+                    });
+                } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                    video.src = url;
+                    video.addEventListener('loadedmetadata', function() {
+                        video.play();
+                    });
+                }
+                loader.style.display = 'none';
+            }, 1200); // Simulation chargement fluide
+        }
+
+        function showTab(tab) {
+            document.getElementById('admin-panel').style.display = (tab === 'admin') ? 'block' : 'none';
+            // Simple logic for tabs
+            if(tab === 'admin' && currentUser.role !== 'admin') {
+                alert("Accès refusé");
+                showTab('home');
+            }
+        }
+    </script>
+</body>
+</html>
