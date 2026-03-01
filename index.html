@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPTV_NTX PRO v3.5 - Ingénieur Custom</title>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@100;300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #E50914;
+            --primary-hover: #b20710;
+            --bg-body: #050505;
+            --bg-cards: rgba(20, 20, 20, 0.8);
+            --bg-nav: rgba(0, 0, 0, 0.9);
+            --font-main: 'Roboto', sans-serif;
+            --font-title: 'Bebas Neue', cursive;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background-color: var(--bg-body); 
+            color: #fff; 
+            font-family: var(--font-main); 
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* --- FOND ANIMÉ TACHES ROUGES --- */
+        .animated-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; overflow: hidden; background: #000;
+        }
+        .blob {
+            position: absolute; width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(229, 9, 20, 0.15) 0%, rgba(0,0,0,0) 70%);
+            filter: blur(80px); border-radius: 50%; animation: move 20s infinite alternate;
+        }
+        .blob.one { top: -10%; left: -10%; animation-duration: 15s; }
+        .blob.two { bottom: -10%; right: -10%; animation-duration: 25s; background: radial-gradient(circle, rgba(229, 9, 20, 0.1) 0%, rgba(0,0,0,0) 70%); }
+        @keyframes move { 
+            from { transform: translate(0, 0) scale(1); } 
+            to { transform: translate(100px, 100px) scale(1.2); } 
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            position: fixed; top: 0; width: 100%; height: 80px;
+            background: var(--bg-nav); display: flex; align-items: center;
+            padding: 0 4%; z-index: 5000; border-bottom: 1px solid rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+        }
+        .nav-logo { font-family: var(--font-title); font-size: 2.2rem; color: var(--primary); margin-right: 50px; cursor: pointer; }
+        .nav-menu { display: flex; gap: 25px; list-style: none; }
+        .nav-menu li { color: rgba(255,255,255,0.6); font-size: 0.95rem; font-weight: 500; cursor: pointer; transition: 0.3s; }
+        .nav-menu li:hover, .nav-menu li.active { color: #fff; }
+
+        /* --- PLAYER --- */
+        .player-wrapper { margin-top: 100px; padding: 0 4%; display: flex; flex-direction: column; align-items: center; }
+        #video-container {
+            width: 60%; max-width: 900px; aspect-ratio: 16/9; background: #000;
+            border-radius: 8px; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        #video-container.fullscreen { width: 100%; max-width: none; }
+        video { width: 100%; height: 100%; border-radius: 8px; }
+
+        .player-controls {
+            width: 60%; max-width: 900px; display: flex; justify-content: space-between;
+            align-items: center; margin-top: 15px; background: rgba(17,17,17,0.8); padding: 15px 20px; border-radius: 8px;
+            backdrop-filter: blur(5px);
+        }
+        .quality-btn {
+            background: transparent; border: 1px solid #444; color: #aaa;
+            padding: 5px 12px; font-size: 0.7rem; border-radius: 4px; cursor: pointer; margin-left: 5px;
+        }
+        .quality-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+        /* --- GRILLES & CARDS --- */
+        .section-container { padding: 40px 4%; }
+        .section-title { font-size: 1.8rem; margin-bottom: 25px; font-weight: 800; border-left: 4px solid var(--primary); padding-left: 15px; }
+        .grid-layout { display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
+
+        .item-card {
+            background: var(--bg-cards); border-radius: 8px; overflow: hidden;
+            transition: 0.4s; cursor: pointer; border: 1px solid rgba(255,255,255,0.05);
+            position: relative;
+        }
+        .item-card:hover { transform: translateY(-10px); border-color: var(--primary); background: rgba(40,40,40,0.9); }
+        .card-img { width: 100%; height: 160px; object-fit: cover; }
+        .card-body { padding: 15px; }
+        
+        /* TAG FILMS / SERIES */
+        .tag {
+            position: absolute; top: 10px; right: 10px; padding: 3px 8px;
+            font-size: 0.6rem; font-weight: 900; text-transform: uppercase;
+            border-radius: 3px; background: var(--primary);
+        }
+        .tag.serie { background: #007bff; }
+
+        /* --- WEB LINKS --- */
+        .web-link-item {
+            display: flex; align-items: center; justify-content: space-between;
+            background: rgba(20,20,20,0.8); padding: 20px; border-radius: 10px; margin-bottom: 15px;
+            border-left: 5px solid var(--primary);
+        }
+
+        /* --- AUTH --- */
+        #auth-screen {
+            position: fixed; inset: 0; z-index: 10000;
+            background: #000; display: flex; align-items: center; justify-content: center;
+        }
+        .login-container { width: 100%; max-width: 400px; padding: 40px; text-align: center; }
+        .login-container input {
+            width: 100%; padding: 15px; background: #222; border: none; color: #fff;
+            margin-bottom: 20px; border-radius: 5px; text-align: center; font-size: 1.2rem;
+        }
+
+        /* --- ADMIN --- */
+        .admin-btn-git {
+            display: inline-block; padding: 15px 30px; background: #24292e; color: #fff;
+            text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="animated-bg">
+        <div class="blob one"></div>
+        <div class="blob two"></div>
+    </div>
+
+    <div id="auth-screen">
+        <div class="login-container">
+            <h1 style="font-family: var(--font-title); color: var(--primary); font-size: 4rem;">NTX</h1>
+            <input type="text" id="access-code" placeholder="VOTRE CODE">
+            <button onclick="handleAuth()" style="width:100%; padding:15px; background:var(--primary); color:#fff; border:none; cursor:pointer; font-weight:bold;">ACCÉDER</button>
+            <p id="auth-error" style="color:red; margin-top:10px; display:none;">Code invalide</p>
+        </div>
+    </div>
+
+    <div id="app-root" style="display: none;">
+        <nav>
+            <div class="nav-logo" onclick="switchView('tv')">IPTV_NTX</div>
+            <ul class="nav-menu">
+                <li onclick="switchView('tv')" class="active">DIRECT TV</li>
+                <li onclick="switchView('vod')">FILMS & SÉRIES</li>
+                <li onclick="switchView('apps')">LienWeb & APPS.APK</li>
+                <li onclick="switchView('account')">MON COMPTE</li>
+                <li id="admin-nav" onclick="switchView('admin')" style="display: none; color: var(--primary);">ADMIN</li>
+            </ul>
+        </nav>
+
+        <div id="tv-view">
+            <section class="player-wrapper">
+                <div id="video-container">
+                    <video id="player" controls></video>
+                </div>
+                <div class="player-controls">
+                    <div>
+                        <span id="playing-title" style="font-weight:900;">CHOISISSEZ UNE CHAÎNE</span>
+                    </div>
+                    <div>
+                        <button class="quality-btn" onclick="setQuality('720')">720p</button>
+                        <button class="quality-btn active" onclick="setQuality('1080')">1080p</button>
+                        <button class="quality-btn" onclick="setQuality('4k')">4K</button>
+                        <button class="quality-btn" style="background:#333" onclick="toggleSize()">AGRANDIR</button>
+                    </div>
+                </div>
+            </section>
+            <section class="section-container">
+                <h2 class="section-title">Chaînes Live</h2>
+                <div class="grid-layout" id="grid-tv"></div>
+            </section>
+        </div>
+
+        <div id="vod-view" class="section-container" style="display:none; margin-top:80px;">
+            <h2 class="section-title">Catalogue VOD</h2>
+            <div class="grid-layout" id="grid-vod"></div>
+        </div>
+
+        <div id="apps-view" class="section-container" style="display:none; margin-top:80px;">
+            <h2 class="section-title">Liens & Outils Externes</h2>
+            <div id="web-links-container"></div>
+        </div>
+
+        <div id="account-view" class="section-container" style="display:none; margin-top:80px;">
+            <div style="max-width: 600px; margin: 0 auto; background: rgba(20,20,20,0.9); padding: 40px; border-radius: 10px;">
+                <h2 id="acc-name">Profil</h2>
+                <hr style="margin: 20px 0; border: 0; border-top: 1px solid #333;">
+                <p>Mail: <span id="acc-mail"></span></p>
+                <p>Tel: <span id="acc-tel"></span></p>
+                <p>Code: <span id="acc-code" style="color:var(--primary)"></span></p>
+                <p>Forfait: <span id="acc-plan"></span></p>
+            </div>
+        </div>
+
+        <div id="admin-view" class="section-container" style="display:none; margin-top:80px;">
+            <h2 class="section-title">Panel Ingénieur</h2>
+            <p>Gestion du code source :</p>
+            <a href="https://github.com/strassweb67/SITE-APPTVWPA-" target="_blank" class="admin-btn-git">MODIFIER SUR GITHUB</a>
+        </div>
+    </div>
+
+    <script>
+        /* =========================================================================
+           MODIFIER LES UTILISATEURS ICI
+           ========================================================================= */
+        const ACCOUNTS_DATABASE = [
+            { code: "Treza670", role: "admin", nom: "Directeur :Mr. Jacotet", prenom: "Brice", email: "Strassweb67@gmail.com", tel: "0619696332", forfait: "GERANT: Admin Full Ultra HD 4K / abo: 1000€" },
+            { code: "Gogo67000", role: "user", nom: "rauch", prenom: "Gauthier", email: "jean@gmail.com", tel: "0700000000", forfait: "Basique - 19€" },
+            { code: "Marie67300", role: "user", nom: "Vip. Mme Jacotet", prenom: "Marie-Christine", email: "Mariechristinejacotet@gmail.com", tel: "0061763380", forfait: "Ultra Full Uhd 4K/ Abo: 100€" }
+			{ code: "MODEDEMO", role: "user", nom: "MODE DE DEMONSTRATION", prenom: "--", email: "-MODEDEMO@iptv-ntx.fr-", tel: "-DEMONSTRATION-", forfait: "-Ultra Full Uhd 4K/ Abo: 19.99€ à 100€" }
+        ];
+
+        /* =========================================================================
+           MODIFIER LES CHAINES TV ICI
+           ========================================================================= */
+        const TV_DATABASE = [
+            { name: "TF1 HD", url: "https://viamotionhsi.netplus.ch/live/eds/tf1hd/browser-HLS8/tf1hd.m3u8", logo: "https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tf1-fr.png" },
+            { name: "France 2 HD", url: "https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/france2.m3u8", logo: "https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-2-fr.png" }
+			{ name: "France 3 HD", url: "https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/france3.m3u8", logo: "https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-3-fr.png" }
+			{ name: "France 4 HD", url: "https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/france4.m3u8", logo: "https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-4-fr.png" }
+			{ name: "France 5 HD", url: "https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/france5.m3u8", logo: "https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-5-fr.png" }
+			{ name: "Alerte Cobra HD", url: "https://alarm-for-cobra-rakuten-tv-fr.fast.rakuten.tv/v1/master/0547f18649bd788bec7b67b746e47670f558b6b2/production-LiveChannel-6477/master.m3u8", logo: "https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/m6-fr.png" }
+			{ name: "M6 HD", url: "https://viamotionhsi.netplus.ch/live/eds/m6hd/browser-HLS8/m6hd.m3u8", logo: "https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/m6-fr.png" }
+			{ name: "M6 HD", url: "https://viamotionhsi.netplus.ch/live/eds/m6hd/browser-HLS8/m6hd.m3u8", logo: "https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/m6-fr.png" }
+			{ name: "M6 HD", url: "https://viamotionhsi.netplus.ch/live/eds/m6hd/browser-HLS8/m6hd.m3u8", logo: "https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/m6-fr.png" }
+			{ name: "M6 HD", url: "https://viamotionhsi.netplus.ch/live/eds/m6hd/browser-HLS8/m6hd.m3u8", logo: "https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/m6-fr.png" }
+			{ name: "M6 HD", url: "https://viamotionhsi.netplus.ch/live/eds/m6hd/browser-HLS8/m6hd.m3u8", logo: "https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/m6-fr.png" }
+			{ name: "M6 HD", url: "https://viamotionhsi.netplus.ch/live/eds/m6hd/browser-HLS8/m6hd.m3u8", logo: "https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/m6-fr.png" }
+			{ name: "M6 HD", url: "https://viamotionhsi.netplus.ch/live/eds/m6hd/browser-HLS8/m6hd.m3u8", logo: "https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/m6-fr.png" }
+			{ name: "M6 HD", url: "https://viamotionhsi.netplus.ch/live/eds/m6hd/browser-HLS8/m6hd.m3u8", logo: "https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/m6-fr.png" }
+			{ name: "M6 HD", url: "https://viamotionhsi.netplus.ch/live/eds/m6hd/browser-HLS8/m6hd.m3u8", logo: "https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/m6-fr.png" }
+			{ name: "M6 HD", url: "https://viamotionhsi.netplus.ch/live/eds/m6hd/browser-HLS8/m6hd.m3u8", logo: "https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/m6-fr.png" }
+			{ name: "M6 HD", url: "https://viamotionhsi.netplus.ch/live/eds/m6hd/browser-HLS8/m6hd.m3u8", logo: "https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/m6-fr.png" }
+			{ name: "M6 HD", url: "https://viamotionhsi.netplus.ch/live/eds/m6hd/browser-HLS8/m6hd.m3u8", logo: "https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/m6-fr.png" }
+        ];
+
+        /* =========================================================================
+           MODIFIER LES FILMS / SERIES ICI (Fusionné)
+           ========================================================================= */
+        const VOD_DATABASE = [
+            { name: "Inception", type: "Film", url: "#", logo: "https://via.placeholder.com/300x160?text=Inception" },
+            { name: "Breaking Bad", type: "Série", url: "#", logo: "https://via.placeholder.com/300x160?text=Breaking+Bad" },
+            // ];
+
+        /* =========================================================================
+           MODIFIER LES LIENS WEB ICI + GESTION DE VISIBILITÉ PAR CLIENT
+           visibleFor: ["all"] -> tout le monde
+           visibleFor: ["Client19"] -> Seulement pour le client avec le code Client19
+           ========================================================================= */
+        const WEB_APPS_DATABASE = [
+            { title: "Acces modif Html IPTC de cette app", url: "https://github.com/strassweb67/SITE-APPTVWPA-/blob/main/IPTV-NTX-WEBUI.html", desc: "Privé pour Admin", visibleFor: ["Admin67"] },
+			{ title: "Easy APK- App mobile Hack Gratuit", url: "https://t.me/EasyAPK", desc: "Moteur de recherche d'app hacker gratuit", visibleFor: ["all"] },
+            { title: "Panel Client 50e", url: "#", desc: "Lien exclusif forfait 50", visibleFor: ["Client50", "Admin67"] },
+			 { title: "Google - pas encore programé", url: "https://google.com", desc: "Moteur de recherche", visibleFor: ["all"] },
+			  { title: "Google - pas encore programé", url: "https://google.com", desc: "Moteur de recherche", visibleFor: ["all"] },
+			   { title: "Google - pas encore programé", url: "https://google.com", desc: "Moteur de recherche", visibleFor: ["all"] },
+			    { title: "Google - pas encore programé", url: "https://google.com", desc: "Moteur de recherche", visibleFor: ["all"] },
+            // ];
+
+        let hls = new Hls();
+        let activeAccount = null;
+
+        function handleAuth() {
+            const code = document.getElementById('access-code').value;
+            const acc = ACCOUNTS_DATABASE.find(u => u.code === code);
+            if(acc) {
+                activeAccount = acc;
+                document.getElementById('auth-screen').style.display = 'none';
+                document.getElementById('app-root').style.display = 'block';
+                fillProfile();
+                initContent();
+            } else {
+                document.getElementById('auth-error').style.display = 'block';
+            }
+        }
+
+        function fillProfile() {
+            document.getElementById('acc-name').innerText = activeAccount.prenom + " " + activeAccount.nom;
+            document.getElementById('acc-mail').innerText = activeAccount.email;
+            document.getElementById('acc-tel').innerText = activeAccount.tel;
+            document.getElementById('acc-code').innerText = activeAccount.code;
+            document.getElementById('acc-plan').innerText = activeAccount.forfait;
+            if(activeAccount.role === 'admin') document.getElementById('admin-nav').style.display = 'block';
+        }
+
+        function initContent() {
+            // Rendu TV
+            document.getElementById('grid-tv').innerHTML = TV_DATABASE.map(ch => `
+                <div class="item-card" onclick="playChannel('${ch.url}', '${ch.name}')">
+                    <img src="${ch.logo}" class="card-img">
+                    <div class="card-body"><b>${ch.name}</b></div>
+                </div>
+            `).join('');
+
+            // Rendu VOD
+            document.getElementById('grid-vod').innerHTML = VOD_DATABASE.map(v => `
+                <div class="item-card">
+                    <div class="tag ${v.type === 'Série' ? 'serie' : ''}">${v.type}</div>
+                    <img src="${v.logo}" class="card-img">
+                    <div class="card-body"><b>${v.name}</b></div>
+                </div>
+            `).join('');
+
+            // Rendu LIENS WEB Conditionnels
+            const webContainer = document.getElementById('web-links-container');
+            const filteredLinks = WEB_APPS_DATABASE.filter(l => l.visibleFor.includes("all") || l.visibleFor.includes(activeAccount.code));
+            
+            webContainer.innerHTML = filteredLinks.map(l => `
+                <div class="web-link-item">
+                    <div>
+                        <h4 style="color:var(--primary)">${l.title}</h4>
+                        <p style="font-size:0.8rem; opacity:0.6;">${l.desc}</p>
+                    </div>
+                    <a href="${l.url}" target="_blank" style="color:#fff; text-decoration:none; background:var(--primary); padding:10px 20px; border-radius:5px; font-weight:bold;">OUVRIR</a>
+                </div>
+            `).join('');
+        }
+
+        function playChannel(url, name) {
+            const video = document.getElementById('player');
+            document.getElementById('playing-title').innerText = name;
+            if (Hls.isSupported()) {
+                hls.destroy();
+                hls = new Hls();
+                hls.loadSource(url);
+                hls.attachMedia(video);
+                hls.on(Hls.Events.MANIFEST_PARSED, () => video.play());
+            }
+        }
+
+        function toggleSize() { document.getElementById('video-container').classList.toggle('fullscreen'); }
+
+        function switchView(view) {
+            const views = ['tv-view', 'vod-view', 'apps-view', 'account-view', 'admin-view'];
+            views.forEach(v => document.getElementById(v).style.display = 'none');
+            document.getElementById(view + '-view').style.display = 'block';
+            document.querySelectorAll('.nav-menu li').forEach(li => li.classList.remove('active'));
+        }
+
+        function setQuality(q) {
+            alert("Qualité réglée sur : " + q + " (Le flux s'adapte automatiquement à votre bande passante)");
+        }
+    </script>
+</body>
+</html>
