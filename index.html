@@ -26,7 +26,7 @@
             min-height: 100vh;
         }
 
-        /* --- FOND ANIMÉ TACHES ROUGES --- */
+        /* --- FOND ANIMÉ --- */
         .animated-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1; overflow: hidden; background: #000;
@@ -60,7 +60,6 @@
         #video-container {
             width: 60%; max-width: 900px; aspect-ratio: 16/9; background: #000;
             border-radius: 8px; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         #video-container.fullscreen { width: 100%; max-width: none; }
         video { width: 100%; height: 100%; border-radius: 8px; }
@@ -68,15 +67,15 @@
         .player-controls {
             width: 60%; max-width: 900px; display: flex; justify-content: space-between;
             align-items: center; margin-top: 15px; background: rgba(17,17,17,0.8); padding: 15px 20px; border-radius: 8px;
-            backdrop-filter: blur(5px);
         }
+
         .quality-btn {
             background: transparent; border: 1px solid #444; color: #aaa;
             padding: 5px 12px; font-size: 0.7rem; border-radius: 4px; cursor: pointer; margin-left: 5px;
         }
-        .quality-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+        .quality-btn.active { background: var(--primary); color: #fff; }
 
-        /* --- GRILLES & CARDS --- */
+        /* --- GRILLES & TAGS --- */
         .section-container { padding: 40px 4%; }
         .section-title { font-size: 1.8rem; margin-bottom: 25px; font-weight: 800; border-left: 4px solid var(--primary); padding-left: 15px; }
         .grid-layout { display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
@@ -86,36 +85,33 @@
             transition: 0.4s; cursor: pointer; border: 1px solid rgba(255,255,255,0.05);
             position: relative;
         }
-        .item-card:hover { transform: translateY(-10px); border-color: var(--primary); background: rgba(40,40,40,0.9); }
+        .item-card:hover { transform: translateY(-10px); border-color: var(--primary); }
         .card-img { width: 100%; height: 160px; object-fit: cover; }
         .card-body { padding: 15px; }
         
-        /* --- NOUVEAUX TAGS VOD (FILMS/SERIES) --- */
-        .tag-container {
-            position: absolute; top: 10px; right: 10px;
-            display: flex; gap: 5px; flex-wrap: wrap; justify-content: flex-end; width: 90%;
-            pointer-events: none;
-        }
-        .tag {
-            padding: 3px 8px; font-size: 0.6rem; font-weight: 900; text-transform: uppercase;
-            border-radius: 3px; background: var(--primary); color: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.5);
-        }
+        .tag-container { position: absolute; top: 10px; right: 10px; display: flex; gap: 5px; }
+        .tag { padding: 3px 8px; font-size: 0.6rem; font-weight: 900; text-transform: uppercase; border-radius: 3px; background: var(--primary); color: #fff; }
         .tag.serie { background: #007bff; }
-        .tag.film { background: #E50914; }
-        .tag.genre { background: #333; border: 1px solid #555; }
 
-        /* --- FILTRES VOD --- */
-        .vod-filters {
-            margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap;
-        }
+        /* --- FILTRES --- */
+        .vod-filters { margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap; }
         .filter-btn {
             background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
-            color: #fff; padding: 8px 15px; border-radius: 20px; cursor: pointer;
-            transition: 0.3s; font-weight: bold; font-size: 0.8rem; text-transform: uppercase;
+            color: #fff; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-size: 0.8rem;
         }
-        .filter-btn:hover, .filter-btn.active {
-            background: var(--primary); border-color: var(--primary);
+        .filter-btn.active { background: var(--primary); }
+
+        /* --- AUTH SCREEN --- */
+        #auth-screen {
+            position: fixed; inset: 0; z-index: 10000;
+            background: #000; display: flex; align-items: center; justify-content: center;
         }
+        .login-container { width: 100%; max-width: 400px; padding: 40px; text-align: center; }
+        .login-container input {
+            width: 100%; padding: 15px; background: #222; border: 2px solid #333; color: #fff;
+            margin-bottom: 20px; border-radius: 5px; text-align: center; font-size: 1.2rem; outline: none;
+        }
+        .login-container input:focus { border-color: var(--primary); }
 
         /* --- WEB LINKS --- */
         .web-link-item {
@@ -124,18 +120,6 @@
             border-left: 5px solid var(--primary);
         }
 
-        /* --- AUTH --- */
-        #auth-screen {
-            position: fixed; inset: 0; z-index: 10000;
-            background: #000; display: flex; align-items: center; justify-content: center;
-        }
-        .login-container { width: 100%; max-width: 400px; padding: 40px; text-align: center; }
-        .login-container input {
-            width: 100%; padding: 15px; background: #222; border: none; color: #fff;
-            margin-bottom: 20px; border-radius: 5px; text-align: center; font-size: 1.2rem;
-        }
-
-        /* --- ADMIN --- */
         .admin-btn-git {
             display: inline-block; padding: 15px 30px; background: #24292e; color: #fff;
             text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 20px;
@@ -152,9 +136,10 @@
     <div id="auth-screen">
         <div class="login-container">
             <h1 style="font-family: var(--font-title); color: var(--primary); font-size: 4rem;">NTX</h1>
-            <input type="text" id="access-code" placeholder="VOTRE CODE">
-            <button onclick="handleAuth()" style="width:100%; padding:15px; background:var(--primary); color:#fff; border:none; cursor:pointer; font-weight:bold;">ACCÉDER</button>
-            <p id="auth-error" style="color:red; margin-top:10px; display:none;">Code invalide</p>
+            <p style="margin-bottom: 20px; color: #555;">IPTV_NTX PRO v3.5</p>
+            <input type="text" id="access-code" placeholder="ENTREZ VOTRE CODE">
+            <button onclick="handleAuth()" style="width:100%; padding:15px; background:var(--primary); color:#fff; border:none; cursor:pointer; font-weight:bold; border-radius:5px;">SE CONNECTER</button>
+            <p id="auth-error" style="color:red; margin-top:15px; display:none; font-size: 0.9rem;">CODE INCORRECT OU COMPTE INACTIF</p>
         </div>
     </div>
 
@@ -162,10 +147,10 @@
         <nav>
             <div class="nav-logo" onclick="switchView('tv')">IPTV_NTX</div>
             <ul class="nav-menu">
-                <li onclick="switchView('tv')" class="active">DIRECT TV</li>
-                <li onclick="switchView('vod')">FILMS & SÉRIES</li>
-                <li onclick="switchView('apps')">LienWeb & APPS.APK</li>
-                <li onclick="switchView('account')">MON COMPTE</li>
+                <li id="menu-tv" onclick="switchView('tv')" class="active">DIRECT TV</li>
+                <li id="menu-vod" onclick="switchView('vod')">FILMS & SÉRIES</li>
+                <li id="menu-apps" onclick="switchView('apps')">LienWeb & APPS</li>
+                <li id="menu-account" onclick="switchView('account')">MON COMPTE</li>
                 <li id="admin-nav" onclick="switchView('admin')" style="display: none; color: var(--primary);">ADMIN</li>
             </ul>
         </nav>
@@ -176,13 +161,10 @@
                     <video id="player" controls autoplay></video>
                 </div>
                 <div class="player-controls">
-                    <div>
-                        <span id="playing-title" style="font-weight:900;">CHARGEMENT...</span>
-                    </div>
+                    <div><span id="playing-title" style="font-weight:900; text-transform: uppercase;">CHARGEMENT...</span></div>
                     <div>
                         <button class="quality-btn" onclick="setQuality('720')">720p</button>
                         <button class="quality-btn active" onclick="setQuality('1080')">1080p</button>
-                        <button class="quality-btn" onclick="setQuality('4k')">4K</button>
                         <button class="quality-btn" style="background:#333" onclick="toggleSize()">AGRANDIR</button>
                     </div>
                 </div>
@@ -195,22 +177,17 @@
 
         <div id="vod-view" class="section-container" style="display:none; margin-top:80px;">
             <h2 class="section-title">Catalogue Films & Séries</h2>
-            
             <div class="vod-filters" id="vod-filters">
-                <button class="filter-btn active" onclick="filterVOD('Tous')">TOUT AFFICHER</button>
-                <button class="filter-btn" onclick="filterVOD('Film')">FILMS</button>
-                <button class="filter-btn" onclick="filterVOD('Série')">SÉRIES</button>
-                <button class="filter-btn" onclick="filterVOD('Action')">ACTION</button>
-                <button class="filter-btn" onclick="filterVOD('Sci-Fi')">SCI-FI</button>
-                <button class="filter-btn" onclick="filterVOD('Drame')">DRAME</button>
+                <button class="filter-btn active" onclick="filterVOD('Tous', event)">TOUT</button>
+                <button class="filter-btn" onclick="filterVOD('Film', event)">FILMS</button>
+                <button class="filter-btn" onclick="filterVOD('Série', event)">SÉRIES</button>
+                <button class="filter-btn" onclick="filterVOD('Action', event)">ACTION</button>
             </div>
-
             <div class="grid-layout" id="grid-vod"></div>
         </div>
 
         <div id="apps-view" class="section-container" style="display:none; margin-top:80px;">
-            <h2 class="section-title">Liens & Outils Externes</h2>
-            <p style="margin-bottom: 20px; color: #aaa;">Retrouvez ici vos applications APK et outils web sécurisés disponibles pour votre forfait.</p>
+            <h2 class="section-title">Liens & APK</h2>
             <div id="web-links-container"></div>
         </div>
 
@@ -218,94 +195,73 @@
             <div style="max-width: 600px; margin: 0 auto; background: rgba(20,20,20,0.9); padding: 40px; border-radius: 10px;">
                 <h2 id="acc-name">Profil</h2>
                 <hr style="margin: 20px 0; border: 0; border-top: 1px solid #333;">
-                <p>Mail: <span id="acc-mail"></span></p>
-                <p>Tel: <span id="acc-tel"></span></p>
-                <p>Code: <span id="acc-code" style="color:var(--primary)"></span></p>
-                <p>Forfait: <span id="acc-plan"></span></p>
+                <p style="margin: 10px 0;">Mail: <span id="acc-mail"></span></p>
+                <p style="margin: 10px 0;">Tel: <span id="acc-tel"></span></p>
+                <p style="margin: 10px 0;">Code: <span id="acc-code" style="color:var(--primary)"></span></p>
+                <p style="margin: 10px 0;">Forfait: <span id="acc-plan" style="color:#aaa"></span></p>
             </div>
         </div>
 
         <div id="admin-view" class="section-container" style="display:none; margin-top:80px;">
-            <h2 class="section-title">Panel Ingénieur</h2>
-            <p style="margin-bottom: 20px; color: var(--primary);">Attention : Espace réservé à l'administration technique du serveur.</p>
-            <p>Gestion du code source :</p>
+            <h2 class="section-title">Panel Admin</h2>
             <a href="https://github.com/strassweb67/SITE-APPTVWPA-" target="_blank" class="admin-btn-git">MODIFIER SUR GITHUB</a>
         </div>
     </div>
 
     <script>
-        /* =========================================================================
-           MODIFIER LES UTILISATEURS ICI
-           ========================================================================= */
+        // BASE DE DONNEES UTILISATEURS
         const ACCOUNTS_DATABASE = [
-            { code: "Treza670", role: "admin", nom: "Directeur :Mr. Jacotet", prenom: "Brice", email: "Strassweb67@gmail.com", tel: "0619696332", forfait: "GERANT: Admin Full Ultra HD 4K / abo: 1000€" },
+            { code: "Treza670", role: "admin", nom: "Jacotet", prenom: "Brice", email: "Strassweb67@gmail.com", tel: "0619696332", forfait: "Admin Full Ultra HD 4K" },
             { code: "Gogo67000", role: "user", nom: "rauch", prenom: "Gauthier", email: "jean@gmail.com", tel: "0700000000", forfait: "Basique - 19€" },
-            { code: "Marie67300", role: "user", nom: "Vip. Mme Jacotet", prenom: "Marie-Christine", email: "Mariechristinejacotet@gmail.com", tel: "0061763380", forfait: "Ultra Full Uhd 4K/ Abo: 100€" },
-            { code: "MODEDEMO", role: "user", nom: "MODE DE DEMONSTRATION", prenom: "--", email: "-MODEDEMO@iptv-ntx.fr-", tel: "-DEMONSTRATION-", forfait: "-Ultra Full Uhd 4K/ Abo: 19.99€ à 100€" }
+            { code: "Marie67300", role: "user", nom: "Jacotet", prenom: "Marie-Christine", email: "Mariechristinejacotet@gmail.com", tel: "0061763380", forfait: "Ultra Full Uhd 4K" },
+            { code: "MODEDEMO", role: "user", nom: "DEMO", prenom: "Mode", email: "demo@iptv-ntx.fr", tel: "0000", forfait: "Démonstration" }
         ];
 
-        /* =========================================================================
-           MODIFIER LES CHAINES TV ICI
-           ========================================================================= */
+        // CHAINES TV
         const TV_DATABASE = [
             { name: "TF1 HD", url: "https://viamotionhsi.netplus.ch/live/eds/tf1hd/browser-HLS8/tf1hd.m3u8", logo: "https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tf1-fr.png" },
             { name: "France 2 HD", url: "https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/france2.m3u8", logo: "https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-2-fr.png" },
             { name: "France 3 HD", url: "https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/france3.m3u8", logo: "https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-3-fr.png" },
-            { name: "France 4 HD", url: "https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/france4.m3u8", logo: "https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-4-fr.png" },
-            { name: "France 5 HD", url: "https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/france5.m3u8", logo: "https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-5-fr.png" },
-            { name: "Alerte Cobra HD", url: "https://alarm-for-cobra-rakuten-tv-fr.fast.rakuten.tv/v1/master/0547f18649bd788bec7b67b746e47670f558b6b2/production-LiveChannel-6477/master.m3u8", logo: "https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/m6-fr.png" },
             { name: "M6 HD", url: "https://viamotionhsi.netplus.ch/live/eds/m6hd/browser-HLS8/m6hd.m3u8", logo: "https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/m6-fr.png" }
-            // J'ai enlevé les doublons M6 visuellement pour la propreté, tu peux les remettre
         ];
 
-        /* =========================================================================
-           MODIFIER LES FILMS / SERIES ICI (Maintenant avec gestion de multi-tags)
-           ========================================================================= */
+        // FILMS & SERIES
         const VOD_DATABASE = [
-            { name: "Inception", type: "Film", tags: ["Action", "Sci-Fi", "2010"], url: "#", logo: "https://via.placeholder.com/300x160?text=Inception" },
-            { name: "Breaking Bad", type: "Série", tags: ["Drame", "Action"], url: "#", logo: "https://via.placeholder.com/300x160?text=Breaking+Bad" },
-            { name: "Interstellar", type: "Film", tags: ["Sci-Fi", "Drame", "2014"], url: "#", logo: "https://via.placeholder.com/300x160?text=Interstellar" }
+            { name: "Inception", type: "Film", tags: ["Action", "Sci-Fi"], url: "#", logo: "https://via.placeholder.com/300x160?text=Inception" },
+            { name: "Breaking Bad", type: "Série", tags: ["Action", "Drame"], url: "#", logo: "https://via.placeholder.com/300x160?text=Breaking+Bad" }
         ];
 
-        /* =========================================================================
-           MODIFIER LES LIENS WEB ICI + GESTION DE VISIBILITÉ PAR CLIENT
-           ========================================================================= */
+        // LIENS WEB
         const WEB_APPS_DATABASE = [
-            { title: "Acces modif Html IPTC de cette app", url: "https://github.com/strassweb67/SITE-APPTVWPA-/blob/main/IPTV-NTX-WEBUI.html", desc: "Privé pour Admin", visibleFor: ["Treza670"] },
-            { title: "Easy APK- App mobile Hack Gratuit", url: "https://t.me/EasyAPK", desc: "Moteur de recherche d'app hacker gratuit", visibleFor: ["all"] },
-            { title: "Panel Client 50e", url: "#", desc: "Lien exclusif forfait 50", visibleFor: ["Client50", "Treza670"] },
-            { title: "Google - pas encore programé", url: "https://google.com", desc: "Moteur de recherche", visibleFor: ["all"] }
+            { title: "Github Source", url: "https://github.com/strassweb67/", desc: "Gestion code", visibleFor: ["Treza670"] },
+            { title: "Easy APK", url: "https://t.me/EasyAPK", desc: "Apps Android", visibleFor: ["all"] }
         ];
 
         let hls = new Hls();
         let activeAccount = null;
 
+        // --- FONCTION DE CONNEXION CORRIGÉE ---
         function handleAuth() {
-            const codeInput = document.getElementById('access-code').value.trim();
-            const acc = ACCOUNTS_DATABASE.find(u => u.code === codeInput);
+            const codeSaisi = document.getElementById('access-code').value.trim();
             
-            if(acc) {
-                activeAccount = acc;
+            // On cherche le compte correspondant au code
+            const user = ACCOUNTS_DATABASE.find(u => u.code === codeSaisi);
+
+            if (user) {
+                activeAccount = user;
                 document.getElementById('auth-screen').style.display = 'none';
                 document.getElementById('app-root').style.display = 'block';
-                document.getElementById('auth-error').style.display = 'none';
                 
+                // Remplir les données
                 fillProfile();
                 initContent();
                 
-                // AUTO-PLAY de la première chaîne (TF1) au chargement après login réussi
-                if (TV_DATABASE.length > 0) {
-                    playChannel(TV_DATABASE[0].url, TV_DATABASE[0].name);
-                }
+                // Lancement TF1 Automatique
+                playChannel(TV_DATABASE[0].url, TV_DATABASE[0].name);
             } else {
                 document.getElementById('auth-error').style.display = 'block';
             }
         }
-
-        // Permet aussi de valider avec la touche "Entrée" sur le clavier
-        document.getElementById('access-code').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') handleAuth();
-        });
 
         function fillProfile() {
             document.getElementById('acc-name').innerText = activeAccount.prenom + " " + activeAccount.nom;
@@ -317,7 +273,7 @@
         }
 
         function initContent() {
-            // Rendu TV
+            // TV
             document.getElementById('grid-tv').innerHTML = TV_DATABASE.map(ch => `
                 <div class="item-card" onclick="playChannel('${ch.url}', '${ch.name}')">
                     <img src="${ch.logo}" class="card-img">
@@ -325,62 +281,35 @@
                 </div>
             `).join('');
 
-            // Rendu VOD initial (affiche tout par défaut)
+            // VOD
             renderVOD('Tous');
 
-            // Rendu LIENS WEB Conditionnels
-            const webContainer = document.getElementById('web-links-container');
+            // APPS
             const filteredLinks = WEB_APPS_DATABASE.filter(l => l.visibleFor.includes("all") || l.visibleFor.includes(activeAccount.code));
-            
-            webContainer.innerHTML = filteredLinks.map(l => `
+            document.getElementById('web-links-container').innerHTML = filteredLinks.map(l => `
                 <div class="web-link-item">
-                    <div>
-                        <h4 style="color:var(--primary)">${l.title}</h4>
-                        <p style="font-size:0.8rem; opacity:0.6;">${l.desc}</p>
-                    </div>
+                    <div><h4 style="color:var(--primary)">${l.title}</h4><p style="font-size:0.8rem; opacity:0.6;">${l.desc}</p></div>
                     <a href="${l.url}" target="_blank" style="color:#fff; text-decoration:none; background:var(--primary); padding:10px 20px; border-radius:5px; font-weight:bold;">OUVRIR</a>
                 </div>
             `).join('');
         }
 
-        // Nouvelle fonction pour gérer l'affichage et les filtres VOD
         function renderVOD(filterTag) {
-            const grid = document.getElementById('grid-vod');
-            
-            // On filtre la base de données selon le tag choisi (ou on affiche tout)
-            const filteredVOD = VOD_DATABASE.filter(v => 
-                filterTag === 'Tous' || v.type === filterTag || (v.tags && v.tags.includes(filterTag))
-            );
-
-            grid.innerHTML = filteredVOD.map(v => {
-                // Création du HTML pour tous les tags (Type + autres tags)
-                let typeClass = v.type === 'Série' ? 'serie' : 'film';
-                let tagsHTML = `<div class="tag ${typeClass}">${v.type}</div>`;
-                
-                if (v.tags) {
-                    v.tags.forEach(t => {
-                        tagsHTML += `<div class="tag genre">${t}</div>`;
-                    });
-                }
-
-                return `
+            const filtered = VOD_DATABASE.filter(v => filterTag === 'Tous' || v.type === filterTag || (v.tags && v.tags.includes(filterTag)));
+            document.getElementById('grid-vod').innerHTML = filtered.map(v => `
                 <div class="item-card">
-                    <div class="tag-container">${tagsHTML}</div>
+                    <div class="tag-container">
+                        <div class="tag ${v.type === 'Série' ? 'serie' : ''}">${v.type}</div>
+                    </div>
                     <img src="${v.logo}" class="card-img">
                     <div class="card-body"><b>${v.name}</b></div>
                 </div>
-                `;
-            }).join('');
+            `).join('');
         }
 
-        // Fonction pour gérer les clics sur les boutons de filtre
-        function filterVOD(tag) {
-            // Met à jour les boutons actifs
-            const buttons = document.querySelectorAll('.filter-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            // Rafraîchit la grille
+        function filterVOD(tag, e) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            e.target.classList.add('active');
             renderVOD(tag);
         }
 
@@ -396,20 +325,15 @@
             }
         }
 
-        function toggleSize() { document.getElementById('video-container').classList.toggle('fullscreen'); }
-
         function switchView(view) {
-            const views = ['tv-view', 'vod-view', 'apps-view', 'account-view', 'admin-view'];
-            views.forEach(v => document.getElementById(v).style.display = 'none');
+            ['tv-view', 'vod-view', 'apps-view', 'account-view', 'admin-view'].forEach(v => document.getElementById(v).style.display = 'none');
             document.getElementById(view + '-view').style.display = 'block';
             document.querySelectorAll('.nav-menu li').forEach(li => li.classList.remove('active'));
-            // Rend le bouton du menu cliqué actif
-            event.target.classList.add('active');
+            document.getElementById('menu-' + view)?.classList.add('active');
         }
 
-        function setQuality(q) {
-            alert("Qualité réglée sur : " + q + " (Le flux s'adapte automatiquement à votre bande passante)");
-        }
+        function toggleSize() { document.getElementById('video-container').classList.toggle('fullscreen'); }
+        function setQuality(q) { alert("Qualité : " + q); }
     </script>
 </body>
 </html>
