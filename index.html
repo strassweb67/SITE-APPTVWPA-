@@ -1,49 +1,54 @@
 <!DOCTYPE html>
-<html lang="fr"><head>
+<html lang="fr">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>IPTV_NTX PRO v4.0+</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=Roboto:wght@300;400;700;900&amp;display=swap" rel="stylesheet">
+<title>IPTV_NTX PRO v4.1</title>
+<meta name="theme-color" content="#0a0a0a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <style>
-:root{--primary:#E50914;--primary2:#ff2a3b;--primary-hover:#b20710;--bg:#050505;--glass:rgba(12,12,12,.6);--glass2:rgba(20,20,20,.35);--glass3:rgba(30,30,30,.5);--border:rgba(255,255,255,.08);--text:#fff;--muted:#aaa;--ok:#0f0;--warn:#ffa500;--bad:#f33;--info:#09f;--radius:16px}
+:root{--primary:#E50914;--primary-hover:#b20710;--bg:#050505;--glass1:rgba(14,14,14,.7);--glass2:rgba(22,22,22,.45);--glass3:rgba(30,30,30,.55);--border:rgba(255,255,255,.08);--txt:#fff;--muted:#aaa;--ok:#0f0;--warn:#ffa500;--bad:#f33;--info:#09f;--r:16px}
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);color:var(--text);font-family:'Roboto',sans-serif;min-height:100vh}
-.ambient{position:fixed;inset:0;z-index:-2;background:#000;overflow:hidden}
-.blob{position:absolute;border-radius:50%;filter:blur(100px);opacity:.6;animation:move 28s ease-in-out infinite alternate}
-.blob.b1{width:600px;height:600px;left:-10%;top:-10%;background:#8a0000}
-.blob.b2{width:520px;height:520px;right:-8%;bottom:-15%;background:#E50914;animation-duration:34s}
-.blob.b3{width:420px;height:420px;left:40%;top:35%;background:#500000;animation-duration:38s}
-@keyframes move{0%{transform:translate(0,0) scale(1)}50%{transform:translate(140px,40px) scale(1.2)}100%{transform:translate(-50px,130px) scale(.92)}}
-.fade-in{animation:fi .8s forwards}@keyframes fi{from{opacity:0}to{opacity:1}}
-.slide-up{animation:su .8s forwards}@keyframes su{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
-.zoom-in{animation:zi .5s forwards}@keyframes zi{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+body{background:var(--bg);color:var(--txt);font-family:'Roboto',sans-serif;min-height:100vh}
+.a{position:fixed;inset:0;z-index:-2;background:#000;overflow:hidden}
+.b{position:absolute;border-radius:50%;filter:blur(100px);opacity:.6;animation:m 28s ease-in-out infinite alternate}
+.b.b1{width:600px;height:600px;left:-12%;top:-12%;background:#870000}
+.b.b2{width:520px;height:520px;right:-10%;bottom:-15%;background:#E50914;animation-duration:34s}
+.b.b3{width:420px;height:420px;left:42%;top:38%;background:#4a0000;animation-duration:38s}
+@keyframes m{0%{transform:translate(0,0) scale(1)}50%{transform:translate(140px,40px) scale(1.2)}100%{transform:translate(-50px,130px) scale(.92)}}
+.fi{animation:fi .8s forwards}@keyframes fi{from{opacity:0}to{opacity:1}}
+.su{animation:su .8s forwards}@keyframes su{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+.zi{animation:zi .5s forwards}@keyframes zi{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
 
-.nav{position:fixed;top:0;left:0;right:0;height:84px;display:flex;align-items:center;padding:0 4%;backdrop-filter:blur(18px);background:linear-gradient(180deg,rgba(0,0,0,.7),rgba(0,0,0,.35));border-bottom:1px solid var(--border);z-index:50}
-.brand{font-family:'Bebas Neue',cursive;font-size:2.2rem;letter-spacing:2px;color:var(--primary);text-shadow:0 0 12px rgba(229,9,20,.4);margin-right:44px;cursor:pointer;padding:12px}
-.menu{display:flex;gap:28px;list-style:none}
-.menu li{position:relative;color:#bbb;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:.25s;padding:12px 14px;border-radius:10px}
+.nav{position:fixed;top:0;left:0;right:0;height:68px;display:flex;align-items:center;padding:0 4%;backdrop-filter:blur(18px);background:linear-gradient(180deg,rgba(0,0,0,.65),rgba(0,0,0,.32));border-bottom:1px solid var(--border);z-index:50}
+.brand{display:flex;align-items:center;gap:10px;cursor:pointer;padding:10px}
+.brand img{height:28px;width:auto}
+.brand span{font-family:'Bebas Neue',cursive;font-size:2rem;letter-spacing:2px;color:var(--primary)}
+.menu{display:flex;gap:22px;list-style:none;margin-left:22px}
+.menu li{color:#bbb;font-weight:800;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:.25s;padding:10px 12px;border-radius:10px}
 .menu li:hover,.menu li.active{color:#fff;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}
-.badge{margin-left:auto;display:flex;align-items:center;gap:10px;background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.04));padding:9px 16px;border-radius:20px;border:1px solid var(--border)}
-.logout{background:transparent;border:1px solid var(--primary);color:var(--primary);padding:7px 16px;border-radius:8px;cursor:pointer;font-weight:700;transition:.25s}
+.badge{margin-left:auto;display:flex;align-items:center;gap:10px;background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.04));padding:8px 14px;border-radius:18px;border:1px solid var(--border)}
+.logout{background:transparent;border:1px solid var(--primary);color:var(--primary);padding:6px 14px;border-radius:10px;cursor:pointer;font-weight:900;transition:.25s}
 .logout:hover{background:var(--primary);color:#fff}
 
-#landing{min-height:100vh;display:flex;flex-direction:column}
-.header{display:flex;justify-content:space-between;align-items:center;padding:28px 5%}
-.hero{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 20px}
-.sur{color:var(--primary);font-size:.9rem;font-weight:900;letter-spacing:5px;margin-bottom:16px}
-.h1{font-family:'Bebas Neue',cursive;font-size:5.6rem;line-height:.95;text-shadow:0 0 20px rgba(255,255,255,.18)}
+.header{display:flex;justify-content:space-between;align-items:center;padding:26px 5%}
+.hero{min-height:calc(100vh - 68px - 120px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 20px}
+.su1{color:var(--primary);font-size:.9rem;font-weight:900;letter-spacing:5px;margin-bottom:16px}
+.h1{font-family:'Bebas Neue',cursive;font-size:5.4rem;line-height:.95;text-shadow:0 0 20px rgba(255,255,255,.18)}
 .sub{color:#888;letter-spacing:3px;margin:8px 0 24px}
-.desc{max-width:680px;color:#ccc;font-size:1.08rem;line-height:1.6;margin-bottom:34px}
-.actions{display:flex;gap:18px}
-.btn1{background:var(--primary);color:#fff;border:none;padding:16px 36px;font-weight:900;border-radius:12px;cursor:pointer;box-shadow:0 0 22px rgba(229,9,20,.35);transition:.25s}
+.desc{max-width:720px;color:#ccc;font-size:1.08rem;line-height:1.6;margin-bottom:34px}
+.actions{display:flex;gap:16px;flex-wrap:wrap}
+.btn1{background:var(--primary);color:#fff;border:none;padding:16px 34px;font-weight:900;border-radius:12px;cursor:pointer;box-shadow:0 0 22px rgba(229,9,20,.35);transition:.25s}
 .btn1:hover{background:var(--primary-hover);transform:translateY(-2px)}
-.btn2{background:transparent;border:2px solid rgba(255,255,255,.28);color:#fff;padding:16px 36px;border-radius:12px;font-weight:900;backdrop-filter:blur(5px);transition:.25s}
+.btn2{background:transparent;border:2px solid rgba(255,255,255,.28);color:#fff;padding:16px 34px;border-radius:12px;font-weight:900;backdrop-filter:blur(5px);transition:.25s}
 .btn2:hover{border-color:#fff;background:rgba(255,255,255,.08)}
 
-.pricing{display:flex;justify-content:center;gap:20px;padding:46px 5%;flex-wrap:wrap}
-.card{background:linear-gradient(180deg,rgba(10,10,10,.85),rgba(15,15,15,.6));border:1px solid #222;padding:28px;border-radius:14px;width:280px;backdrop-filter:blur(10px);transition:.3s}
+.pricing{display:flex;justify-content:center;gap:18px;padding:40px 5%;flex-wrap:wrap}
+.card{background:linear-gradient(180deg,rgba(10,10,10,.85),rgba(15,15,15,.6));border:1px solid #222;padding:26px;border-radius:14px;width:280px;backdrop-filter:blur(10px);transition:.3s}
 .card:hover{transform:translateY(-8px);border-color:var(--primary)}
 .card h3{color:#aaa;font-size:.9rem;margin-bottom:6px}
 .card .price{font-family:'Bebas Neue',cursive;font-size:2.4rem}
@@ -52,9 +57,9 @@ body{background:var(--bg);color:var(--text);font-family:'Roboto',sans-serif;min-
 
 .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:60}
 .modal.open{display:flex}
-.modal .overlay{position:absolute;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(4px)}
-.modal .sheet{position:relative;background:linear-gradient(180deg,rgba(25,25,25,.92),rgba(10,10,10,.85));border:1px solid var(--border);border-radius:18px;padding:28px;max-width:640px;width:92%;box-shadow:0 30px 60px rgba(0,0,0,.7)}
-.modal .title{font-family:'Bebas Neue',cursive;font-size:2rem;margin-bottom:6px}
+.overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,.75));backdrop-filter:blur(6px)}
+.sheet{position:relative;background:linear-gradient(180deg,rgba(25,25,25,.92),rgba(10,10,10,.85));border:1px solid var(--border);border-radius:18px;padding:28px;max-width:680px;width:92%;box-shadow:0 30px 60px rgba(0,0,0,.7)}
+.title{font-family:'Bebas Neue',cursive;font-size:2rem;margin-bottom:6px;color:#fff}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .input{width:100%;padding:14px;background:rgba(0,0,0,.5);border:1px solid #333;color:#fff;border-radius:10px}
 .radio{display:flex;flex-direction:column;gap:8px;margin-top:14px}
@@ -64,113 +69,116 @@ body{background:var(--bg);color:var(--text);font-family:'Roboto',sans-serif;min-
 .closex{position:absolute;top:10px;right:10px;background:transparent;border:none;color:#999;font-size:22px;cursor:pointer}
 
 #app{display:none}
-.main{margin-top:100px;padding:0 4%;min-height:80vh}
-.player-wrap{display:flex;flex-direction:column;align-items:center;margin-bottom:30px}
+.main{margin-top:96px;padding:0 4%;min-height:80vh}
+.section{font-family:'Bebas Neue',cursive;font-size:2.2rem;margin:18px 0 14px;border-left:5px solid var(--primary);padding-left:12px;letter-spacing:2px;color:#fff}
+
+.player-wrap{display:flex;flex-direction:column;align-items:center;margin-bottom:22px}
 .player{width:72%;max-width:1100px;aspect-ratio:16/9;background:#000;border-radius:18px;overflow:hidden;border:1px solid var(--border);box-shadow:0 26px 60px rgba(0,0,0,.85)}
 video{width:100%;height:100%;object-fit:contain;border-radius:inherit}
-.controls{width:72%;max-width:1100px;display:flex;justify-content:space-between;align-items:center;margin-top:16px;background:linear-gradient(180deg,rgba(20,20,20,.8),rgba(15,15,15,.65));padding:16px;border-radius:14px;border:1px solid var(--border);backdrop-filter:blur(10px)}
-.qbtn{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#bbb;padding:8px 14px;border-radius:10px;cursor:pointer;font-weight:900;margin-left:8px;transition:.25s}
-.qbtn:hover{background:rgba(255,255,255,.12);color:#fff}
-.qbtn.active{background:var(--primary);border-color:var(--primary);color:#fff;box-shadow:0 0 14px rgba(229,9,20,.5)}
-.title{font-weight:900;font-size:1.1rem;letter-spacing:1px}
+.controls{width:72%;max-width:1100px;display:flex;justify-content:space-between;align-items:center;margin-top:14px;background:linear-gradient(180deg,rgba(20,20,20,.8),rgba(15,15,15,.65));padding:14px;border-radius:14px;border:1px solid var(--border);backdrop-filter:blur(10px)}
+.q{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#ddd;padding:8px 14px;border-radius:12px;cursor:pointer;font-weight:900;margin-left:8px;transition:.25s}
+.q:hover{background:rgba(255,255,255,.12);color:#fff}
+.q.active{background:var(--primary);border-color:var(--primary);color:#fff;box-shadow:0 0 14px rgba(229,9,20,.5)}
+.title-now{font-weight:900;font-size:1.08rem;letter-spacing:1px}
 
-.section{font-family:'Bebas Neue',cursive;font-size:2.3rem;margin:20px 0 16px;border-left:5px solid var(--primary);padding-left:12px;letter-spacing:2px}
-
-.grid{display:grid;gap:22px;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
-.logo-card{position:relative;border-radius:14px;overflow:hidden;background:linear-gradient(180deg,rgba(12,12,12,.9),rgba(12,12,12,.6));border:1px solid rgba(255,255,255,.08);cursor:pointer;transform-style:preserve-3d;transition:transform .25s,box-shadow .25s}
-.logo-card:hover{transform:translateY(-6px);box-shadow:0 18px 44px rgba(229,9,20,.25)}
-.logo-pad{width:100%;aspect-ratio:16/9;display:grid;place-items:center;backdrop-filter:blur(3px);position:relative}
-.logo-pad img{max-width:74%;max-height:74%;object-fit:contain;filter:drop-shadow(0 10px 16px rgba(0,0,0,.55))}
-.logo-card .meta{padding:14px;font-weight:700}
-.neon{position:relative}
-.neon::before{content:"";position:absolute;inset:-2px;border-radius:16px;background:conic-gradient(from var(--a,0deg),rgba(229,9,20,.0) 0 20%,rgba(229,9,20,.8) 21% 23%,rgba(229,9,20,.0) 24% 100%);animation:spin 7s linear infinite;filter:blur(.6px);pointer-events:none;z-index:2}
-.neon::after{content:"";position:absolute;inset:0;border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(0,0,0,.25));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;padding:2px;border:1px solid rgba(255,255,255,.06);pointer-events:none}
-@keyframes spin{to{--a:360deg}}
-
-.epg{width:72%;max-width:1100px;margin:12px auto 28px;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:linear-gradient(180deg,rgba(10,10,10,.85),rgba(10,10,10,.6));backdrop-filter:blur(10px)}
+.epg{width:72%;max-width:1100px;margin:10px auto 24px;border:1px solid var(--border);border-radius:16px;overflow:hidden;background:linear-gradient(180deg,rgba(12,12,12,.9),rgba(10,10,10,.65));backdrop-filter:blur(10px);box-shadow:0 18px 40px rgba(0,0,0,.5)}
 .epg-head{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.06)}
-.epg-btn{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#ddd;padding:6px 10px;border-radius:10px;cursor:pointer}
-.epg-t{font-weight:900;letter-spacing:1px}
-.epg-body{display:none;padding:10px 14px}
+.epg-btn{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#eee;padding:6px 10px;border-radius:10px;cursor:pointer}
+.epg-title{font-weight:900;letter-spacing:1px}
+.epg-body{display:none;padding:12px}
 .epg.open .epg-body{display:block}
-.epg-list{display:flex;gap:10px;overflow:auto;scrollbar-width:none}
-.badge-epg{flex:0 0 auto;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);padding:10px 12px;border-radius:10px;min-width:220px}
-.badge-epg.now{border-color:var(--primary);box-shadow:0 0 16px rgba(229,9,20,.25)}
-.small{font-size:.8rem;color:#bbb}
+.epg-list{display:flex;gap:12px;overflow:auto;scrollbar-width:none}
+.e{flex:0 0 auto;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);padding:12px;border-radius:12px;min-width:220px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.04)}
+.e.now{border-color:var(--primary);box-shadow:0 0 16px rgba(229,9,20,.25),inset 0 0 0 1px rgba(255,255,255,.08)}
+.small{font-size:.85rem;color:#bbb}
 
-.admin-wrap{background:linear-gradient(180deg,rgba(12,12,12,.85),rgba(10,10,10,.6));border:1px solid var(--border);border-radius:16px;min-height:70vh;display:flex;overflow:hidden}
+.grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+.cardL{position:relative;border-radius:16px;overflow:hidden;background:linear-gradient(180deg,rgba(12,12,12,.92),rgba(12,12,12,.6));border:1px solid rgba(255,255,255,.08);cursor:pointer;transition:transform .25s,box-shadow .25s}
+.cardL:hover{transform:translateY(-6px);box-shadow:0 20px 44px rgba(229,9,20,.18)}
+.pad{width:100%;aspect-ratio:16/9;display:grid;place-items:center;backdrop-filter:blur(2px);position:relative;background:radial-gradient(120% 120% at 50% 0,rgba(229,9,20,.08),rgba(0,0,0,.28))}
+.pad img{max-width:78%;max-height:78%;object-fit:contain;filter:drop-shadow(0 12px 16px rgba(0,0,0,.55))}
+.meta{padding:12px 14px;font-weight:900}
+
+.account{max-width:900px;background:linear-gradient(180deg,rgba(12,12,12,.88),rgba(10,10,10,.62));border:1px solid var(--border);border-radius:16px;padding:18px}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.cta{display:flex;gap:10px;margin-top:10px}
+.cta a{display:inline-flex;align-items:center;gap:8px;background:var(--primary);color:#fff;text-decoration:none;padding:10px 14px;border-radius:12px;font-weight:900}
+.cta a.mail{background:#0088ff}
+
+.admin{background:linear-gradient(180deg,rgba(12,12,12,.86),rgba(10,10,10,.6));border:1px solid var(--border);border-radius:16px;min-height:70vh;display:flex;overflow:hidden}
 .aside{width:260px;border-right:1px solid var(--border);background:rgba(0,0,0,.45)}
 .aside ul{list-style:none}
-.aside li{padding:16px 22px;color:#bbb;cursor:pointer;font-weight:700;border-left:3px solid transparent}
+.aside li{padding:16px 22px;color:#bbb;cursor:pointer;font-weight:800;border-left:3px solid transparent}
 .aside li:hover,.aside li.active{background:rgba(229,9,20,.12);color:#fff;border-left-color:var(--primary)}
 .panel{flex:1;padding:24px;display:none}
 .panel.active{display:block}
 .table{width:100%;border-collapse:collapse;background:rgba(0,0,0,.35);border-radius:12px;overflow:hidden}
 .table th,.table td{padding:14px;border-bottom:1px solid rgba(255,255,255,.06);text-align:left;font-size:.92rem}
-.table th{background:rgba(20,20,20,.8);color:var(--primary);text-transform:uppercase;letter-spacing:1px}
+.table th{background:rgba(20,20,20,.8);color:#fff;text-transform:uppercase;letter-spacing:1px}
 .legend{display:flex;gap:12px;background:#000;border:1px solid #333;padding:10px;border-radius:10px;margin:10px 0}
 .dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:6px;box-shadow:0 0 10px currentColor}
 .g{color:#0f0;background:#0f0}.o{color:#ffa500;background:#ffa500}.b{color:#09f;background:#09f}.r{color:#f33;background:#f33}
 
-.formgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-top:12px}
-.fg{background:var(--glass3);border:1px solid rgba(255,255,255,.12);padding:14px;border-radius:12px}
-.fg label{display:block;color:#ddd;font-weight:700;margin-bottom:6px}
+.formgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.fg{background:var(--glass3);border:1px solid rgba(255,255,255,.12);padding:12px;border-radius:12px}
+.fg h4{color:#fff;margin-bottom:6px;font-size:.95rem}
+.fg label{display:block;color:#ddd;font-weight:700;margin:6px 0}
+.fg p{color:#aaa;font-size:.85rem;margin-bottom:6px}
 .fg input,.fg select, .fg textarea{width:100%;padding:10px;background:rgba(0,0,0,.6);color:#fff;border:1px solid #333;border-radius:10px}
-.save{margin-top:18px;padding:14px 18px;border:none;background:var(--primary);color:#fff;font-weight:900;border-radius:12px;cursor:pointer}
-.row{display:flex;gap:10px;flex-wrap:wrap}
-.badge-warn{position:fixed;right:16px;bottom:16px;background:#ffe58a;color:#5a3e00;border:1px solid #d8b200;padding:12px 14px;border-radius:12px;box-shadow:0 10px 20px rgba(0,0,0,.3);display:none;z-index:80}
-.badge-warn.show{display:flex;gap:10px;align-items:center}
+.save{margin-top:12px;padding:12px 16px;border:none;background:var(--primary);color:#fff;font-weight:900;border-radius:12px;cursor:pointer}
+.qbtn{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#ddd;padding:6px 10px;border-radius:10px;cursor:pointer}
+
+.warn{position:fixed;right:16px;bottom:16px;background:#ffe58a;color:#5a3e00;border:1px solid #d8b200;padding:12px 14px;border-radius:12px;box-shadow:0 10px 20px rgba(0,0,0,.3);display:none;z-index:80}
+.warn.show{display:flex;gap:10px;align-items:center}
 .dl{background:#fff;border:none;padding:8px 12px;border-radius:8px;cursor:pointer;color:#111;font-weight:900}
 .link{color:#111;text-decoration:underline}
-
-.footer-space{height:40px}
 
 @media(max-width:980px){.player,.controls,.epg{width:92%}.h1{font-size:3.6rem}}
 </style>
 </head>
 <body>
-<div class="ambient"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+<div class="a"><div class="b b1"></div><div class="b b2"></div><div class="b b3"></div></div>
 
 <div class="nav">
-  <div class="brand" onclick="switchView('tv')">IPTV_NTX</div>
+  <div class="brand" onclick="view('tv')">
+    <img id="site-logo" src="" alt="" style="display:none">
+    <span id="site-title">IPTV_NTX</span>
+  </div>
   <ul class="menu">
-    <li id="m-tv" class="" onclick="switchView('tv')">Direct TV</li>
-    <li id="m-vod" onclick="switchView('vod')" class="">Films &amp; Séries</li>
-    <li id="m-account" onclick="switchView('account')" class="">Mon Compte</li>
-    <li id="m-admin" style="display: block;" onclick="switchView('admin')" class="active">⚙ Panel Admin</li>
+    <li id="m-tv" class="active" onclick="view('tv')">Direct TV</li>
+    <li id="m-vod" onclick="view('vod')">Films & Séries</li>
+    <li id="m-acc" onclick="view('account')">Mon Compte</li>
+    <li id="m-adm" style="display:none" onclick="view('admin')">⚙ Panel Admin</li>
   </ul>
-  <div class="badge"><span id="badge-name">Brice</span><button class="logout" onclick="logout()">Déconnexion</button></div>
+  <div class="badge"><span id="u-name">Utilisateur</span><button class="logout" onclick="logout()">Déconnexion</button></div>
 </div>
 
-<div id="landing" class="fade-in" style="display: none;">
-  <div class="header"><div class="brand">IPTV_NTX</div><button class="btn2" onclick="showAuth()">Se connecter</button></div>
+<div id="landing" class="fi">
+  <div class="header"><div class="brand"><span>IPTV_NTX</span></div><button class="btn2" onclick="authOpen()">Se connecter</button></div>
   <div class="hero">
-    <div class="sur">Streaming Premium Ultra HD 4K</div>
+    <div class="su1">Streaming Premium Ultra HD 4K</div>
     <div class="h1">BIENVENUE<br>SUR IPTV_NTX</div>
     <div class="sub">@BY BRICE JCT</div>
-    <p class="desc">4000+ chaînes, films et séries en qualité maximale. Lecture instantanée, interface moderne, sécurité locale des réglages et export HTML complet.</p>
+    <p class="desc">Qualité visuelle haut de gamme, animations modernes, responsive et PWA. Lecture instantanée, EPG clair et panneau admin avancé.</p>
     <div class="actions">
-      <button class="btn1" onclick="openSignup()">COMMENCER MAINTENANT</button>
-      <button class="btn2" onclick="showAuth()">J'AI DÉJÀ UN CODE</button>
+      <button class="btn1" onclick="signupOpen()">COMMENCER MAINTENANT</button>
+      <button class="btn2" onclick="authOpen()">J'AI DÉJÀ UN CODE</button>
     </div>
   </div>
   <div class="pricing">
     <div class="card"><h3>1 Mois</h3><div class="price">19,99 EUR</div><p>Accès complet 4000+ chaînes</p></div>
     <div class="card"><span class="tag-pop">POPULAIRE</span><h3>3 Mois</h3><div class="price">39,99 EUR</div><p>Économisez 33%</p></div>
-    <div class="card"><h3>1 An</h3><div class="price">50 EUR <span style="text-decoration:line-through;font-size:1rem;color:#666">60</span></div><p>Meilleur prix • Ultra FHD 4K</p></div>
+    <div class="card"><h3>1 An</h3><div class="price">50 EUR <span style="text-decoration:line-through;color:#666">60</span></div><p>Ultra FHD 4K</p></div>
   </div>
 </div>
 
 <div class="modal" id="auth">
-  <div class="overlay" onclick="hideAuth()"></div>
-  <div class="sheet zoom-in">
-    <button class="closex" onclick="hideAuth()">×</button>
+  <div class="overlay" onclick="authClose()"></div>
+  <div class="sheet zi">
+    <button class="closex" onclick="authClose()">×</button>
     <div class="title">CONNEXION</div>
     <div class="row2">
-      <div>
-        <label class="small">CODE D'ACCÈS</label>
-        <input class="input" id="code" type="password" placeholder="••••••••••••">
-      </div>
+      <div><label class="small">CODE D'ACCÈS</label><input class="input" id="code" type="password" placeholder="••••••••••••"></div>
     </div>
     <button class="primary" onclick="login()">SE CONNECTER</button>
     <div id="auth-err" class="small" style="color:var(--primary);margin-top:10px;display:none"></div>
@@ -178,237 +186,232 @@ video{width:100%;height:100%;object-fit:contain;border-radius:inherit}
 </div>
 
 <div class="modal" id="signup">
-  <div class="overlay" onclick="closeSignup()"></div>
-  <div class="sheet zoom-in">
-    <button class="closex" onclick="closeSignup()">×</button>
+  <div class="overlay" onclick="signupClose()"></div>
+  <div class="sheet zi">
+    <button class="closex" onclick="signupClose()">×</button>
     <div class="title">CRÉER MON COMPTE</div>
     <div class="row2">
       <div><label class="small">NOM</label><input class="input" id="su-nom" placeholder="Votre nom"></div>
       <div><label class="small">PRÉNOM</label><input class="input" id="su-prenom" placeholder="Votre prénom"></div>
       <div><label class="small">EMAIL</label><input class="input" id="su-email" placeholder="email@example.com"></div>
-      <div><label class="small">TÉLÉPHONE</label><input class="input" id="su-tel" placeholder="+33 ..."></div>
+      <div><label class="small">TÉLÉPHONE</label><input class="input" id="su-tel" placeholder="+33 3 53 63 03 32"></div>
     </div>
     <div class="radio">
-      <div class="opt"><span>1 Mois • 19,99 EUR</span><input type="radio" name="offer" value="1M" checked=""></div>
+      <div class="opt"><span>1 Mois • 19,99 EUR</span><input type="radio" name="offer" value="1M" checked></div>
       <div class="opt" style="border-color:var(--primary)"><span>3 Mois • 39,99 EUR</span><input type="radio" name="offer" value="3M"></div>
       <div class="opt"><span>1 An • 50 EUR</span><input type="radio" name="offer" value="1Y"></div>
     </div>
-    <button class="primary" onclick="signupGenerate()">OBTENIR MON CODE</button>
+    <button class="primary" onclick="signupGen()">OBTENIR MON CODE</button>
     <div id="su-result" class="small" style="margin-top:12px"></div>
   </div>
 </div>
 
-<div id="app" class="fade-in" style="display: block;">
-  <div class="main" id="tv" style="display: none;">
+<div id="app" class="fi" style="display:none">
+  <div class="main" id="tv">
     <div class="player-wrap">
-      <div class="player neon" id="playerBox"><video id="player" controls="" autoplay="" playsinline="" src="blob:null/f2c6c448-4091-458c-a71d-4653d5b260f4"></video></div>
+      <div class="player" id="playerBox"><video id="player" controls autoplay playsinline></video></div>
       <div class="controls">
-        <div class="title" id="nowTitle">TF1 HD Premium</div>
+        <div class="title-now" id="nowTitle">Chargement…</div>
         <div>
-          <button class="qbtn active" onclick="setQuality('Auto',this)">AUTO</button>
-          <button class="qbtn" onclick="setQuality('720p',this)">720p</button>
-          <button class="qbtn" onclick="setQuality('1080p',this)">1080p</button>
-          <button class="qbtn" onclick="setQuality('4K',this)">4K</button>
+          <button class="q active" onclick="setQ('Auto',this)">AUTO</button>
+          <button class="q" onclick="setQ('720p',this)">720p</button>
+          <button class="q" onclick="setQ('1080p',this)">1080p</button>
+          <button class="q" onclick="setQ('4K',this)">4K</button>
         </div>
       </div>
     </div>
-
     <div class="epg" id="epg">
       <div class="epg-head">
         <button class="epg-btn" onclick="epgPrev()">◀</button>
-        <div class="epg-t" id="epg-title">Guide • TF1 HD Premium</div>
-        <button class="epg-btn" onclick="toggleEPG()">Détails</button>
+        <div class="epg-title" id="epg-title">Guide TV</div>
+        <button class="epg-btn" onclick="epgToggle()">Détails</button>
         <button class="epg-btn" onclick="epgNext()">▶</button>
       </div>
-      <div class="epg-body">
-        <div class="epg-list" id="epg-list"><div class="badge-epg"><div><b>08:00</b></div><div>Télématin</div></div><div class="badge-epg now"><div><b>09:30</b></div><div>Magazine Actu</div></div><div class="badge-epg"><div><b>11:00</b></div><div>Jeu TV</div></div><div class="badge-epg"><div><b>12:00</b></div><div>Journal</div></div></div>
-      </div>
+      <div class="epg-body"><div class="epg-list" id="epg-list"></div></div>
     </div>
-
     <div class="section">Chaînes Live</div>
-    <div class="grid" id="grid-tv"><div class="logo-card neon"><div class="logo-pad" style="background: radial-gradient(120% 120% at 50% 0px, rgba(229, 9, 20, 0.12), rgba(0, 0, 0, 0.35));"><img src="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tf1-fr.png" alt="TF1 HD Premium"></div><div class="meta">TF1 HD Premium</div></div><div class="logo-card neon"><div class="logo-pad" style="background: radial-gradient(120% 120% at 50% 0px, rgba(229, 9, 20, 0.12), rgba(0, 0, 0, 0.35));"><img src="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-2-fr.png" alt="France 2 4K"></div><div class="meta">France 2 4K</div></div><div class="logo-card neon"><div class="logo-pad" style="background: radial-gradient(120% 120% at 50% 0px, rgba(229, 9, 20, 0.12), rgba(0, 0, 0, 0.35));"><img src="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/m6-fr.png" alt="M6 HD VIP"></div><div class="meta">M6 HD VIP</div></div><div class="logo-card neon"><div class="logo-pad" style="background: radial-gradient(120% 120% at 50% 0px, rgba(229, 9, 20, 0.12), rgba(0, 0, 0, 0.35));"><img src="https://via.placeholder.com/640x360/111/fff?text=Cobra" alt="Alerte Cobra 24/7"></div><div class="meta">Alerte Cobra 24/7</div></div></div>
+    <div class="grid" id="grid-tv"></div>
   </div>
 
-  <div class="main" id="vod" style="display: none;">
-    <div class="section">Catalogue Films &amp; Séries</div>
-    <div class="grid" id="grid-vod"><div class="logo-card neon"><div class="logo-pad"><img src="https://via.placeholder.com/640x360/111/fff?text=INCEPTION" alt="Inception 4K"></div><div class="meta">Inception 4K • Film</div></div><div class="logo-card neon"><div class="logo-pad"><img src="https://via.placeholder.com/640x360/111/fff?text=BREAKING+BAD" alt="Breaking Bad S1-S5"></div><div class="meta">Breaking Bad S1-S5 • Série</div></div><div class="logo-card neon"><div class="logo-pad"><img src="https://via.placeholder.com/640x360/111/fff?text=INTERSTELLAR" alt="Interstellar HDR"></div><div class="meta">Interstellar HDR • Film</div></div></div>
+  <div class="main" id="vod" style="display:none">
+    <div class="section">Catalogue Films & Séries</div>
+    <div class="grid" id="grid-vod"></div>
   </div>
 
-  <div class="main" id="account" style="display: none;">
+  <div class="main" id="account" style="display:none">
     <div class="section">Mon Profil Client</div>
-    <div class="fg" style="max-width:780px">
+    <div class="account">
       <div class="row">
-        <div>Nom: <b id="p-nom">Jacotet</b></div>
-        <div>Prénom: <b id="p-prenom">Brice</b></div>
-        <div>Email: <b id="p-email">Strassweb67@gmail.com</b></div>
-        <div>Tél: <b id="p-tel">0619696332</b></div>
-        <div>Création: <b id="p-crea">2024-01-01</b></div>
-        <div>Expiration: <b id="p-exp">2099-12-31</b></div>
-        <div style="width:100%">Forfait: <b id="p-forfait">GERANT: Admin Full Ultra HD 4K</b></div>
-        <div style="width:100%">Débit max: <b id="p-debit">Illimité</b></div>
+        <div>Nom: <b id="p-nom"></b></div>
+        <div>Prénom: <b id="p-prenom"></b></div>
+        <div>Email: <b id="p-email"></b></div>
+        <div>Tél: <b id="p-tel"></b></div>
+        <div>Création: <b id="p-crea"></b></div>
+        <div>Expiration: <b id="p-exp"></b></div>
+        <div style="grid-column:1/-1">Forfait: <b id="p-forfait"></b></div>
+        <div style="grid-column:1/-1">Débit max: <b id="p-debit"></b></div>
+      </div>
+      <div class="cta">
+        <a href="tel:0353630332">Appeler: 03 53 63 03 32</a>
+        <a class="mail" href="mailto:contact@alphakorner.fr">Écrire: contact@alphakorner.fr</a>
       </div>
     </div>
   </div>
 
-  <div class="main" id="admin" style="display: block;">
-    <div class="section" style="color:var(--primary)">Console Ingénieur &amp; Supervision</div>
-    <div class="admin-wrap">
+  <div class="main" id="admin" style="display:none">
+    <div class="section">Console Ingénieur & Supervision</div>
+    <div class="admin">
       <div class="aside">
         <ul>
-          <li class="" onclick="openPanel('live',this)">👥 Utilisateurs en direct</li>
-          <li onclick="openPanel('video',this)" class="">🎛️ Paramètres Vidéo</li>
-          <li onclick="openPanel('accounts',this)" class="">📁 Comptes</li>
-          <li onclick="openPanel('channels',this)" class="active">📺 Chaînes IPTV</li>
+          <li class="active" onclick="openPanel('live',this)">👥 Utilisateurs en direct</li>
+          <li onclick="openPanel('video',this)">🎛️ Paramètres Vidéo</li>
+          <li onclick="openPanel('accounts',this)">📁 Comptes</li>
+          <li onclick="openPanel('channels',this)">📺 Chaînes IPTV</li>
           <li onclick="openPanel('vodm',this)">🎬 VOD</li>
           <li onclick="openPanel('layout',this)">📐 Disposition Chaînes</li>
-          <li onclick="openPanel('export',this)">⬇ Export</li>
+          <li onclick="openPanel('export',this)">⬇ Export/PWA</li>
         </ul>
       </div>
-      <div class="panel" id="panel-live">
+      <div class="panel active" id="panel-live">
         <div class="legend">
-          <span><i class="dot g"></i> Actif</span>
-          <span><i class="dot o"></i> &lt; 30m</span>
-          <span><i class="dot b"></i> &lt; 1h</span>
-          <span><i class="dot r"></i> Hors ligne</span>
+          <span><i class="dot g"></i> Actif</span><span><i class="dot o"></i> < 30m</span><span><i class="dot b"></i> < 1h</span><span><i class="dot r"></i> Hors ligne</span>
         </div>
         <table class="table">
           <thead><tr><th>Statut</th><th>Client</th><th>Code</th><th>IP/Appareil</th><th>Action</th></tr></thead>
-          <tbody id="live-body"><tr><td><i class="dot g"></i> En ligne</td><td>Jacotet Brice</td><td><span style="background:#333;padding:2px 8px;border-radius:6px;font-family:monospace">Treza670</span></td><td class="small">IP Cachée / Web</td><td><button class="qbtn" onclick="alert('Ping envoyé')">PING</button></td></tr></tbody>
+          <tbody id="live-body"></tbody>
         </table>
       </div>
 
       <div class="panel" id="panel-video">
-        <div class="formgrid" id="video-grid"><div class="fg"><label>Buffer Audio Max (ms)</label><label style="display:flex;align-items:center;gap:8px"><input type="checkbox" data-k="Buffer Audio Max (ms)" checked=""> Activé</label></div><div class="fg"><label>Buffer Vidéo Max (ms)</label><input data-k="Buffer Vidéo Max (ms)" value="1507"></div><div class="fg"><label>Auto-Recovery Errors</label><input data-k="Auto-Recovery Errors" value="606"></div><div class="fg"><label>Force Keyframe</label><select data-k="Force Keyframe"><option>Auto</option><option>Force</option><option>Désactivé</option></select></div><div class="fg"><label>Live Sync Target</label><input data-k="Live Sync Target" value="739"></div><div class="fg"><label>Live Max Latency</label><label style="display:flex;align-items:center;gap:8px"><input type="checkbox" data-k="Live Max Latency" checked=""> Activé</label></div><div class="fg"><label>Max Bitrate (Kbps)</label><select data-k="Max Bitrate (Kbps)"><option>Auto</option><option>Force</option><option>Désactivé</option></select></div><div class="fg"><label>Min Bitrate (Kbps)</label><input data-k="Min Bitrate (Kbps)" value="2378"></div><div class="fg"><label>Start Level</label><input data-k="Start Level" value="2193"></div><div class="fg"><label>Cap Level to Player Size</label><select data-k="Cap Level to Player Size"><option>Auto</option><option>Force</option><option>Désactivé</option></select></div><div class="fg"><label>Frag Loading TimeOut</label><label style="display:flex;align-items:center;gap:8px"><input type="checkbox" data-k="Frag Loading TimeOut" checked=""> Activé</label></div><div class="fg"><label>Manifest Loading TimeOut</label><input data-k="Manifest Loading TimeOut" value="3358"></div><div class="fg"><label>Level Loading TimeOut</label><select data-k="Level Loading TimeOut"><option>Auto</option><option>Force</option><option>Désactivé</option></select></div><div class="fg"><label>Append Error Max Retry</label><input data-k="Append Error Max Retry" value="3732"></div><div class="fg"><label>Frag Loading Max Retry</label><input data-k="Frag Loading Max Retry" value="1337"></div><div class="fg"><label>Smooth Quality Switch</label><label style="display:flex;align-items:center;gap:8px"><input type="checkbox" data-k="Smooth Quality Switch" checked=""> Activé</label></div><div class="fg"><label>Enable Hardware Acceleration</label><input data-k="Enable Hardware Acceleration" value="3941"></div><div class="fg"><label>DRM License Retry</label><input data-k="DRM License Retry" value="3301"></div><div class="fg"><label>Subtitle Delay Offset</label><select data-k="Subtitle Delay Offset"><option>Auto</option><option>Force</option><option>Désactivé</option></select></div><div class="fg"><label>Audio Channel Downmix</label><input data-k="Audio Channel Downmix" value="810"></div><div class="fg"><label>HLS Playlist Refresh</label><label style="display:flex;align-items:center;gap:8px"><input type="checkbox" data-k="HLS Playlist Refresh" checked=""> Activé</label></div><div class="fg"><label>Bandwidth Estimate</label><select data-k="Bandwidth Estimate"><option>Auto</option><option>Force</option><option>Désactivé</option></select></div><div class="fg"><label>ABR Controller</label><input data-k="ABR Controller" value="1729"></div><div class="fg"><label>FPS Drop Threshold</label><input data-k="FPS Drop Threshold" value="89"></div><div class="fg"><label>Network Timeout (ms)</label><select data-k="Network Timeout (ms)"><option>Auto</option><option>Force</option><option>Désactivé</option></select></div><div class="fg"><label>IPv6 Priority</label><label style="display:flex;align-items:center;gap:8px"><input type="checkbox" data-k="IPv6 Priority" checked=""> Activé</label></div><div class="fg"><label>DNS Cache Limit</label><input data-k="DNS Cache Limit" value="3688"></div><div class="fg"><label>TCP NoDelay</label><select data-k="TCP NoDelay"><option>Auto</option><option>Force</option><option>Désactivé</option></select></div><div class="fg"><label>WebRTC Fallback</label><input data-k="WebRTC Fallback" value="2029"></div><div class="fg"><label>P2P Sharing</label><input data-k="P2P Sharing" value="869"></div><div class="fg"><label>Video Codec Override</label><label style="display:flex;align-items:center;gap:8px"><input type="checkbox" data-k="Video Codec Override" checked=""> Activé</label></div><div class="fg"><label>Audio Codec Override</label><input data-k="Audio Codec Override" value="1210"></div><div class="fg"><label>Color Gamut (Rec.2020)</label><input data-k="Color Gamut (Rec.2020)" value="1980"></div><div class="fg"><label>HDR Tone Mapping</label><select data-k="HDR Tone Mapping"><option>Auto</option><option>Force</option><option>Désactivé</option></select></div><div class="fg"><label>Dolby Vision Passthrough</label><input data-k="Dolby Vision Passthrough" value="968"></div><div class="fg"><label>Buffer Memory Limit (MB)</label><label style="display:flex;align-items:center;gap:8px"><input type="checkbox" data-k="Buffer Memory Limit (MB)" checked=""> Activé</label></div><div class="fg"><label>Garbage Collection Rate</label><select data-k="Garbage Collection Rate"><option>Auto</option><option>Force</option><option>Désactivé</option></select></div><div class="fg"><label>Debug Logs</label><input data-k="Debug Logs" value="2060"></div><div class="fg"><label>Strict Mode HLS</label><input data-k="Strict Mode HLS" value="3790"></div><div class="fg"><label>Custom User Agent</label><select data-k="Custom User Agent"><option>Auto</option><option>Force</option><option>Désactivé</option></select></div><div class="fg"><label>Start Bitrate Hint</label><label style="display:flex;align-items:center;gap:8px"><input type="checkbox" data-k="Start Bitrate Hint" checked=""> Activé</label></div><div class="fg"><label>Low Latency Mode</label><input data-k="Low Latency Mode" value="2048"></div><div class="fg"><label>Max Starvation (ms)</label><select data-k="Max Starvation (ms)"><option>Auto</option><option>Force</option><option>Désactivé</option></select></div><div class="fg"><label>Live Catchup</label><input data-k="Live Catchup" value="385"></div><div class="fg"><label>ABR Fast Switch</label><input data-k="ABR Fast Switch" value="1197"></div><div class="fg"><label>Seek Hole Fix</label><label style="display:flex;align-items:center;gap:8px"><input type="checkbox" data-k="Seek Hole Fix" checked=""> Activé</label></div><div class="fg"><label>Stall Threshold</label><input data-k="Stall Threshold" value="3456"></div><div class="fg"><label>Latency Drift Max</label><input data-k="Latency Drift Max" value="713"></div><div class="fg"><label>Back Buffer Length</label><select data-k="Back Buffer Length"><option>Auto</option><option>Force</option><option>Désactivé</option></select></div><div class="fg"><label>Max Loading Delay</label><input data-k="Max Loading Delay" value="1071"></div><div class="fg"><label>ABR Min Chunk</label><label style="display:flex;align-items:center;gap:8px"><input type="checkbox" data-k="ABR Min Chunk" checked=""> Activé</label></div><div class="fg"><label>ABR Max Chunk</label><select data-k="ABR Max Chunk"><option>Auto</option><option>Force</option><option>Désactivé</option></select></div><div class="fg"><label>Preload Next Fragment</label><input data-k="Preload Next Fragment" value="992"></div><div class="fg"><label>Prefer MSE</label><input data-k="Prefer MSE" value="2119"></div><div class="fg"><label>Low Buffer Mode</label><select data-k="Low Buffer Mode"><option>Auto</option><option>Force</option><option>Désactivé</option></select></div><div class="fg"><label>Drop Frames On Stall</label><label style="display:flex;align-items:center;gap:8px"><input type="checkbox" data-k="Drop Frames On Stall" checked=""> Activé</label></div><div class="fg"><label>Audio Auto-Select</label><input data-k="Audio Auto-Select" value="1"></div><div class="fg"><label>Preferred Audio Lang</label><select data-k="Preferred Audio Lang"><option>Auto</option><option>Force</option><option>Désactivé</option></select></div><div class="fg"><label>Preferred Subtitle Lang</label><input data-k="Preferred Subtitle Lang" value="3634"></div><div class="fg"><label>HEVC Enable</label><input data-k="HEVC Enable" value="1542"></div></div>
+        <div class="formgrid" id="video-grid"></div>
         <button class="save" onclick="saveSettings()">ENREGISTRER</button>
       </div>
 
       <div class="panel" id="panel-accounts">
-        <table class="table">
+        <div class="formgrid" id="user-editor"></div>
+        <table class="table" style="margin-top:12px">
           <thead><tr><th>Code</th><th>Nom</th><th>Contact</th><th>Création</th><th>Expiration</th><th>Banni</th><th>Action</th></tr></thead>
-          <tbody id="acc-body"><tr><td style="color:var(--primary);font-family:monospace;font-weight:900">Treza670</td><td>Brice Jacotet</td><td class="small">Strassweb67@gmail.com<br>0619696332</td><td>2024-01-01</td><td style="">2099-12-31</td><td>NON</td><td><button class="qbtn" onclick="toggleBan(0)">BANNIR</button></td></tr><tr><td style="color:var(--primary);font-family:monospace;font-weight:900">Gogo67000</td><td>Gauthier Rauch</td><td class="small">jean@gmail.com<br>0700000000</td><td>2025-01-01</td><td style="">2026-12-31</td><td>NON</td><td><button class="qbtn" onclick="toggleBan(1)">BANNIR</button></td></tr><tr><td style="color:var(--primary);font-family:monospace;font-weight:900">Marie67300</td><td>Marie-Christine (VIP) Jacotet</td><td class="small">Mariechristinejacotet@gmail.com<br>061763380</td><td>2024-05-10</td><td style="">2028-05-10</td><td>NON</td><td><button class="qbtn" onclick="toggleBan(2)">BANNIR</button></td></tr><tr><td style="color:var(--primary);font-family:monospace;font-weight:900">EXPIRETEST</td><td>Test Expiré Client</td><td class="small">test@test.com<br>0000</td><td>2023-01-01</td><td style="color:#f55;font-weight:900">2023-02-01</td><td>NON</td><td><button class="qbtn" onclick="toggleBan(3)">BANNIR</button></td></tr><tr><td style="color:var(--primary);font-family:monospace;font-weight:900">BANNITEST</td><td>Mechant Pirate</td><td class="small">voleur@mail.com<br>000</td><td>2026-01-01</td><td style="">2026-12-31</td><td><b style="color:#f55">OUI</b></td><td><button class="qbtn" onclick="toggleBan(4)">DÉBANNIR</button></td></tr></tbody>
+          <tbody id="acc-body"></tbody>
         </table>
         <button class="save" onclick="saveAccounts()">ENREGISTRER</button>
       </div>
 
-      <div class="panel active" id="panel-channels">
+      <div class="panel" id="panel-channels">
         <div class="formgrid">
-          <div class="fg"><label>Nom</label><input id="ch-name"></div>
-          <div class="fg"><label>Flux HLS</label><input id="ch-url"></div>
-          <div class="fg"><label>Logo PNG</label><input id="ch-logo"></div>
+          <div class="fg"><h4>Nom</h4><p>Titre visible partout</p><input id="ch-name"></div>
+          <div class="fg"><h4>Flux HLS</h4><p>URL .m3u8</p><input id="ch-url"></div>
+          <div class="fg"><h4>Logo PNG</h4><p>Image transparente</p><input id="ch-logo"></div>
         </div>
         <button class="save" onclick="addChannel()">AJOUTER CHAÎNE</button>
         <table class="table" style="margin-top:12px">
           <thead><tr><th>Logo</th><th>Nom</th><th>Déplacer</th><th>Action</th></tr></thead>
-          <tbody id="ch-body"><tr><td><img src="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tf1-fr.png" style="width:80px;height:45px;object-fit:contain;border-radius:8px;background:#000"></td><td>TF1 HD Premium</td><td><button class="qbtn" onclick="moveCh(0,-1)">▲</button> <button class="qbtn" onclick="moveCh(0,1)">▼</button></td><td><button class="qbtn" onclick="delCh(0)">Suppr</button></td></tr><tr><td><img src="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-2-fr.png" style="width:80px;height:45px;object-fit:contain;border-radius:8px;background:#000"></td><td>France 2 4K</td><td><button class="qbtn" onclick="moveCh(1,-1)">▲</button> <button class="qbtn" onclick="moveCh(1,1)">▼</button></td><td><button class="qbtn" onclick="delCh(1)">Suppr</button></td></tr><tr><td><img src="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/m6-fr.png" style="width:80px;height:45px;object-fit:contain;border-radius:8px;background:#000"></td><td>M6 HD VIP</td><td><button class="qbtn" onclick="moveCh(2,-1)">▲</button> <button class="qbtn" onclick="moveCh(2,1)">▼</button></td><td><button class="qbtn" onclick="delCh(2)">Suppr</button></td></tr><tr><td><img src="https://via.placeholder.com/640x360/111/fff?text=Cobra" style="width:80px;height:45px;object-fit:contain;border-radius:8px;background:#000"></td><td>Alerte Cobra 24/7</td><td><button class="qbtn" onclick="moveCh(3,-1)">▲</button> <button class="qbtn" onclick="moveCh(3,1)">▼</button></td><td><button class="qbtn" onclick="delCh(3)">Suppr</button></td></tr></tbody>
+          <tbody id="ch-body"></tbody>
         </table>
         <button class="save" onclick="saveTV()">ENREGISTRER</button>
       </div>
 
       <div class="panel" id="panel-vodm">
         <div class="formgrid">
-          <div class="fg"><label>Titre</label><input id="vd-name"></div>
-          <div class="fg"><label>Type</label><select id="vd-type"><option>Film</option><option>Série</option></select></div>
-          <div class="fg"><label>Image</label><input id="vd-logo"></div>
+          <div class="fg"><h4>Titre</h4><input id="vd-name"></div>
+          <div class="fg"><h4>Type</h4><select id="vd-type"><option>Film</option><option>Série</option></select></div>
+          <div class="fg"><h4>Image</h4><p>Miniature</p><input id="vd-logo"></div>
+          <div class="fg"><h4>Overlay Image</h4><p>Apposée sur la vignette</p><input id="vd-overlay"></div>
         </div>
         <button class="save" onclick="addVOD()">AJOUTER</button>
         <table class="table" style="margin-top:12px">
           <thead><tr><th>Image</th><th>Titre</th><th>Type</th><th>Action</th></tr></thead>
-          <tbody id="vd-body"><tr><td><img src="https://via.placeholder.com/640x360/111/fff?text=INCEPTION" style="width:80px;height:45px;object-fit:cover;border-radius:8px"></td><td>Inception 4K</td><td>Film</td><td><button class="qbtn" onclick="delVOD(0)">Suppr</button></td></tr><tr><td><img src="https://via.placeholder.com/640x360/111/fff?text=BREAKING+BAD" style="width:80px;height:45px;object-fit:cover;border-radius:8px"></td><td>Breaking Bad S1-S5</td><td>Série</td><td><button class="qbtn" onclick="delVOD(1)">Suppr</button></td></tr><tr><td><img src="https://via.placeholder.com/640x360/111/fff?text=INTERSTELLAR" style="width:80px;height:45px;object-fit:cover;border-radius:8px"></td><td>Interstellar HDR</td><td>Film</td><td><button class="qbtn" onclick="delVOD(2)">Suppr</button></td></tr></tbody>
+          <tbody id="vd-body"></tbody>
         </table>
         <button class="save" onclick="saveVOD()">ENREGISTRER</button>
       </div>
 
       <div class="panel" id="panel-layout">
         <table class="table">
-          <thead><tr><th>#</th><th>Nom</th><th>Actions</th></tr></thead>
-          <tbody id="order-body"><tr><td>1</td><td>TF1 HD Premium</td><td><button class="qbtn" onclick="moveCh(0,-1)">▲</button> <button class="qbtn" onclick="moveCh(0,1)">▼</button></td></tr><tr><td>2</td><td>France 2 4K</td><td><button class="qbtn" onclick="moveCh(1,-1)">▲</button> <button class="qbtn" onclick="moveCh(1,1)">▼</button></td></tr><tr><td>3</td><td>M6 HD VIP</td><td><button class="qbtn" onclick="moveCh(2,-1)">▲</button> <button class="qbtn" onclick="moveCh(2,1)">▼</button></td></tr><tr><td>4</td><td>Alerte Cobra 24/7</td><td><button class="qbtn" onclick="moveCh(3,-1)">▲</button> <button class="qbtn" onclick="moveCh(3,1)">▼</button></td></tr></tbody>
+          <thead><tr><th>#</th><th>Logo</th><th>Nom</th><th>Actions</th></tr></thead>
+          <tbody id="order-body"></tbody>
         </table>
         <button class="save" onclick="saveTV()">VALIDER ORDRE</button>
       </div>
 
       <div class="panel" id="panel-export">
-        <div class="row">
-          <button class="save" onclick="downloadHTML()">TÉLÉCHARGER HTML COMPLET</button>
-          <button class="save" onclick="downloadTXT()">TÉLÉCHARGER VERSION .TXT</button>
+        <div class="formgrid">
+          <div class="fg"><h4>Nom App</h4><input id="app-name" placeholder="IPTV_NTX"></div>
+          <div class="fg"><h4>Logo du Site</h4><p>URL affichée en haut et utilisée pour PWA</p><input id="site-logo-url" placeholder="https://.../logo.png"></div>
         </div>
-        <div class="small" style="margin-top:10px;color:#ccc">Ce fichier contient vos bases Chaînes/Comptes/VOD intégrées. Remplacez le index.html sur GitHub.</div>
+        <div class="row" style="margin-top:12px">
+          <button class="save" onclick="downloadHTML()">TÉLÉCHARGER HTML COMPLET</button>
+          <button class="save" onclick="downloadManifest()">TÉLÉCHARGER MANIFEST.JSON</button>
+          <button class="save" onclick="downloadSW()">TÉLÉCHARGER SW.JS</button>
+        </div>
+        <div class="small" style="margin-top:10px;color:#ccc">Pour PWA installable, placez manifest.json et sw.js à la racine de GitHub Pages avec ce index.html.</div>
       </div>
     </div>
   </div>
 </div>
 
-<div class="badge-warn show" id="toast">
-  <span>⚠ Modifs non publiées. Téléchargez le fichier et poussez sur GitHub.</span>
-  <button class="dl" onclick="downloadHTML()">Télécharger HTML</button>
-  <a class="link" href="https://github.com" target="_blank">Ouvrir GitHub</a>
-</div>
+<div class="warn" id="toast"><span>⚠ Modifs non publiées. Téléchargez et poussez sur GitHub.</span><button class="dl" onclick="downloadHTML()">HTML</button><a class="link" href="https://github.com" target="_blank">GitHub</a></div>
 
-<div class="footer-space"></div>
-
-<script id="db-override" type="application/json">{"accounts":[{"code":"Treza670","role":"admin","nom":"Jacotet","prenom":"Brice","email":"Strassweb67@gmail.com","tel":"0619696332","dateCrea":"2024-01-01","dateExp":"2099-12-31","forfait":"GERANT: Admin Full Ultra HD 4K","debitMax":"Illimité","isBanned":false},{"code":"Gogo67000","role":"user","nom":"Rauch","prenom":"Gauthier","email":"jean@gmail.com","tel":"0700000000","dateCrea":"2025-01-01","dateExp":"2026-12-31","forfait":"Basique - 19€","debitMax":"1080p","isBanned":false},{"code":"Marie67300","role":"user","nom":"Jacotet","prenom":"Marie-Christine (VIP)","email":"Mariechristinejacotet@gmail.com","tel":"061763380","dateCrea":"2024-05-10","dateExp":"2028-05-10","forfait":"Ultra Full Uhd 4K","debitMax":"4K","isBanned":false},{"code":"EXPIRETEST","role":"user","nom":"Client","prenom":"Test Expiré","email":"test@test.com","tel":"0000","dateCrea":"2023-01-01","dateExp":"2023-02-01","forfait":"Test","debitMax":"720p","isBanned":false},{"code":"BANNITEST","role":"user","nom":"Pirate","prenom":"Mechant","email":"voleur@mail.com","tel":"000","dateCrea":"2026-01-01","dateExp":"2026-12-31","forfait":"Basique","debitMax":"SD","isBanned":true}],"tv":[{"id":"ch1","name":"TF1 HD Premium","url":"https://viamotionhsi.netplus.ch/live/eds/tf1hd/browser-HLS8/tf1hd.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tf1-fr.png","blocked":false},{"id":"ch2","name":"France 2 4K","url":"https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/france2.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-2-fr.png","blocked":false},{"id":"ch3","name":"M6 HD VIP","url":"https://viamotionhsi.netplus.ch/live/eds/m6hd/browser-HLS8/m6hd.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/m6-fr.png","blocked":false},{"id":"ch4","name":"Alerte Cobra 24/7","url":"https://alarm-for-cobra-rakuten-tv-fr.fast.rakuten.tv/v1/master/0547f18649bd788bec7b67b746e47670f558b6b2/production-LiveChannel-6477/master.m3u8","logo":"https://via.placeholder.com/640x360/111/fff?text=Cobra","blocked":false}],"vod":[{"name":"Inception 4K","type":"Film","logo":"https://via.placeholder.com/640x360/111/fff?text=INCEPTION"},{"name":"Breaking Bad S1-S5","type":"Série","logo":"https://via.placeholder.com/640x360/111/fff?text=BREAKING+BAD"},{"name":"Interstellar HDR","type":"Film","logo":"https://via.placeholder.com/640x360/111/fff?text=INTERSTELLAR"}]}</script>
+<script id="db-override" type="application/json"></script>
 <script>
+let SITE={title:"IPTV_NTX",logo:""};
 let DB_ACCOUNTS=[
- {code:"Treza670",role:"admin",nom:"Jacotet",prenom:"Brice",email:"Strassweb67@gmail.com",tel:"0619696332",dateCrea:"2024-01-01",dateExp:"2099-12-31",forfait:"GERANT: Admin Full Ultra HD 4K",debitMax:"Illimité",isBanned:false},
- {code:"Gogo67000",role:"user",nom:"Rauch",prenom:"Gauthier",email:"jean@gmail.com",tel:"0700000000",dateCrea:"2025-01-01",dateExp:"2026-12-31",forfait:"Basique - 19€",debitMax:"1080p",isBanned:false},
- {code:"Marie67300",role:"user",nom:"Jacotet",prenom:"Marie-Christine (VIP)",email:"Mariechristinejacotet@gmail.com",tel:"061763380",dateCrea:"2024-05-10",dateExp:"2028-05-10",forfait:"Ultra Full Uhd 4K",debitMax:"4K",isBanned:false},
- {code:"EXPIRETEST",role:"user",nom:"Client",prenom:"Test Expiré",email:"test@test.com",tel:"0000",dateCrea:"2023-01-01",dateExp:"2023-02-01",forfait:"Test",debitMax:"720p",isBanned:false},
- {code:"BANNITEST",role:"user",nom:"Pirate",prenom:"Mechant",email:"voleur@mail.com",tel:"000",dateCrea:"2026-01-01",dateExp:"2026-12-31",forfait:"Basique",debitMax:"SD",isBanned:true}
+ {code:"Treza670",role:"admin",nom:"Jacotet",prenom:"Brice",email:"Strassweb67@gmail.com",tel:"0619696332",dateCrea:"2024-01-01",dateExp:"2099-12-31",forfait:"GERANT: Admin Full Ultra HD 4K",debitMax:"Illimité",isBanned:false,qualityTier:"high",maxConnections:3,maxStreams4k:2},
+ {code:"Gogo67000",role:"user",nom:"Rauch",prenom:"Gauthier",email:"jean@gmail.com",tel:"0700000000",dateCrea:"2025-01-01",dateExp:"2026-12-31",forfait:"Basique - 19€",debitMax:"1080p",isBanned:false,qualityTier:"medium",maxConnections:2,maxStreams4k:0},
+ {code:"Marie67300",role:"user",nom:"Jacotet",prenom:"Marie-Christine (VIP)",email:"Mariechristinejacotet@gmail.com",tel:"061763380",dateCrea:"2024-05-10",dateExp:"2028-05-10",forfait:"Ultra Full Uhd 4K",debitMax:"4K",isBanned:false,qualityTier:"high",maxConnections:4,maxStreams4k:3},
+ {code:"EXPIRETEST",role:"user",nom:"Client",prenom:"Test Expiré",email:"test@test.com",tel:"0000",dateCrea:"2023-01-01",dateExp:"2023-02-01",forfait:"Test",debitMax:"720p",isBanned:false,qualityTier:"low",maxConnections:1,maxStreams4k:0},
+ {code:"BANNITEST",role:"user",nom:"Pirate",prenom:"Mechant",email:"voleur@mail.com",tel:"000",dateCrea:"2026-01-01",dateExp:"2026-12-31",forfait:"Basique",debitMax:"SD",isBanned:true,qualityTier:"low",maxConnections:1,maxStreams4k:0}
 ];
-
 let DB_TV=[
  {id:"ch1",name:"TF1 HD Premium",url:"https://viamotionhsi.netplus.ch/live/eds/tf1hd/browser-HLS8/tf1hd.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tf1-fr.png",blocked:false},
  {id:"ch2",name:"France 2 4K",url:"https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/france2.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-2-fr.png",blocked:false},
  {id:"ch3",name:"M6 HD VIP",url:"https://viamotionhsi.netplus.ch/live/eds/m6hd/browser-HLS8/m6hd.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/m6-fr.png",blocked:false},
  {id:"ch4",name:"Alerte Cobra 24/7",url:"https://alarm-for-cobra-rakuten-tv-fr.fast.rakuten.tv/v1/master/0547f18649bd788bec7b67b746e47670f558b6b2/production-LiveChannel-6477/master.m3u8",logo:"https://via.placeholder.com/640x360/111/fff?text=Cobra",blocked:false}
 ];
-
 let DB_VOD=[
- {name:"Inception 4K",type:"Film",logo:"https://via.placeholder.com/640x360/111/fff?text=INCEPTION"},
- {name:"Breaking Bad S1-S5",type:"Série",logo:"https://via.placeholder.com/640x360/111/fff?text=BREAKING+BAD"},
- {name:"Interstellar HDR",type:"Film",logo:"https://via.placeholder.com/640x360/111/fff?text=INTERSTELLAR"}
+ {name:"Inception 4K",type:"Film",logo:"https://via.placeholder.com/640x360/111/fff?text=INCEPTION",overlay:""},
+ {name:"Breaking Bad S1-S5",type:"Série",logo:"https://via.placeholder.com/640x360/111/fff?text=BREAKING+BAD",overlay:""},
+ {name:"Interstellar HDR",type:"Film",logo:"https://via.placeholder.com/640x360/111/fff?text=INTERSTELLAR",overlay:""}
 ];
-
-let DB_EPG={
- ch1:[{t:"08:00",n:"Télématin"},{t:"09:30",n:"Magazine Actu"},{t:"11:00",n:"Jeu TV"},{t:"12:00",n:"Journal"}],
- ch2:[{t:"08:15",n:"Culture Box"},{t:"10:00",n:"Documentaire"},{t:"11:30",n:"Série"},{t:"12:30",n:"Débat"}],
- ch3:[{t:"08:45",n:"Clips"},{t:"10:00",n:"Série Matinale"},{t:"11:00",n:"Cuisine"},{t:"12:30",n:"Info"}],
- ch4:[{t:"08:00",n:"Alerte Cobra"},{t:"09:00",n:"Alerte Cobra"},{t:"10:00",n:"Alerte Cobra"},{t:"11:00",n:"Alerte Cobra"}]
-};
-
-let hls=null, currentUser=null, selectedQuality="Auto", epgIndex=0, currentChannelId="ch1";
-const K={acc:"iptv_acc",tv:"iptv_tv",vod:"iptv_vod",set:"iptv_set",sessions:"iptv_sessions"};
+let DB_EPG={ch1:[{t:"08:00",n:"Télématin"},{t:"09:30",n:"Mag Actu"},{t:"11:00",n:"Jeu TV"},{t:"12:00",n:"Journal"}],ch2:[{t:"08:15",n:"Culture"},{t:"10:00",n:"Docu"},{t:"11:30",n:"Série"},{t:"12:30",n:"Débat"}],ch3:[{t:"08:45",n:"Clips"},{t:"10:00",n:"Série"},{t:"11:00",n:"Cuisine"},{t:"12:30",n:"Info"}],ch4:[{t:"08:00",n:"Alerte Cobra"},{t:"09:00",n:"Alerte Cobra"},{t:"10:00",n:"Alerte Cobra"},{t:"11:00",n:"Alerte Cobra"}]};
+let hls=null, currentUser=null, selectedQ="Auto", currentCh="ch1", epgIdx=0;
+const K={site:"ntx_site",acc:"ntx_acc",tv:"ntx_tv",vod:"ntx_vod",sess:"ntx_sess"};
 
 function loadLocal(){
- try{
-  const o=document.getElementById('db-override').textContent;
-  if(o){const d=JSON.parse(o);if(d.accounts)DB_ACCOUNTS=d.accounts;if(d.tv)DB_TV=d.tv;if(d.vod)DB_VOD=d.vod}
- }catch(e){}
+ try{const o=document.getElementById('db-override').textContent;if(o){const d=JSON.parse(o);if(d.accounts)DB_ACCOUNTS=d.accounts;if(d.tv)DB_TV=d.tv;if(d.vod)DB_VOD=d.vod;if(d.site)SITE=d.site}}
+ catch(e){}
+ try{const s=JSON.parse(localStorage.getItem(K.site)||"null");if(s)SITE=s}catch(e){}
  try{const a=JSON.parse(localStorage.getItem(K.acc)||"null");if(a)DB_ACCOUNTS=a}catch(e){}
  try{const t=JSON.parse(localStorage.getItem(K.tv)||"null");if(t)DB_TV=t}catch(e){}
  try{const v=JSON.parse(localStorage.getItem(K.vod)||"null");if(v)DB_VOD=v}catch(e){}
 }
 loadLocal();
+applySiteBrand();
 
-function showAuth(){document.getElementById('auth').classList.add('open')}
-function hideAuth(){document.getElementById('auth').classList.remove('open')}
-function openSignup(){document.getElementById('signup').classList.add('open')}
-function closeSignup(){document.getElementById('signup').classList.remove('open')}
+function applySiteBrand(){
+ document.getElementById('site-title').textContent=SITE.title||"IPTV_NTX";
+ const img=document.getElementById('site-logo');
+ if(SITE.logo){img.src=SITE.logo;img.style.display="block";document.getElementById('site-title').style.display="none"}else{img.style.display="none";document.getElementById('site-title').style.display="inline"}
+}
+
+function authOpen(){document.getElementById('auth').classList.add('open')}
+function authClose(){document.getElementById('auth').classList.remove('open')}
+function signupOpen(){document.getElementById('signup').classList.add('open')}
+function signupClose(){document.getElementById('signup').classList.remove('open')}
 
 function login(){
- const c=document.getElementById('code').value.trim();
- const e=document.getElementById('auth-err');
+ const c=document.getElementById('code').value.trim();const e=document.getElementById('auth-err');
  const u=DB_ACCOUNTS.find(x=>x.code.toUpperCase()===c.toUpperCase());
  if(!u){e.style.display="block";e.textContent="Code introuvable.";return}
  if(u.isBanned){e.style.display="block";e.textContent="Compte suspendu.";return}
  if(new Date()>new Date(u.dateExp)){e.style.display="block";e.textContent="Abonnement expiré.";return}
- currentUser=u;hideAuth();enterApp();updateSession(true);
+ currentUser=u;authClose();enterApp();updateSess(true);
 }
 
 function enterApp(){
  document.getElementById('landing').style.display="none";
  document.getElementById('app').style.display="block";
- document.getElementById('badge-name').textContent=currentUser.prenom;
- if(currentUser.role==="admin")document.getElementById('m-admin').style.display="block";
+ document.getElementById('u-name').textContent=currentUser.prenom;
+ if(currentUser.role==="admin")document.getElementById('m-adm').style.display="block";
  document.getElementById('p-nom').textContent=currentUser.nom;
  document.getElementById('p-prenom').textContent=currentUser.prenom;
  document.getElementById('p-email').textContent=currentUser.email;
@@ -417,8 +420,9 @@ function enterApp(){
  document.getElementById('p-exp').textContent=currentUser.dateExp;
  document.getElementById('p-forfait').textContent=currentUser.forfait;
  document.getElementById('p-debit').textContent=currentUser.debitMax;
- renderChannels();renderVOD();play(DB_TV[0].url,DB_TV[0].name,"ch1");
- setInterval(()=>updateSession(true),20000);
+ renderTV();renderVOD();
+ play(DB_TV[0].url,DB_TV[0].name,"ch1");
+ setInterval(()=>updateSess(true),20000);
  if(currentUser.role==="admin")initAdmin();
 }
 
@@ -426,80 +430,82 @@ function logout(){
  if(hls){hls.destroy();hls=null}
  document.getElementById('app').style.display="none";
  document.getElementById('landing').style.display="block";
- updateSession(false);
+ updateSess(false);
 }
 
-function switchView(v){
- ["tv","vod","account","admin"].forEach(x=>document.getElementById(x).style.display="none");
- ["m-tv","m-vod","m-account","m-admin"].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.remove('active')});
+function view(v){
+ ["tv","vod","account","admin"].forEach(id=>document.getElementById(id).style.display="none");
+ ["m-tv","m-vod","m-acc","m-adm"].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.remove('active')});
+ const map={tv:"m-tv",vod:"m-vod",account:"m-acc",admin:"m-adm"};
  document.getElementById(v).style.display="block";
- const map={tv:"m-tv",vod:"m-vod",account:"m-account",admin:"m-admin"};
- const m=document.getElementById(map[v]);if(m)m.classList.add('active');
+ const el=document.getElementById(map[v]);if(el)el.classList.add('active');
+ if(v==="tv"){const vtag=document.getElementById('player');if(vtag.paused){vtag.play().catch(()=>{})}}
 }
 
-function renderChannels(){
+function renderTV(){
  const g=document.getElementById('grid-tv');g.innerHTML="";
  DB_TV.forEach(ch=>{
   if(ch.blocked && (!currentUser || currentUser.role!=="admin"))return;
-  const c=document.createElement('div');c.className="logo-card neon";
-  const pad=document.createElement('div');pad.className="logo-pad";pad.style.background="radial-gradient(120% 120% at 50% 0,rgba(229,9,20,.12),rgba(0,0,0,.35))";
+  const c=document.createElement('div');c.className="cardL";
+  const p=document.createElement('div');p.className="pad";
   const img=document.createElement('img');img.src=ch.logo;img.alt=ch.name;
-  pad.appendChild(img);c.appendChild(pad);
-  const meta=document.createElement('div');meta.className="meta";meta.textContent=ch.name;c.appendChild(meta);
-  c.onclick=()=>{if(ch.blocked){alert("Contenu bloqué")}else{play(ch.url,ch.name,ch.id)}}
+  p.appendChild(img);c.appendChild(p);
+  const m=document.createElement('div');m.className="meta";m.textContent=ch.name;c.appendChild(m);
+  c.onclick=()=>{if(ch.blocked){alert("Contenu bloqué")}else{play(ch.url,ch.name,ch.id)}};
   g.appendChild(c);
  });
 }
 
 function renderVOD(){
- const g=document.getElementById('grid-vod');
- g.innerHTML=DB_VOD.map(v=>`<div class="logo-card neon"><div class="logo-pad"><img src="${v.logo}" alt="${v.name}"></div><div class="meta">${v.name} • ${v.type}</div></div>`).join("");
+ const g=document.getElementById('grid-vod');g.innerHTML="";
+ DB_VOD.forEach(v=>{
+  const c=document.createElement('div');c.className="cardL";
+  const p=document.createElement('div');p.className="pad";
+  const img=document.createElement('img');img.src=v.logo;img.alt=v.name;p.appendChild(img);
+  if(v.overlay){const ov=document.createElement('img');ov.src=v.overlay;ov.style.position="absolute";ov.style.right="8px";ov.style.bottom="8px";ov.style.width="64px";ov.style.height="64px";ov.style.objectFit="contain";p.appendChild(ov)}
+  c.appendChild(p);
+  const m=document.createElement('div');m.className="meta";m.textContent=v.name+" • "+v.type;c.appendChild(m);
+  g.appendChild(c);
+ });
 }
 
-function setQuality(q,btn){
- selectedQuality=q;document.querySelectorAll('.qbtn').forEach(b=>b.classList.remove('active'));
- if(btn)btn.classList.add('active');applyQuality();
+function setQ(q,btn){
+ selectedQ=q;document.querySelectorAll('.q').forEach(b=>b.classList.remove('active'));
+ if(btn)btn.classList.add('active');applyQ();
  const t=document.getElementById('nowTitle');const old=t.textContent;t.textContent="Qualité: "+q+"…";t.style.color=getComputedStyle(document.documentElement).getPropertyValue('--primary')||'#E50914';
- setTimeout(()=>{t.textContent=old;t.style.color="#fff"},1200);
+ setTimeout(()=>{t.textContent=old;t.style.color="#fff"},1000);
 }
 
-function applyQuality(){
+function applyQ(){
  if(!hls)return;
- if(selectedQuality==="Auto"){hls.currentLevel=-1;return}
- const target=selectedQuality==="4K"?2160:(selectedQuality==="1080p"?1080:720);
- let idx=-1,best=1e9;
- (hls.levels||[]).forEach((l,i)=>{const h=l.height||0;if(h>=target&&h<best){best=h;idx=i}});
+ if(selectedQ==="Auto"){hls.currentLevel=-1;return}
+ const target=selectedQ==="4K"?2160:(selectedQ==="1080p"?1080:720);
+ let idx=-1,best=1e9;(hls.levels||[]).forEach((l,i)=>{const h=l.height||0;if(h>=target&&h<best){best=h;idx=i}});
  if(idx<0){let hi=-1,m=0;(hls.levels||[]).forEach((l,i)=>{if(l.height>m){m=l.height;hi=i}});idx=hi}
  if(idx>=0)hls.currentLevel=idx;
 }
 
 function play(url,name,id){
- document.getElementById('nowTitle').textContent=name;currentChannelId=id||currentChannelId;
+ document.getElementById('nowTitle').textContent=name;currentCh=id||currentCh;
  const v=document.getElementById('player');
  if(Hls.isSupported()){
   if(hls){hls.destroy()}
   hls=new Hls({maxBufferLength:30,enableWorker:true});
   hls.loadSource(url);hls.attachMedia(v);
-  hls.on(Hls.Events.MANIFEST_PARSED,()=>{applyQuality();v.play().catch(()=>{})});
+  hls.on(Hls.Events.MANIFEST_PARSED,()=>{applyQ();v.play().catch(()=>{})});
  }else if(v.canPlayType('application/vnd.apple.mpegurl')){v.src=url;v.play().catch(()=>{})}
- window.scrollTo({top:0,behavior:'smooth'});renderEPG(currentChannelId);
+ window.scrollTo({top:0,behavior:'smooth'});renderEPG(currentCh);
 }
 
-function toggleEPG(){document.getElementById('epg').classList.toggle('open')}
-function epgPrev(){epgIndex=Math.max(0,epgIndex-1);renderEPG(currentChannelId)}
-function epgNext(){epgIndex=epgIndex+1;renderEPG(currentChannelId)}
-
+function epgToggle(){document.getElementById('epg').classList.toggle('open')}
+function epgPrev(){epgIdx=Math.max(0,epgIdx-1);renderEPG(currentCh)}
+function epgNext(){epgIdx=epgIdx+1;renderEPG(currentCh)}
 function renderEPG(id){
  const key=id||"ch1";const arr=DB_EPG[key]||[];const title=document.getElementById('epg-title');
  title.textContent="Guide • "+(DB_TV.find(x=>x.id===key)?.name||"");
  const list=document.getElementById('epg-list');list.innerHTML="";
- const nowIdx=Math.min(arr.length-1,1);
- const show=[arr[nowIdx-1]||null,arr[nowIdx]||null,arr[nowIdx+1]||null,arr[nowIdx+2]||null].filter(Boolean);
- show.forEach((p,i)=>{
-  const d=document.createElement('div');d.className="badge-epg"+(i===1?" now":"");
-  d.innerHTML=`<div><b>${p.t}</b></div><div>${p.n}</div>`;
-  list.appendChild(d);
- });
+ const show=[arr[0]||null,arr[1]||null,arr[2]||null,arr[3]||null].filter(Boolean);
+ show.forEach((p,i)=>{const d=document.createElement('div');d.className="e"+(i===1?" now":"");d.innerHTML="<div><b>"+p.t+"</b></div><div>"+p.n+"</div>";list.appendChild(d)});
 }
 
 function openPanel(name,el){
@@ -509,71 +515,79 @@ function openPanel(name,el){
  el.classList.add('active');
 }
 
-function initAdmin(){
- renderLive();renderVideoParams();renderAccounts();renderChannelTable();renderVODTable();renderOrder();
-}
+function initAdmin(){renderLive();renderVideoParams();renderAccounts();renderUserEditor();renderChannelTable();renderVODTable();renderOrder();}
 
 function renderLive(){
  const body=document.getElementById('live-body');body.innerHTML="";
- const sessions=JSON.parse(localStorage.getItem(K.sessions)||"[]");
- const now=Date.now();
- if(!sessions.length){body.innerHTML=`<tr><td><i class="dot r"></i> Hors ligne</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>`;return}
- sessions.forEach(s=>{
-  const diff=now-s.lastSeen;
-  let cls="r",txt="Hors ligne";
-  if(diff<60*1000) {cls="g";txt="En ligne"}
-  else if(diff<30*60*1000){cls="o";txt="Inactif < 30m"}
-  else if(diff<60*60*1000){cls="b";txt="Vu < 1h"}
-  const acc=DB_ACCOUNTS.find(a=>a.code===s.code);
-  body.innerHTML+=`<tr><td><i class="dot ${cls}"></i> ${txt}</td><td>${acc?acc.nom+" "+acc.prenom:"?"}</td><td><span style="background:#333;padding:2px 8px;border-radius:6px;font-family:monospace">${s.code}</span></td><td class="small">IP Cachée / ${s.device||"Web"}</td><td><button class="qbtn" onclick="alert('Ping envoyé')">PING</button></td></tr>`;
+ const s=JSON.parse(localStorage.getItem(K.sess)||"[]");const now=Date.now();
+ if(!s.length){body.innerHTML=`<tr><td><i class="dot r"></i> Hors ligne</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>`;return}
+ s.forEach(x=>{
+  const diff=now-x.lastSeen;let cls="r",txt="Hors ligne";
+  if(diff<60*1000){cls="g";txt="En ligne"}else if(diff<30*60*1000){cls="o";txt="Inactif < 30m"}else if(diff<60*60*1000){cls="b";txt="Vu < 1h"}
+  const acc=DB_ACCOUNTS.find(a=>a.code===x.code);
+  body.innerHTML+=`<tr><td><i class="dot ${cls}"></i> ${txt}</td><td>${acc?acc.nom+" "+acc.prenom:"?"}</td><td><span style="background:#333;padding:2px 8px;border-radius:6px;font-family:monospace">${x.code}</span></td><td class="small">IP Cachée / ${x.device||"Web"}</td><td><button class="qbtn" onclick="alert('Ping envoyé')">PING</button></td></tr>`;
  });
 }
 
-function updateSession(active){
+function updateSess(active){
  if(!currentUser)return;
- let arr=JSON.parse(localStorage.getItem(K.sessions)||"[]");
- const ix=arr.findIndex(x=>x.code===currentUser.code);
- if(active){
-  const obj={code:currentUser.code,lastSeen:Date.now(),device:"Web"};
-  if(ix>=0)arr[ix]=obj;else arr.push(obj);
- }else{
-  if(ix>=0)arr.splice(ix,1);
- }
- localStorage.setItem(K.sessions,JSON.stringify(arr));
+ let a=JSON.parse(localStorage.getItem(K.sess)||"[]");const i=a.findIndex(x=>x.code===currentUser.code);
+ if(active){const o={code:currentUser.code,lastSeen:Date.now(),device:"Web"};if(i>=0)a[i]=o;else a.push(o)}else{if(i>=0)a.splice(i,1)}
+ localStorage.setItem(K.sess,JSON.stringify(a));
  if(document.getElementById('panel-live').classList.contains('active'))renderLive();
 }
 
 function renderVideoParams(){
- const p=[
-  "Buffer Audio Max (ms)","Buffer Vidéo Max (ms)","Auto-Recovery Errors","Force Keyframe","Live Sync Target",
-  "Live Max Latency","Max Bitrate (Kbps)","Min Bitrate (Kbps)","Start Level","Cap Level to Player Size",
-  "Frag Loading TimeOut","Manifest Loading TimeOut","Level Loading TimeOut","Append Error Max Retry","Frag Loading Max Retry",
-  "Smooth Quality Switch","Enable Hardware Acceleration","DRM License Retry","Subtitle Delay Offset","Audio Channel Downmix",
-  "HLS Playlist Refresh","Bandwidth Estimate","ABR Controller","FPS Drop Threshold","Network Timeout (ms)",
-  "IPv6 Priority","DNS Cache Limit","TCP NoDelay","WebRTC Fallback","P2P Sharing",
-  "Video Codec Override","Audio Codec Override","Color Gamut (Rec.2020)","HDR Tone Mapping","Dolby Vision Passthrough",
-  "Buffer Memory Limit (MB)","Garbage Collection Rate","Debug Logs","Strict Mode HLS","Custom User Agent",
-  "Start Bitrate Hint","Low Latency Mode","Max Starvation (ms)","Live Catchup","ABR Fast Switch",
-  "Seek Hole Fix","Stall Threshold","Latency Drift Max","Back Buffer Length","Max Loading Delay",
-  "ABR Min Chunk","ABR Max Chunk","Preload Next Fragment","Prefer MSE","Low Buffer Mode",
-  "Drop Frames On Stall","Audio Auto-Select","Preferred Audio Lang","Preferred Subtitle Lang","HEVC Enable"
- ];
+ const names=[];for(let i=1;i<=72;i++){names.push("Option Vidéo "+i)}
  const g=document.getElementById('video-grid');
- g.innerHTML=p.map((name,i)=>{
-  if(i%5===0)return `<div class="fg"><label>${name}</label><label style="display:flex;align-items:center;gap:8px"><input type="checkbox" data-k="${name}" checked> Activé</label></div>`;
-  if(i%3===0)return `<div class="fg"><label>${name}</label><select data-k="${name}"><option>Auto</option><option>Force</option><option>Désactivé</option></select></div>`;
-  return `<div class="fg"><label>${name}</label><input data-k="${name}" value="${Math.floor(Math.random()*4000)}"></div>`;
+ g.innerHTML=names.map((n,i)=>{
+  if(i%5===0)return `<div class="fg"><h4>${n}</h4><p>Active une fonctionnalité spécifique</p><label><input type="checkbox" checked> Activé</label></div>`;
+  if(i%3===0)return `<div class="fg"><h4>${n}</h4><p>Réglage automatique/recommandé</p><select><option>Auto</option><option>Force</option><option>Désactivé</option></select></div>`;
+  return `<div class="fg"><h4>${n}</h4><p>Valeur en millisecondes ou Kbps</p><input value="${Math.floor(Math.random()*4000)}"></div>`;
  }).join("");
 }
 
-function saveSettings(){localStorage.setItem(K.set,"saved");dirty()}
+function saveSettings(){localStorage.setItem("ntx_settings","1");dirty()}
+
 function renderAccounts(){
  const b=document.getElementById('acc-body');b.innerHTML="";
  DB_ACCOUNTS.forEach((a,i)=>{
-  b.innerHTML+=`<tr><td style="color:var(--primary);font-family:monospace;font-weight:900">${a.code}</td><td>${a.prenom} ${a.nom}</td><td class="small">${a.email}<br>${a.tel}</td><td>${a.dateCrea}</td><td style="${new Date(a.dateExp)<new Date()?'color:#f55;font-weight:900':''}">${a.dateExp}</td><td>${a.isBanned?'<b style="color:#f55">OUI</b>':'NON'}</td><td><button class="qbtn" onclick="toggleBan(${i})">${a.isBanned?'DÉBANNIR':'BANNIR'}</button></td></tr>`;
+  b.innerHTML+=`<tr><td style="color:var(--primary);font-family:monospace;font-weight:900">${a.code}</td><td>${a.prenom} ${a.nom}</td><td class="small">${a.email}<br>${a.tel}</td><td>${a.dateCrea}</td><td style="${new Date(a.dateExp)<new Date()?'color:#f55;font-weight:900':''}">${a.dateExp}</td><td>${a.isBanned?'<b style="color:#f55">OUI</b>':'NON'}</td><td><button class="qbtn" onclick="banToggle(${i})">${a.isBanned?'DÉBANNIR':'BANNIR'}</button></td></tr>`;
  });
 }
-function toggleBan(i){DB_ACCOUNTS[i].isBanned=!DB_ACCOUNTS[i].isBanned;renderAccounts();dirty()}
+function renderUserEditor(){
+ const uNames=DB_ACCOUNTS.map(u=>u.code+" • "+u.prenom+" "+u.nom);
+ const fields=[
+  {k:"code",t:"Code d'accès"},
+  {k:"nom",t:"Nom"},
+  {k:"prenom",t:"Prénom"},
+  {k:"email",t:"Email"},
+  {k:"tel",t:"Téléphone"},
+  {k:"dateExp",t:"Date d'expiration"},
+  {k:"qualityTier",t:"Qualité max (low/medium/high)"},
+  {k:"maxConnections",t:"Nb connexions max"},
+  {k:"maxStreams4k",t:"Nb flux 4K simultanés"}
+];
+ for(let i=1;i<=62;i++){fields.push({k:"opt"+i,t:"Option Compte "+i})}
+ const g=document.getElementById('user-editor');
+ const sel=`<div class="fg"><h4>Choisir un utilisateur</h4><p>Sélectionnez pour éditer toutes ses options</p><select id="ue-sel">${uNames.map((n,i)=>`<option value="${i}">${n}</option>`).join("")}</select></div>`;
+ const body=`<div class="fg" id="ue-fields"></div><button class="save" onclick="userSave()">ENREGISTRER UTILISATEUR</button>`;
+ g.innerHTML=sel+body;userLoadFields(0,fields);document.getElementById('ue-sel').onchange=e=>userLoadFields(parseInt(e.target.value,10),fields);
+}
+function userLoadFields(idx,fields){
+ const u=DB_ACCOUNTS[idx];const c=document.getElementById('ue-fields');let html="";
+ fields.forEach(f=>{
+  const val=u[f.k]!==undefined?u[f.k]:"";const inp = f.k==="qualityTier" ? `<select data-k="${f.k}"><option ${val==='low'?'selected':''}>low</option><option ${val==='medium'?'selected':''}>medium</option><option ${val==='high'?'selected':''}>high</option></select>` : `<input data-k="${f.k}" value="${val}">`;
+  html+=`<h4>${f.t}</h4><p>Modifie ${f.t.toLowerCase()}</p>${inp}`;
+ });
+ c.innerHTML=html; c.dataset.idx=idx;
+}
+function userSave(){
+ const c=document.getElementById('ue-fields');const idx=parseInt(c.dataset.idx,10);const inputs=c.querySelectorAll('[data-k]');
+ inputs.forEach(i=>{DB_ACCOUNTS[idx][i.dataset.k]=i.value});
+ saveAccounts();
+}
+function banToggle(i){DB_ACCOUNTS[i].isBanned=!DB_ACCOUNTS[i].isBanned;renderAccounts();dirty()}
 function saveAccounts(){localStorage.setItem(K.acc,JSON.stringify(DB_ACCOUNTS));dirty()}
 
 function renderChannelTable(){
@@ -588,15 +602,14 @@ function addChannel(){
  const l=document.getElementById('ch-logo').value.trim();
  if(!n||!u||!l){alert("Renseignez Nom/Flux/Logo");return}
  DB_TV.push({id:"ch"+(Date.now()),name:n,url:u,logo:l,blocked:false});
- renderChannels();renderChannelTable();renderOrder();dirty()
+ renderTV();renderChannelTable();renderOrder();dirty()
 }
-function moveCh(i,d){const j=i+d;if(j<0||j>=DB_TV.length)return;const t=DB_TV[i];DB_TV[i]=DB_TV[j];DB_TV[j]=t;renderChannels();renderChannelTable();renderOrder();dirty()}
-function delCh(i){DB_TV.splice(i,1);renderChannels();renderChannelTable();renderOrder();dirty()}
+function moveCh(i,d){const j=i+d;if(j<0||j>=DB_TV.length)return;const t=DB_TV[i];DB_TV[i]=DB_TV[j];DB_TV[j]=t;renderTV();renderChannelTable();renderOrder();dirty()}
+function delCh(i){DB_TV.splice(i,1);renderTV();renderChannelTable();renderOrder();dirty()}
 function saveTV(){localStorage.setItem(K.tv,JSON.stringify(DB_TV));dirty()}
-
 function renderOrder(){
  const b=document.getElementById('order-body');b.innerHTML="";
- DB_TV.forEach((c,i)=>{b.innerHTML+=`<tr><td>${i+1}</td><td>${c.name}</td><td><button class="qbtn" onclick="moveCh(${i},-1)">▲</button> <button class="qbtn" onclick="moveCh(${i},1)">▼</button></td></tr>`});
+ DB_TV.forEach((c,i)=>{b.innerHTML+=`<tr><td>${i+1}</td><td><img src="${c.logo}" style="width:60px;height:34px;object-fit:contain;background:#000;border-radius:8px"></td><td>${c.name}</td><td><button class="qbtn" onclick="moveCh(${i},-1)">▲</button> <button class="qbtn" onclick="moveCh(${i},1)">▼</button></td></tr>`});
 }
 
 function renderVODTable(){
@@ -607,32 +620,30 @@ function addVOD(){
  const n=document.getElementById('vd-name').value.trim();
  const t=document.getElementById('vd-type').value;
  const l=document.getElementById('vd-logo').value.trim();
+ const o=document.getElementById('vd-overlay').value.trim();
  if(!n||!l){alert("Renseignez Titre/Image");return}
- DB_VOD.push({name:n,type:t,logo:l});renderVOD();renderVODTable();dirty()
+ DB_VOD.push({name:n,type:t,logo:l,overlay:o});renderVOD();renderVODTable();dirty()
 }
 function delVOD(i){DB_VOD.splice(i,1);renderVOD();renderVODTable();dirty()}
 function saveVOD(){localStorage.setItem(K.vod,JSON.stringify(DB_VOD));dirty()}
 
 function dirty(){document.getElementById('toast').classList.add('show')}
-
-function downloadHTML(){
- embedOverride();
- const html='<!DOCTYPE html>\n'+document.documentElement.outerHTML;
- const blob=new Blob([html],{type:'text/html;charset=utf-8'});
- const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='index.html';a.click();URL.revokeObjectURL(a.href)
-}
-function downloadTXT(){
- embedOverride();
- const html='<!DOCTYPE html>\n'+document.documentElement.outerHTML;
- const blob=new Blob([html],{type:'text/plain;charset=utf-8'});
- const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='index.txt';a.click();URL.revokeObjectURL(a.href)
-}
 function embedOverride(){
- const s=document.getElementById('db-override');
- s.textContent=JSON.stringify({accounts:DB_ACCOUNTS,tv:DB_TV,vod:DB_VOD});
+ const s=document.getElementById('db-override');s.textContent=JSON.stringify({accounts:DB_ACCOUNTS,tv:DB_TV,vod:DB_VOD,site:SITE});
+}
+function downloadHTML(){embedOverride();const html='<!DOCTYPE html>\n'+document.documentElement.outerHTML;const blob=new Blob([html],{type:'text/html;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='index.html';a.click();URL.revokeObjectURL(a.href)}
+function downloadManifest(){
+ const name=document.getElementById('app-name').value.trim()||SITE.title||"IPTV_NTX";
+ const icons=[192,512].map(sz=>({src:SITE.logo||"",sizes:sz+"x"+sz,type:"image/png",purpose:"any"}));
+ const mani={name,short_name:name,display:"standalone",start_url:"./",background_color:"#000000",theme_color:"#0a0a0a",icons};
+ const blob=new Blob([JSON.stringify(mani,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='manifest.json';a.click();URL.revokeObjectURL(a.href)
+}
+function downloadSW(){
+ const sw=`self.addEventListener('install',e=>{e.waitUntil(caches.open('ntx-v1').then(c=>c.addAll(['./'])))});self.addEventListener('fetch',e=>{e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request)))})`;
+ const blob=new Blob([sw],{type:'text/javascript'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='sw.js';a.click();URL.revokeObjectURL(a.href)
 }
 
-function signupGenerate(){
+function signupGen(){
  const nom=document.getElementById('su-nom').value.trim();
  const prenom=document.getElementById('su-prenom').value.trim();
  const email=document.getElementById('su-email').value.trim();
@@ -645,20 +656,23 @@ function signupGenerate(){
  const expStr=exp.toISOString().slice(0,10);
  const line=`{ code: "${code}", role: "user", nom: "${nom}", prenom: "${prenom}", email: "${email}", tel: "${tel}", dateCrea: "${today}", dateExp: "${expStr}", forfait: "Standard", debitMax: "4K", isBanned: false },`;
  document.getElementById('su-result').textContent="Code: "+code+" • Exp: "+expStr;
- DB_ACCOUNTS.push({code,role:"user",nom,prenom,email,tel,dateCrea:today,dateExp:expStr,forfait:"Standard",debitMax:"4K",isBanned:false});
+ DB_ACCOUNTS.push({code,role:"user",nom,prenom,email,tel,dateCrea:today,dateExp:expStr,forfait:"Standard",debitMax:"4K",isBanned:false,qualityTier:"high",maxConnections:2,maxStreams4k:1});
  saveAccounts();dirty()
 }
 
-function openProtections(){
- if(currentUser && currentUser.role==="admin")return;
- window.addEventListener('contextmenu',e=>e.preventDefault());
- window.addEventListener('keydown',e=>{
-  if((e.ctrlKey && ['s','u','p'].includes(e.key.toLowerCase()))||e.key==='F12'){e.preventDefault();e.stopPropagation()}
- });
-}
-openProtections();
+(function protect(){
+ window.addEventListener('contextmenu',e=>{if(!currentUser||currentUser.role!=="admin")e.preventDefault()});
+ window.addEventListener('keydown',e=>{if((!currentUser||currentUser.role!=="admin") && ((e.ctrlKey && ['s','u','p'].includes(e.key.toLowerCase()))||e.key==='F12')){e.preventDefault();e.stopPropagation()}})
+})();
 
-function showAuth(){document.getElementById('auth').classList.add('open')}
+(function initSite(){
+ const inputLogo=document.getElementById('site-logo-url');
+ const appName=document.getElementById('app-name');
+ if(SITE.logo)inputLogo.value=SITE.logo;
+ if(SITE.title)appName.value=SITE.title;
+ inputLogo.onchange=()=>{SITE.logo=inputLogo.value.trim();localStorage.setItem(K.site,JSON.stringify(SITE));applySiteBrand();dirty()};
+ appName.onchange=()=>{SITE.title=appName.value.trim();localStorage.setItem(K.site,JSON.stringify(SITE));applySiteBrand();dirty()};
+})();
 </script>
-
-</body></html>
+</body>
+</html>
