@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html lang="fr"><head>
+<html lang="fr">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>IPTV_NTX PRO v4.1</title>
 <meta name="theme-color" content="#0a0a0a">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=Roboto:wght@300;400;700;900&amp;display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <style>
 :root{--primary:#E50914;--primary-hover:#b20710;--bg:#050505;--glass1:rgba(14,14,14,.7);--glass2:rgba(22,22,22,.45);--glass3:rgba(30,30,30,.55);--border:rgba(255,255,255,.08);--txt:#fff;--muted:#aaa;--ok:#0f0;--warn:#ffa500;--bad:#f33;--info:#09f;--r:16px}
@@ -141,18 +142,18 @@ video{width:100%;height:100%;object-fit:contain;border-radius:inherit}
 <div class="nav">
   <div class="brand" onclick="view('tv')">
     <img id="site-logo" src="" alt="" style="display:none">
-    <span id="site-title" style="display: inline;">IPTV_NTX</span>
+    <span id="site-title">IPTV_NTX</span>
   </div>
   <ul class="menu">
-    <li id="m-tv" class="" onclick="view('tv')">Direct TV</li>
-    <li id="m-vod" onclick="view('vod')">Films &amp; Séries</li>
+    <li id="m-tv" class="active" onclick="view('tv')">Direct TV</li>
+    <li id="m-vod" onclick="view('vod')">Films & Séries</li>
     <li id="m-acc" onclick="view('account')">Mon Compte</li>
-    <li id="m-adm" style="display: block;" onclick="view('admin')" class="active">⚙ Panel Admin</li>
+    <li id="m-adm" style="display:none" onclick="view('admin')">⚙ Panel Admin</li>
   </ul>
-  <div class="badge"><span id="u-name">Brice</span><button class="logout" onclick="logout()">Déconnexion</button></div>
+  <div class="badge"><span id="u-name">Utilisateur</span><button class="logout" onclick="logout()">Déconnexion</button></div>
 </div>
 
-<div id="landing" class="fi" style="display: none;">
+<div id="landing" class="fi">
   <div class="header"><div class="brand"><span>IPTV_NTX</span></div><button class="btn2" onclick="authOpen()">Se connecter</button></div>
   <div class="hero">
     <div class="su1">Streaming Premium Ultra HD 4K</div>
@@ -196,7 +197,7 @@ video{width:100%;height:100%;object-fit:contain;border-radius:inherit}
       <div><label class="small">TÉLÉPHONE</label><input class="input" id="su-tel" placeholder="+33 3 53 63 03 32"></div>
     </div>
     <div class="radio">
-      <div class="opt"><span>1 Mois • 19,99 EUR</span><input type="radio" name="offer" value="1M" checked=""></div>
+      <div class="opt"><span>1 Mois • 19,99 EUR</span><input type="radio" name="offer" value="1M" checked></div>
       <div class="opt" style="border-color:var(--primary)"><span>3 Mois • 39,99 EUR</span><input type="radio" name="offer" value="3M"></div>
       <div class="opt"><span>1 An • 50 EUR</span><input type="radio" name="offer" value="1Y"></div>
     </div>
@@ -205,12 +206,12 @@ video{width:100%;height:100%;object-fit:contain;border-radius:inherit}
   </div>
 </div>
 
-<div id="app" class="fi" style="display: block;">
-  <div class="main" id="tv" style="display: none;">
+<div id="app" class="fi" style="display:none">
+  <div class="main" id="tv">
     <div class="player-wrap">
-      <div class="player" id="playerBox"><video id="player" controls="" autoplay="" playsinline="" src="blob:null/6e16aadc-b652-42e2-bcf0-13bb9c0017cd"></video></div>
+      <div class="player" id="playerBox"><video id="player" controls autoplay playsinline></video></div>
       <div class="controls">
-        <div class="title-now" id="nowTitle">TF1 HD Premium</div>
+        <div class="title-now" id="nowTitle">Chargement…</div>
         <div>
           <button class="q active" onclick="setQ('Auto',this)">AUTO</button>
           <button class="q" onclick="setQ('720p',this)">720p</button>
@@ -222,33 +223,33 @@ video{width:100%;height:100%;object-fit:contain;border-radius:inherit}
     <div class="epg" id="epg">
       <div class="epg-head">
         <button class="epg-btn" onclick="epgPrev()">◀</button>
-        <div class="epg-title" id="epg-title">Guide • TF1 HD Premium</div>
+        <div class="epg-title" id="epg-title">Guide TV</div>
         <button class="epg-btn" onclick="epgToggle()">Détails</button>
         <button class="epg-btn" onclick="epgNext()">▶</button>
       </div>
-      <div class="epg-body"><div class="epg-list" id="epg-list"><div class="e"><div><b>08:00</b></div><div>Télématin</div></div><div class="e now"><div><b>09:30</b></div><div>Mag Actu</div></div><div class="e"><div><b>11:00</b></div><div>Jeu TV</div></div><div class="e"><div><b>12:00</b></div><div>Journal</div></div></div></div>
+      <div class="epg-body"><div class="epg-list" id="epg-list"></div></div>
     </div>
     <div class="section">Chaînes Live</div>
-    <div class="grid" id="grid-tv"><div class="cardL"><div class="pad"><img src="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tf1-fr.png" alt="TF1 HD Premium"></div><div class="meta">TF1 HD Premium</div></div><div class="cardL"><div class="pad"><img src="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-2-fr.png" alt="France 2 4K"></div><div class="meta">France 2 4K</div></div><div class="cardL"><div class="pad"><img src="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/m6-fr.png" alt="M6 HD VIP"></div><div class="meta">M6 HD VIP</div></div><div class="cardL"><div class="pad"><img src="https://via.placeholder.com/640x360/111/fff?text=Cobra" alt="Alerte Cobra 24/7"></div><div class="meta">Alerte Cobra 24/7</div></div><div class="cardL"><div class="pad"><img src="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-3-fr.png" alt="France 3"></div><div class="meta">France 3</div></div></div>
+    <div class="grid" id="grid-tv"></div>
   </div>
 
   <div class="main" id="vod" style="display:none">
-    <div class="section">Catalogue Films &amp; Séries</div>
-    <div class="grid" id="grid-vod"><div class="cardL"><div class="pad"><img src="https://via.placeholder.com/640x360/111/fff?text=INCEPTION" alt="Inception 4K"></div><div class="meta">Inception 4K • Film</div></div><div class="cardL"><div class="pad"><img src="https://via.placeholder.com/640x360/111/fff?text=BREAKING+BAD" alt="Breaking Bad S1-S5"></div><div class="meta">Breaking Bad S1-S5 • Série</div></div><div class="cardL"><div class="pad"><img src="https://via.placeholder.com/640x360/111/fff?text=INTERSTELLAR" alt="Interstellar HDR"></div><div class="meta">Interstellar HDR • Film</div></div></div>
+    <div class="section">Catalogue Films & Séries</div>
+    <div class="grid" id="grid-vod"></div>
   </div>
 
   <div class="main" id="account" style="display:none">
     <div class="section">Mon Profil Client</div>
     <div class="account">
       <div class="row">
-        <div>Nom: <b id="p-nom">Jacotet</b></div>
-        <div>Prénom: <b id="p-prenom">Brice</b></div>
-        <div>Email: <b id="p-email">Strassweb67@gmail.com</b></div>
-        <div>Tél: <b id="p-tel">0619696332</b></div>
-        <div>Création: <b id="p-crea">2024-01-01</b></div>
-        <div>Expiration: <b id="p-exp">2099-12-31</b></div>
-        <div style="grid-column:1/-1">Forfait: <b id="p-forfait">GERANT: Admin Full Ultra HD 4K</b></div>
-        <div style="grid-column:1/-1">Débit max: <b id="p-debit">Illimité</b></div>
+        <div>Nom: <b id="p-nom"></b></div>
+        <div>Prénom: <b id="p-prenom"></b></div>
+        <div>Email: <b id="p-email"></b></div>
+        <div>Tél: <b id="p-tel"></b></div>
+        <div>Création: <b id="p-crea"></b></div>
+        <div>Expiration: <b id="p-exp"></b></div>
+        <div style="grid-column:1/-1">Forfait: <b id="p-forfait"></b></div>
+        <div style="grid-column:1/-1">Débit max: <b id="p-debit"></b></div>
       </div>
       <div class="cta">
         <a href="tel:0353630332">Appeler: 03 53 63 03 32</a>
@@ -257,40 +258,40 @@ video{width:100%;height:100%;object-fit:contain;border-radius:inherit}
     </div>
   </div>
 
-  <div class="main" id="admin" style="display: block;">
-    <div class="section">Console Ingénieur &amp; Supervision</div>
+  <div class="main" id="admin" style="display:none">
+    <div class="section">Console Ingénieur & Supervision</div>
     <div class="admin">
       <div class="aside">
         <ul>
-          <li class="" onclick="openPanel('live',this)">👥 Utilisateurs en direct</li>
+          <li class="active" onclick="openPanel('live',this)">👥 Utilisateurs en direct</li>
           <li onclick="openPanel('video',this)">🎛️ Paramètres Vidéo</li>
           <li onclick="openPanel('accounts',this)">📁 Comptes</li>
-          <li onclick="openPanel('channels',this)" class="">📺 Chaînes IPTV</li>
-          <li onclick="openPanel('vodm',this)" class="">🎬 VOD</li>
-          <li onclick="openPanel('layout',this)" class="">📐 Disposition Chaînes</li>
-          <li onclick="openPanel('export',this)" class="active">⬇ Export/PWA</li>
+          <li onclick="openPanel('channels',this)">📺 Chaînes IPTV</li>
+          <li onclick="openPanel('vodm',this)">🎬 VOD</li>
+          <li onclick="openPanel('layout',this)">📐 Disposition Chaînes</li>
+          <li onclick="openPanel('export',this)">⬇ Export/PWA</li>
         </ul>
       </div>
-      <div class="panel" id="panel-live">
+      <div class="panel active" id="panel-live">
         <div class="legend">
-          <span><i class="dot g"></i> Actif</span><span><i class="dot o"></i> &lt; 30m</span><span><i class="dot b"></i> &lt; 1h</span><span><i class="dot r"></i> Hors ligne</span>
+          <span><i class="dot g"></i> Actif</span><span><i class="dot o"></i> < 30m</span><span><i class="dot b"></i> < 1h</span><span><i class="dot r"></i> Hors ligne</span>
         </div>
         <table class="table">
           <thead><tr><th>Statut</th><th>Client</th><th>Code</th><th>IP/Appareil</th><th>Action</th></tr></thead>
-          <tbody id="live-body"><tr><td><i class="dot g"></i> En ligne</td><td>Jacotet Brice</td><td><span style="background:#333;padding:2px 8px;border-radius:6px;font-family:monospace">Treza670</span></td><td class="small">IP Cachée / Web</td><td><button class="qbtn" onclick="alert('Ping envoyé')">PING</button></td></tr></tbody>
+          <tbody id="live-body"></tbody>
         </table>
       </div>
 
       <div class="panel" id="panel-video">
-        <div class="formgrid" id="video-grid"><div class="fg"><h4>Option Vidéo 1</h4><p>Active une fonctionnalité spécifique</p><label><input type="checkbox" checked=""> Activé</label></div><div class="fg"><h4>Option Vidéo 2</h4><p>Valeur en millisecondes ou Kbps</p><input value="2568"></div><div class="fg"><h4>Option Vidéo 3</h4><p>Valeur en millisecondes ou Kbps</p><input value="3580"></div><div class="fg"><h4>Option Vidéo 4</h4><p>Réglage automatique/recommandé</p><select><option>Auto</option><option>Force</option><option>Désactivé</option></select></div><div class="fg"><h4>Option Vidéo 5</h4><p>Valeur en millisecondes ou Kbps</p><input value="1234"></div><div class="fg"><h4>Option Vidéo 6</h4><p>Active une fonctionnalité spécifique</p><label><input type="checkbox" checked=""> Activé</label></div><div class="fg"><h4>Option Vidéo 7</h4><p>Réglage automatique/recommandé</p><select><option>Auto</option><option>Force</option><option>Désactivé</option></select></div><div class="fg"><h4>Option Vidéo 8</h4><p>Valeur en millisecondes ou Kbps</p><input value="200"></div><div class="fg"><h4>Option Vidéo 9</h4><p>Valeur en millisecondes ou Kbps</p><input value="3494"></div><div class="fg"><h4>Option Vidéo 10</h4><p>Réglage automatique/recommandé</p><select><option>Auto</option><option>Force</option><option>Désactivé</option></select></div><div class="fg"><h4>Option Vidéo 11</h4><p>Active une fonctionnalité spécifique</p><label><input type="checkbox" checked=""> Activé</label></div><div class="fg"><h4>Option Vidéo 12</h4><p>Valeur en millisecondes ou Kbps</p><input value="3501"></div><div class="fg"><h4>Option Vidéo 13</h4><p>Réglage automatique/recommandé</p><select><option>Auto</option><option>Force</option><option>Désactivé</option></select></div><div class="fg"><h4>Option Vidéo 14</h4><p>Valeur en millisecondes ou Kbps</p><input value="2250"></div><div class="fg"><h4>Option Vidéo 15</h4><p>Valeur en millisecondes ou Kbps</p><input value="1312"></div><div class="fg"><h4>Option Vidéo 16</h4><p>Active une fonctionnalité spécifique</p><label><input type="checkbox" checked=""> Activé</label></div><div class="fg"><h4>Option Vidéo 17</h4><p>Valeur en millisecondes ou Kbps</p><input value="618"></div><div class="fg"><h4>Option Vidéo 18</h4><p>Valeur en millisecondes ou Kbps</p><input value="731"></div><div class="fg"><h4>Option Vidéo 19</h4><p>Réglage automatique/recommandé</p><select><option>Auto</option><option>Force</option><option>Désactivé</option></select></div><div class="fg"><h4>Option Vidéo 20</h4><p>Valeur en millisecondes ou Kbps</p><input value="3350"></div><div class="fg"><h4>Option Vidéo 21</h4><p>Active une fonctionnalité spécifique</p><label><input type="checkbox" checked=""> Activé</label></div><div class="fg"><h4>Option Vidéo 22</h4><p>Réglage automatique/recommandé</p><select><option>Auto</option><option>Force</option><option>Désactivé</option></select></div><div class="fg"><h4>Option Vidéo 23</h4><p>Valeur en millisecondes ou Kbps</p><input value="314"></div><div class="fg"><h4>Option Vidéo 24</h4><p>Valeur en millisecondes ou Kbps</p><input value="3056"></div><div class="fg"><h4>Option Vidéo 25</h4><p>Réglage automatique/recommandé</p><select><option>Auto</option><option>Force</option><option>Désactivé</option></select></div><div class="fg"><h4>Option Vidéo 26</h4><p>Active une fonctionnalité spécifique</p><label><input type="checkbox" checked=""> Activé</label></div><div class="fg"><h4>Option Vidéo 27</h4><p>Valeur en millisecondes ou Kbps</p><input value="3790"></div><div class="fg"><h4>Option Vidéo 28</h4><p>Réglage automatique/recommandé</p><select><option>Auto</option><option>Force</option><option>Désactivé</option></select></div><div class="fg"><h4>Option Vidéo 29</h4><p>Valeur en millisecondes ou Kbps</p><input value="3394"></div><div class="fg"><h4>Option Vidéo 30</h4><p>Valeur en millisecondes ou Kbps</p><input value="2498"></div><div class="fg"><h4>Option Vidéo 31</h4><p>Active une fonctionnalité spécifique</p><label><input type="checkbox" checked=""> Activé</label></div><div class="fg"><h4>Option Vidéo 32</h4><p>Valeur en millisecondes ou Kbps</p><input value="663"></div><div class="fg"><h4>Option Vidéo 33</h4><p>Valeur en millisecondes ou Kbps</p><input value="352"></div><div class="fg"><h4>Option Vidéo 34</h4><p>Réglage automatique/recommandé</p><select><option>Auto</option><option>Force</option><option>Désactivé</option></select></div><div class="fg"><h4>Option Vidéo 35</h4><p>Valeur en millisecondes ou Kbps</p><input value="3417"></div><div class="fg"><h4>Option Vidéo 36</h4><p>Active une fonctionnalité spécifique</p><label><input type="checkbox" checked=""> Activé</label></div><div class="fg"><h4>Option Vidéo 37</h4><p>Réglage automatique/recommandé</p><select><option>Auto</option><option>Force</option><option>Désactivé</option></select></div><div class="fg"><h4>Option Vidéo 38</h4><p>Valeur en millisecondes ou Kbps</p><input value="1595"></div><div class="fg"><h4>Option Vidéo 39</h4><p>Valeur en millisecondes ou Kbps</p><input value="936"></div><div class="fg"><h4>Option Vidéo 40</h4><p>Réglage automatique/recommandé</p><select><option>Auto</option><option>Force</option><option>Désactivé</option></select></div><div class="fg"><h4>Option Vidéo 41</h4><p>Active une fonctionnalité spécifique</p><label><input type="checkbox" checked=""> Activé</label></div><div class="fg"><h4>Option Vidéo 42</h4><p>Valeur en millisecondes ou Kbps</p><input value="2179"></div><div class="fg"><h4>Option Vidéo 43</h4><p>Réglage automatique/recommandé</p><select><option>Auto</option><option>Force</option><option>Désactivé</option></select></div><div class="fg"><h4>Option Vidéo 44</h4><p>Valeur en millisecondes ou Kbps</p><input value="579"></div><div class="fg"><h4>Option Vidéo 45</h4><p>Valeur en millisecondes ou Kbps</p><input value="202"></div><div class="fg"><h4>Option Vidéo 46</h4><p>Active une fonctionnalité spécifique</p><label><input type="checkbox" checked=""> Activé</label></div><div class="fg"><h4>Option Vidéo 47</h4><p>Valeur en millisecondes ou Kbps</p><input value="1151"></div><div class="fg"><h4>Option Vidéo 48</h4><p>Valeur en millisecondes ou Kbps</p><input value="797"></div><div class="fg"><h4>Option Vidéo 49</h4><p>Réglage automatique/recommandé</p><select><option>Auto</option><option>Force</option><option>Désactivé</option></select></div><div class="fg"><h4>Option Vidéo 50</h4><p>Valeur en millisecondes ou Kbps</p><input value="1707"></div><div class="fg"><h4>Option Vidéo 51</h4><p>Active une fonctionnalité spécifique</p><label><input type="checkbox" checked=""> Activé</label></div><div class="fg"><h4>Option Vidéo 52</h4><p>Réglage automatique/recommandé</p><select><option>Auto</option><option>Force</option><option>Désactivé</option></select></div><div class="fg"><h4>Option Vidéo 53</h4><p>Valeur en millisecondes ou Kbps</p><input value="493"></div><div class="fg"><h4>Option Vidéo 54</h4><p>Valeur en millisecondes ou Kbps</p><input value="1820"></div><div class="fg"><h4>Option Vidéo 55</h4><p>Réglage automatique/recommandé</p><select><option>Auto</option><option>Force</option><option>Désactivé</option></select></div><div class="fg"><h4>Option Vidéo 56</h4><p>Active une fonctionnalité spécifique</p><label><input type="checkbox" checked=""> Activé</label></div><div class="fg"><h4>Option Vidéo 57</h4><p>Valeur en millisecondes ou Kbps</p><input value="2031"></div><div class="fg"><h4>Option Vidéo 58</h4><p>Réglage automatique/recommandé</p><select><option>Auto</option><option>Force</option><option>Désactivé</option></select></div><div class="fg"><h4>Option Vidéo 59</h4><p>Valeur en millisecondes ou Kbps</p><input value="468"></div><div class="fg"><h4>Option Vidéo 60</h4><p>Valeur en millisecondes ou Kbps</p><input value="1056"></div><div class="fg"><h4>Option Vidéo 61</h4><p>Active une fonctionnalité spécifique</p><label><input type="checkbox" checked=""> Activé</label></div><div class="fg"><h4>Option Vidéo 62</h4><p>Valeur en millisecondes ou Kbps</p><input value="3952"></div><div class="fg"><h4>Option Vidéo 63</h4><p>Valeur en millisecondes ou Kbps</p><input value="796"></div><div class="fg"><h4>Option Vidéo 64</h4><p>Réglage automatique/recommandé</p><select><option>Auto</option><option>Force</option><option>Désactivé</option></select></div><div class="fg"><h4>Option Vidéo 65</h4><p>Valeur en millisecondes ou Kbps</p><input value="2965"></div><div class="fg"><h4>Option Vidéo 66</h4><p>Active une fonctionnalité spécifique</p><label><input type="checkbox" checked=""> Activé</label></div><div class="fg"><h4>Option Vidéo 67</h4><p>Réglage automatique/recommandé</p><select><option>Auto</option><option>Force</option><option>Désactivé</option></select></div><div class="fg"><h4>Option Vidéo 68</h4><p>Valeur en millisecondes ou Kbps</p><input value="3375"></div><div class="fg"><h4>Option Vidéo 69</h4><p>Valeur en millisecondes ou Kbps</p><input value="2192"></div><div class="fg"><h4>Option Vidéo 70</h4><p>Réglage automatique/recommandé</p><select><option>Auto</option><option>Force</option><option>Désactivé</option></select></div><div class="fg"><h4>Option Vidéo 71</h4><p>Active une fonctionnalité spécifique</p><label><input type="checkbox" checked=""> Activé</label></div><div class="fg"><h4>Option Vidéo 72</h4><p>Valeur en millisecondes ou Kbps</p><input value="3613"></div></div>
+        <div class="formgrid" id="video-grid"></div>
         <button class="save" onclick="saveSettings()">ENREGISTRER</button>
       </div>
 
       <div class="panel" id="panel-accounts">
-        <div class="formgrid" id="user-editor"><div class="fg"><h4>Choisir un utilisateur</h4><p>Sélectionnez pour éditer toutes ses options</p><select id="ue-sel"><option value="0">Treza670 • Brice Jacotet</option><option value="1">Gogo67000 • Gauthier Rauch</option><option value="2">Marie67300 • Marie-Christine (VIP) Jacotet</option><option value="3">EXPIRETEST • Test Expiré Client</option><option value="4">BANNITEST • Mechant Pirate</option></select></div><div class="fg" id="ue-fields" data-idx="0"><h4>Code d'accès</h4><p>Modifie code d'accès</p><input data-k="code" value="Treza670"><h4>Nom</h4><p>Modifie nom</p><input data-k="nom" value="Jacotet"><h4>Prénom</h4><p>Modifie prénom</p><input data-k="prenom" value="Brice"><h4>Email</h4><p>Modifie email</p><input data-k="email" value="Strassweb67@gmail.com"><h4>Téléphone</h4><p>Modifie téléphone</p><input data-k="tel" value="0619696332"><h4>Date d'expiration</h4><p>Modifie date d'expiration</p><input data-k="dateExp" value="2099-12-31"><h4>Qualité max (low/medium/high)</h4><p>Modifie qualité max (low/medium/high)</p><select data-k="qualityTier"><option>low</option><option>medium</option><option selected="">high</option></select><h4>Nb connexions max</h4><p>Modifie nb connexions max</p><input data-k="maxConnections" value="3"><h4>Nb flux 4K simultanés</h4><p>Modifie nb flux 4k simultanés</p><input data-k="maxStreams4k" value="2"><h4>Option Compte 1</h4><p>Modifie option compte 1</p><input data-k="opt1" value=""><h4>Option Compte 2</h4><p>Modifie option compte 2</p><input data-k="opt2" value=""><h4>Option Compte 3</h4><p>Modifie option compte 3</p><input data-k="opt3" value=""><h4>Option Compte 4</h4><p>Modifie option compte 4</p><input data-k="opt4" value=""><h4>Option Compte 5</h4><p>Modifie option compte 5</p><input data-k="opt5" value=""><h4>Option Compte 6</h4><p>Modifie option compte 6</p><input data-k="opt6" value=""><h4>Option Compte 7</h4><p>Modifie option compte 7</p><input data-k="opt7" value=""><h4>Option Compte 8</h4><p>Modifie option compte 8</p><input data-k="opt8" value=""><h4>Option Compte 9</h4><p>Modifie option compte 9</p><input data-k="opt9" value=""><h4>Option Compte 10</h4><p>Modifie option compte 10</p><input data-k="opt10" value=""><h4>Option Compte 11</h4><p>Modifie option compte 11</p><input data-k="opt11" value=""><h4>Option Compte 12</h4><p>Modifie option compte 12</p><input data-k="opt12" value=""><h4>Option Compte 13</h4><p>Modifie option compte 13</p><input data-k="opt13" value=""><h4>Option Compte 14</h4><p>Modifie option compte 14</p><input data-k="opt14" value=""><h4>Option Compte 15</h4><p>Modifie option compte 15</p><input data-k="opt15" value=""><h4>Option Compte 16</h4><p>Modifie option compte 16</p><input data-k="opt16" value=""><h4>Option Compte 17</h4><p>Modifie option compte 17</p><input data-k="opt17" value=""><h4>Option Compte 18</h4><p>Modifie option compte 18</p><input data-k="opt18" value=""><h4>Option Compte 19</h4><p>Modifie option compte 19</p><input data-k="opt19" value=""><h4>Option Compte 20</h4><p>Modifie option compte 20</p><input data-k="opt20" value=""><h4>Option Compte 21</h4><p>Modifie option compte 21</p><input data-k="opt21" value=""><h4>Option Compte 22</h4><p>Modifie option compte 22</p><input data-k="opt22" value=""><h4>Option Compte 23</h4><p>Modifie option compte 23</p><input data-k="opt23" value=""><h4>Option Compte 24</h4><p>Modifie option compte 24</p><input data-k="opt24" value=""><h4>Option Compte 25</h4><p>Modifie option compte 25</p><input data-k="opt25" value=""><h4>Option Compte 26</h4><p>Modifie option compte 26</p><input data-k="opt26" value=""><h4>Option Compte 27</h4><p>Modifie option compte 27</p><input data-k="opt27" value=""><h4>Option Compte 28</h4><p>Modifie option compte 28</p><input data-k="opt28" value=""><h4>Option Compte 29</h4><p>Modifie option compte 29</p><input data-k="opt29" value=""><h4>Option Compte 30</h4><p>Modifie option compte 30</p><input data-k="opt30" value=""><h4>Option Compte 31</h4><p>Modifie option compte 31</p><input data-k="opt31" value=""><h4>Option Compte 32</h4><p>Modifie option compte 32</p><input data-k="opt32" value=""><h4>Option Compte 33</h4><p>Modifie option compte 33</p><input data-k="opt33" value=""><h4>Option Compte 34</h4><p>Modifie option compte 34</p><input data-k="opt34" value=""><h4>Option Compte 35</h4><p>Modifie option compte 35</p><input data-k="opt35" value=""><h4>Option Compte 36</h4><p>Modifie option compte 36</p><input data-k="opt36" value=""><h4>Option Compte 37</h4><p>Modifie option compte 37</p><input data-k="opt37" value=""><h4>Option Compte 38</h4><p>Modifie option compte 38</p><input data-k="opt38" value=""><h4>Option Compte 39</h4><p>Modifie option compte 39</p><input data-k="opt39" value=""><h4>Option Compte 40</h4><p>Modifie option compte 40</p><input data-k="opt40" value=""><h4>Option Compte 41</h4><p>Modifie option compte 41</p><input data-k="opt41" value=""><h4>Option Compte 42</h4><p>Modifie option compte 42</p><input data-k="opt42" value=""><h4>Option Compte 43</h4><p>Modifie option compte 43</p><input data-k="opt43" value=""><h4>Option Compte 44</h4><p>Modifie option compte 44</p><input data-k="opt44" value=""><h4>Option Compte 45</h4><p>Modifie option compte 45</p><input data-k="opt45" value=""><h4>Option Compte 46</h4><p>Modifie option compte 46</p><input data-k="opt46" value=""><h4>Option Compte 47</h4><p>Modifie option compte 47</p><input data-k="opt47" value=""><h4>Option Compte 48</h4><p>Modifie option compte 48</p><input data-k="opt48" value=""><h4>Option Compte 49</h4><p>Modifie option compte 49</p><input data-k="opt49" value=""><h4>Option Compte 50</h4><p>Modifie option compte 50</p><input data-k="opt50" value=""><h4>Option Compte 51</h4><p>Modifie option compte 51</p><input data-k="opt51" value=""><h4>Option Compte 52</h4><p>Modifie option compte 52</p><input data-k="opt52" value=""><h4>Option Compte 53</h4><p>Modifie option compte 53</p><input data-k="opt53" value=""><h4>Option Compte 54</h4><p>Modifie option compte 54</p><input data-k="opt54" value=""><h4>Option Compte 55</h4><p>Modifie option compte 55</p><input data-k="opt55" value=""><h4>Option Compte 56</h4><p>Modifie option compte 56</p><input data-k="opt56" value=""><h4>Option Compte 57</h4><p>Modifie option compte 57</p><input data-k="opt57" value=""><h4>Option Compte 58</h4><p>Modifie option compte 58</p><input data-k="opt58" value=""><h4>Option Compte 59</h4><p>Modifie option compte 59</p><input data-k="opt59" value=""><h4>Option Compte 60</h4><p>Modifie option compte 60</p><input data-k="opt60" value=""><h4>Option Compte 61</h4><p>Modifie option compte 61</p><input data-k="opt61" value=""><h4>Option Compte 62</h4><p>Modifie option compte 62</p><input data-k="opt62" value=""></div><button class="save" onclick="userSave()">ENREGISTRER UTILISATEUR</button></div>
+        <div class="formgrid" id="user-editor"></div>
         <table class="table" style="margin-top:12px">
           <thead><tr><th>Code</th><th>Nom</th><th>Contact</th><th>Création</th><th>Expiration</th><th>Banni</th><th>Action</th></tr></thead>
-          <tbody id="acc-body"><tr><td style="color:var(--primary);font-family:monospace;font-weight:900">Treza670</td><td>Brice Jacotet</td><td class="small">Strassweb67@gmail.com<br>0619696332</td><td>2024-01-01</td><td style="">2099-12-31</td><td>NON</td><td><button class="qbtn" onclick="banToggle(0)">BANNIR</button></td></tr><tr><td style="color:var(--primary);font-family:monospace;font-weight:900">Gogo67000</td><td>Gauthier Rauch</td><td class="small">jean@gmail.com<br>0700000000</td><td>2025-01-01</td><td style="">2026-12-31</td><td>NON</td><td><button class="qbtn" onclick="banToggle(1)">BANNIR</button></td></tr><tr><td style="color:var(--primary);font-family:monospace;font-weight:900">Marie67300</td><td>Marie-Christine (VIP) Jacotet</td><td class="small">Mariechristinejacotet@gmail.com<br>061763380</td><td>2024-05-10</td><td style="">2028-05-10</td><td>NON</td><td><button class="qbtn" onclick="banToggle(2)">BANNIR</button></td></tr><tr><td style="color:var(--primary);font-family:monospace;font-weight:900">EXPIRETEST</td><td>Test Expiré Client</td><td class="small">test@test.com<br>0000</td><td>2023-01-01</td><td style="color:#f55;font-weight:900">2023-02-01</td><td>NON</td><td><button class="qbtn" onclick="banToggle(3)">BANNIR</button></td></tr><tr><td style="color:var(--primary);font-family:monospace;font-weight:900">BANNITEST</td><td>Mechant Pirate</td><td class="small">voleur@mail.com<br>000</td><td>2026-01-01</td><td style="">2026-12-31</td><td><b style="color:#f55">OUI</b></td><td><button class="qbtn" onclick="banToggle(4)">DÉBANNIR</button></td></tr></tbody>
+          <tbody id="acc-body"></tbody>
         </table>
         <button class="save" onclick="saveAccounts()">ENREGISTRER</button>
       </div>
@@ -304,7 +305,7 @@ video{width:100%;height:100%;object-fit:contain;border-radius:inherit}
         <button class="save" onclick="addChannel()">AJOUTER CHAÎNE</button>
         <table class="table" style="margin-top:12px">
           <thead><tr><th>Logo</th><th>Nom</th><th>Déplacer</th><th>Action</th></tr></thead>
-          <tbody id="ch-body"><tr><td><img src="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tf1-fr.png" style="width:80px;height:45px;object-fit:contain;border-radius:8px;background:#000"></td><td>TF1 HD Premium</td><td><button class="qbtn" onclick="moveCh(0,-1)">▲</button> <button class="qbtn" onclick="moveCh(0,1)">▼</button></td><td><button class="qbtn" onclick="delCh(0)">Suppr</button></td></tr><tr><td><img src="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-2-fr.png" style="width:80px;height:45px;object-fit:contain;border-radius:8px;background:#000"></td><td>France 2 4K</td><td><button class="qbtn" onclick="moveCh(1,-1)">▲</button> <button class="qbtn" onclick="moveCh(1,1)">▼</button></td><td><button class="qbtn" onclick="delCh(1)">Suppr</button></td></tr><tr><td><img src="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/m6-fr.png" style="width:80px;height:45px;object-fit:contain;border-radius:8px;background:#000"></td><td>M6 HD VIP</td><td><button class="qbtn" onclick="moveCh(2,-1)">▲</button> <button class="qbtn" onclick="moveCh(2,1)">▼</button></td><td><button class="qbtn" onclick="delCh(2)">Suppr</button></td></tr><tr><td><img src="https://via.placeholder.com/640x360/111/fff?text=Cobra" style="width:80px;height:45px;object-fit:contain;border-radius:8px;background:#000"></td><td>Alerte Cobra 24/7</td><td><button class="qbtn" onclick="moveCh(3,-1)">▲</button> <button class="qbtn" onclick="moveCh(3,1)">▼</button></td><td><button class="qbtn" onclick="delCh(3)">Suppr</button></td></tr><tr><td><img src="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-3-fr.png" style="width:80px;height:45px;object-fit:contain;border-radius:8px;background:#000"></td><td>France 3</td><td><button class="qbtn" onclick="moveCh(4,-1)">▲</button> <button class="qbtn" onclick="moveCh(4,1)">▼</button></td><td><button class="qbtn" onclick="delCh(4)">Suppr</button></td></tr></tbody>
+          <tbody id="ch-body"></tbody>
         </table>
         <button class="save" onclick="saveTV()">ENREGISTRER</button>
       </div>
@@ -319,7 +320,7 @@ video{width:100%;height:100%;object-fit:contain;border-radius:inherit}
         <button class="save" onclick="addVOD()">AJOUTER</button>
         <table class="table" style="margin-top:12px">
           <thead><tr><th>Image</th><th>Titre</th><th>Type</th><th>Action</th></tr></thead>
-          <tbody id="vd-body"><tr><td><img src="https://via.placeholder.com/640x360/111/fff?text=INCEPTION" style="width:80px;height:45px;object-fit:cover;border-radius:8px"></td><td>Inception 4K</td><td>Film</td><td><button class="qbtn" onclick="delVOD(0)">Suppr</button></td></tr><tr><td><img src="https://via.placeholder.com/640x360/111/fff?text=BREAKING+BAD" style="width:80px;height:45px;object-fit:cover;border-radius:8px"></td><td>Breaking Bad S1-S5</td><td>Série</td><td><button class="qbtn" onclick="delVOD(1)">Suppr</button></td></tr><tr><td><img src="https://via.placeholder.com/640x360/111/fff?text=INTERSTELLAR" style="width:80px;height:45px;object-fit:cover;border-radius:8px"></td><td>Interstellar HDR</td><td>Film</td><td><button class="qbtn" onclick="delVOD(2)">Suppr</button></td></tr></tbody>
+          <tbody id="vd-body"></tbody>
         </table>
         <button class="save" onclick="saveVOD()">ENREGISTRER</button>
       </div>
@@ -327,12 +328,12 @@ video{width:100%;height:100%;object-fit:contain;border-radius:inherit}
       <div class="panel" id="panel-layout">
         <table class="table">
           <thead><tr><th>#</th><th>Logo</th><th>Nom</th><th>Actions</th></tr></thead>
-          <tbody id="order-body"><tr><td>1</td><td><img src="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tf1-fr.png" style="width:60px;height:34px;object-fit:contain;background:#000;border-radius:8px"></td><td>TF1 HD Premium</td><td><button class="qbtn" onclick="moveCh(0,-1)">▲</button> <button class="qbtn" onclick="moveCh(0,1)">▼</button></td></tr><tr><td>2</td><td><img src="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-2-fr.png" style="width:60px;height:34px;object-fit:contain;background:#000;border-radius:8px"></td><td>France 2 4K</td><td><button class="qbtn" onclick="moveCh(1,-1)">▲</button> <button class="qbtn" onclick="moveCh(1,1)">▼</button></td></tr><tr><td>3</td><td><img src="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/m6-fr.png" style="width:60px;height:34px;object-fit:contain;background:#000;border-radius:8px"></td><td>M6 HD VIP</td><td><button class="qbtn" onclick="moveCh(2,-1)">▲</button> <button class="qbtn" onclick="moveCh(2,1)">▼</button></td></tr><tr><td>4</td><td><img src="https://via.placeholder.com/640x360/111/fff?text=Cobra" style="width:60px;height:34px;object-fit:contain;background:#000;border-radius:8px"></td><td>Alerte Cobra 24/7</td><td><button class="qbtn" onclick="moveCh(3,-1)">▲</button> <button class="qbtn" onclick="moveCh(3,1)">▼</button></td></tr><tr><td>5</td><td><img src="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-3-fr.png" style="width:60px;height:34px;object-fit:contain;background:#000;border-radius:8px"></td><td>France 3</td><td><button class="qbtn" onclick="moveCh(4,-1)">▲</button> <button class="qbtn" onclick="moveCh(4,1)">▼</button></td></tr></tbody>
+          <tbody id="order-body"></tbody>
         </table>
         <button class="save" onclick="saveTV()">VALIDER ORDRE</button>
       </div>
 
-      <div class="panel active" id="panel-export">
+      <div class="panel" id="panel-export">
         <div class="formgrid">
           <div class="fg"><h4>Nom App</h4><input id="app-name" placeholder="IPTV_NTX"></div>
           <div class="fg"><h4>Logo du Site</h4><p>URL affichée en haut et utilisée pour PWA</p><input id="site-logo-url" placeholder="https://.../logo.png"></div>
@@ -348,9 +349,9 @@ video{width:100%;height:100%;object-fit:contain;border-radius:inherit}
   </div>
 </div>
 
-<div class="warn show" id="toast"><span>⚠ Modifs non publiées. Téléchargez et poussez sur GitHub.</span><button class="dl" onclick="downloadHTML()">HTML</button><a class="link" href="https://github.com" target="_blank">GitHub</a></div>
+<div class="warn" id="toast"><span>⚠ Modifs non publiées. Téléchargez et poussez sur GitHub.</span><button class="dl" onclick="downloadHTML()">HTML</button><a class="link" href="https://github.com" target="_blank">GitHub</a></div>
 
-<script id="db-override" type="application/json">{"accounts":[{"code":"Treza670","role":"admin","nom":"Jacotet","prenom":"Brice","email":"Strassweb67@gmail.com","tel":"0619696332","dateCrea":"2024-01-01","dateExp":"2099-12-31","forfait":"GERANT: Admin Full Ultra HD 4K","debitMax":"Illimité","isBanned":false,"qualityTier":"high","maxConnections":3,"maxStreams4k":2},{"code":"Gogo67000","role":"user","nom":"Rauch","prenom":"Gauthier","email":"jean@gmail.com","tel":"0700000000","dateCrea":"2025-01-01","dateExp":"2026-12-31","forfait":"Basique - 19€","debitMax":"1080p","isBanned":false,"qualityTier":"medium","maxConnections":2,"maxStreams4k":0},{"code":"Marie67300","role":"user","nom":"Jacotet","prenom":"Marie-Christine (VIP)","email":"Mariechristinejacotet@gmail.com","tel":"061763380","dateCrea":"2024-05-10","dateExp":"2028-05-10","forfait":"Ultra Full Uhd 4K","debitMax":"4K","isBanned":false,"qualityTier":"high","maxConnections":4,"maxStreams4k":3},{"code":"EXPIRETEST","role":"user","nom":"Client","prenom":"Test Expiré","email":"test@test.com","tel":"0000","dateCrea":"2023-01-01","dateExp":"2023-02-01","forfait":"Test","debitMax":"720p","isBanned":false,"qualityTier":"low","maxConnections":1,"maxStreams4k":0},{"code":"BANNITEST","role":"user","nom":"Pirate","prenom":"Mechant","email":"voleur@mail.com","tel":"000","dateCrea":"2026-01-01","dateExp":"2026-12-31","forfait":"Basique","debitMax":"SD","isBanned":true,"qualityTier":"low","maxConnections":1,"maxStreams4k":0}],"tv":[{"id":"ch1","name":"TF1 HD Premium","url":"https://viamotionhsi.netplus.ch/live/eds/tf1hd/browser-HLS8/tf1hd.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tf1-fr.png","blocked":false},{"id":"ch2","name":"France 2 4K","url":"https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/france2.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-2-fr.png","blocked":false},{"id":"ch3","name":"M6 HD VIP","url":"https://viamotionhsi.netplus.ch/live/eds/m6hd/browser-HLS8/m6hd.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/m6-fr.png","blocked":false},{"id":"ch4","name":"Alerte Cobra 24/7","url":"https://alarm-for-cobra-rakuten-tv-fr.fast.rakuten.tv/v1/master/0547f18649bd788bec7b67b746e47670f558b6b2/production-LiveChannel-6477/master.m3u8","logo":"https://via.placeholder.com/640x360/111/fff?text=Cobra","blocked":false},{"id":"ch1772473983896","name":"France 3","url":"https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/france3.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-3-fr.png","blocked":false}],"vod":[{"name":"Inception 4K","type":"Film","logo":"https://via.placeholder.com/640x360/111/fff?text=INCEPTION","overlay":""},{"name":"Breaking Bad S1-S5","type":"Série","logo":"https://via.placeholder.com/640x360/111/fff?text=BREAKING+BAD","overlay":""},{"name":"Interstellar HDR","type":"Film","logo":"https://via.placeholder.com/640x360/111/fff?text=INTERSTELLAR","overlay":""}],"site":{"title":"IPTV_NTX","logo":""}}</script>
+<script id="db-override" type="application/json"></script>
 <script>
 let SITE={title:"IPTV_NTX",logo:""};
 let DB_ACCOUNTS=[
@@ -673,5 +674,5 @@ function signupGen(){
  appName.onchange=()=>{SITE.title=appName.value.trim();localStorage.setItem(K.site,JSON.stringify(SITE));applySiteBrand();dirty()};
 })();
 </script>
-
-</body></html>
+</body>
+</html>
