@@ -2728,4 +2728,65 @@ function startPromoTimer(hours, minutes, seconds) {
   const timerEl = document.getElementById('timer');
   let remaining = hours*3600 + minutes*60 + seconds;
   const interval = setInterval(() => {
-    if (remaining <= 0) { clearInterval(interval); timerEl.textContent =
+    if (remaining <= 0) { clearInterval(interval); timerEl.textContent = "OFFRE TERMINÉE"; return; }
+    const h = Math.floor(remaining / 3600);
+    const m = Math.floor((remaining % 3600) / 60);
+    const s = remaining % 60;
+    timerEl.textContent = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+    remaining--;
+  }, 1000);
+}
+let testimonialIndex = 0;
+const testimonials = [
+  { name: "Jean-Pierre D.", avatar: "JD", stars: "★★★★★", text: "Depuis que j'ai découvert Strass IPTV, je ne regarde plus la télé classique. Qualité 4K incroyable et aucun bug !" },
+  { name: "Sophie L.", avatar: "SL", stars: "★★★★★", text: "Service client réactif, installation facile. Je recommande à 100%." },
+  { name: "Marc V.", avatar: "MV", stars: "★★★★☆", text: "Très satisfait du catalogue, et le prix est imbattable." },
+];
+function renderTestimonials() {
+  const track = document.getElementById('testimonialsTrack');
+  const dotsContainer = document.getElementById('carouselDots');
+  track.innerHTML = '';
+  testimonials.forEach((t, i) => {
+    track.innerHTML += `<div class="testimonial-card"><div class="testimonial-avatar">${t.avatar}</div><div class="testimonial-stars">${t.stars}</div><div class="testimonial-text">"${t.text}"</div><div class="testimonial-name">${t.name}</div></div>`;
+  });
+  dotsContainer.innerHTML = testimonials.map((_, i) => `<span class="carousel-dot ${i === 0 ? 'active' : ''}" onclick="goToTestimonial(${i})"></span>`).join('');
+}
+function updateCarousel() {
+  const track = document.getElementById('testimonialsTrack');
+  track.style.transform = `translateX(-${testimonialIndex * 100}%)`;
+  document.querySelectorAll('.carousel-dot').forEach((dot, i) => { dot.classList.toggle('active', i === testimonialIndex); });
+}
+function nextTestimonial() { testimonialIndex = (testimonialIndex + 1) % testimonials.length; updateCarousel(); }
+function prevTestimonial() { testimonialIndex = (testimonialIndex - 1 + testimonials.length) % testimonials.length; updateCarousel(); }
+function goToTestimonial(index) { testimonialIndex = index; updateCarousel(); }
+
+// Barre de progression au scroll
+window.addEventListener('scroll', () => {
+  const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+  const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const scrolled = (winScroll / height) * 100;
+  document.getElementById('progress-bar').style.width = scrolled + '%';
+});
+
+// Navigation floue au scroll
+window.addEventListener('scroll', () => {
+  const nav = document.querySelector('.nav');
+  if (nav) { if (window.scrollY > 50) nav.classList.add('scrolled'); else nav.classList.remove('scrolled'); }
+});
+
+// Initialisation au chargement
+window.addEventListener('DOMContentLoaded', () => {
+  createStars();
+  loadFromStorage();
+  startPromoTimer(24, 59, 15);
+  renderTestimonials();
+});
+
+document.addEventListener('click', (e) => {
+  const qualityDropdown = document.getElementById('qualityDropdown');
+  const qualityBtn = document.querySelector('.quality-btn');
+  if(qualityDropdown && !qualityDropdown.contains(e.target) && !qualityBtn.contains(e.target)) qualityDropdown.classList.remove('open');
+});
+</script>
+</body>
+</html>
