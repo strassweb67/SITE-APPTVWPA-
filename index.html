@@ -40,6 +40,7 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   line-height: 1.5;
+  zoom: 85%; /* léger dézoom de 15% comme demandé */
 }
 
 .animated-bg {
@@ -150,18 +151,18 @@ body {
   height: 60px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 0 4%;
   backdrop-filter: blur(20px) saturate(180%);
-  background: rgba(0, 0, 0, 0.3);
+  background: #000; /* noir profond */
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   z-index: 100;
   transition: var(--transition);
 }
 
 .nav.scrolled {
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(20px);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+  background: #000;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.8);
 }
 
 .brand {
@@ -195,18 +196,20 @@ body {
   display: flex;
   gap: 6px;
   list-style: none;
-  margin-left: 30px;
+  flex: 1;
+  justify-content: center;
+  margin: 0;
 }
 
 .menu li {
   color: #e0e0e0;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   letter-spacing: 0.5px;
   cursor: pointer;
   transition: var(--transition);
-  padding: 8px 18px;
-  border-radius: 40px;
+  padding: 6px 12px; /* boutons fins */
+  border-radius: 30px;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid transparent;
   text-transform: uppercase;
@@ -229,7 +232,6 @@ body {
 }
 
 .badge {
-  margin-left: auto;
   display: flex;
   align-items: center;
   gap: 15px;
@@ -1651,13 +1653,14 @@ video {
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(0, 0, 0, 0.9);
+  background: linear-gradient(135deg, #000, #8B0000); /* dégradé rouge/noir */
   backdrop-filter: blur(20px);
   border-top: 1px solid rgba(255, 255, 255, 0.05);
   padding: 6px 5%;
   z-index: 99;
   box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.8);
   height: 60px;
+  border-bottom: 3px solid #000; /* bande noire d'environ 1.1mm */
 }
 
 .mobile-menu-grid {
@@ -1675,7 +1678,7 @@ video {
   justify-content: center;
   gap: 2px;
   padding: 4px;
-  color: #bbb;
+  color: #fff;
   font-size: 0.7rem;
   font-weight: 600;
   border-radius: 20px;
@@ -1683,6 +1686,7 @@ video {
   transition: var(--transition);
   text-transform: uppercase;
   height: 100%;
+  text-shadow: 0 0 5px rgba(0,0,0,0.5);
 }
 
 .mobile-menu-item .icon {
@@ -1692,14 +1696,14 @@ video {
 .mobile-menu-item:hover,
 .mobile-menu-item.active {
   color: #fff;
-  background: rgba(229, 9, 20, 0.2);
+  background: rgba(229, 9, 20, 0.4);
 }
 
 .mobile-menu-item.admin-item {
   display: none;
 }
 
-/* Mini barre supérieure mobile (après connexion) */
+/* Mini barre supérieure mobile (après connexion) - masquée sur mobile */
 .mobile-top-bar {
   display: none;
   position: fixed;
@@ -1847,7 +1851,7 @@ video {
 @media (max-width: 768px) {
   .nav { display: none; }
   .mobile-menu { display: block; }
-  .mobile-top-bar { display: flex; }
+  .mobile-top-bar { display: none !important; } /* masquée sur mobile */
   .main-content { margin-top: 55px; padding-bottom: 70px; }
   .hero .brand-text.hero-brand { font-size: 3.5rem; }
   .hero-subtitle { font-size: 1.2rem; }
@@ -2295,14 +2299,10 @@ let DB_ACCOUNTS = [
 ];
 let DB_CHANNELS = [
   {id:"ch1",name:"TF1 HD Premium",url:"https://viamotionhsi.netplus.ch/live/eds/tf1hd/browser-HLS8/tf1hd.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tf1-fr.png",blocked:false},
-  {id:"ch2",name:"France2 4K",url:"https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/france2.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-2-fr.png",blocked:false},
-  {id:"ch3",name:"France3 HD",url:"https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/france3.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-3-fr.png",blocked:false},
-  {id:"ch4",name:"France4 HD",url:"https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/france4.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-4-fr.png",blocked:false},
-  {id:"ch5",name:"France5 HD",url:"https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/france5.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-5-fr.png",blocked:false},
-  {id:"ch6",name:"M6 HD VIP",url:"https://viamotionhsi.netplus.ch/live/eds/m6hd/browser-HLS8/m6hd.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/m6-fr.png",blocked:false},
-  {id:"ch7",name:"Arte HD VIP",url:"https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/arte.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/arte-fr.png",blocked:false},
-  {id:"ch8",name:"Alerte Cobra 24/7 HD",url:"https://alarm-for-cobra-rakuten-tv-fr.fast.rakuten.tv/v1/master/0547f18649bd788bec7b67b746e47670f558b6b2/production-LiveChannel-6477/master.m3u8",logo:"https://via.placeholder.com/640x360/111/fff?text=Cobra",blocked:false}
-  
+  {id:"ch2",name:"France 2 4K",url:"https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/france2.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-2-fr.png",blocked:false},
+  {id:"ch3",name:"M6 HD VIP",url:"https://viamotionhsi.netplus.ch/live/eds/m6hd/browser-HLS8/m6hd.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/m6-fr.png",blocked:false},
+  {id:"ch4",name:"Alerte Cobra 24/7",url:"https://alarm-for-cobra-rakuten-tv-fr.fast.rakuten.tv/v1/master/0547f18649bd788bec7b67b746e47670f558b6b2/production-LiveChannel-6477/master.m3u8",logo:"https://via.placeholder.com/640x360/111/fff?text=Cobra",blocked:false}
+];
 let DB_VOD = [
   {id:"vod1",name:"Inception 4K",type:"Film",logo:"https://via.placeholder.com/640x360/111/fff?text=INCEPTION",overlay:"",description:""},
   {id:"vod2",name:"Breaking Bad S1-S5",type:"Série",logo:"https://via.placeholder.com/640x360/111/fff?text=BREAKING+BAD",overlay:"",description:""},
@@ -2728,65 +2728,4 @@ function startPromoTimer(hours, minutes, seconds) {
   const timerEl = document.getElementById('timer');
   let remaining = hours*3600 + minutes*60 + seconds;
   const interval = setInterval(() => {
-    if (remaining <= 0) { clearInterval(interval); timerEl.textContent = "OFFRE TERMINÉE"; return; }
-    const h = Math.floor(remaining / 3600);
-    const m = Math.floor((remaining % 3600) / 60);
-    const s = remaining % 60;
-    timerEl.textContent = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-    remaining--;
-  }, 1000);
-}
-let testimonialIndex = 0;
-const testimonials = [
-  { name: "Jean-Pierre D.", avatar: "JD", stars: "★★★★★", text: "Depuis que j'ai découvert Strass IPTV, je ne regarde plus la télé classique. Qualité 4K incroyable et aucun bug !" },
-  { name: "Sophie L.", avatar: "SL", stars: "★★★★★", text: "Service client réactif, installation facile. Je recommande à 100%." },
-  { name: "Marc V.", avatar: "MV", stars: "★★★★☆", text: "Très satisfait du catalogue, et le prix est imbattable." },
-];
-function renderTestimonials() {
-  const track = document.getElementById('testimonialsTrack');
-  const dotsContainer = document.getElementById('carouselDots');
-  track.innerHTML = '';
-  testimonials.forEach((t, i) => {
-    track.innerHTML += `<div class="testimonial-card"><div class="testimonial-avatar">${t.avatar}</div><div class="testimonial-stars">${t.stars}</div><div class="testimonial-text">"${t.text}"</div><div class="testimonial-name">${t.name}</div></div>`;
-  });
-  dotsContainer.innerHTML = testimonials.map((_, i) => `<span class="carousel-dot ${i === 0 ? 'active' : ''}" onclick="goToTestimonial(${i})"></span>`).join('');
-}
-function updateCarousel() {
-  const track = document.getElementById('testimonialsTrack');
-  track.style.transform = `translateX(-${testimonialIndex * 100}%)`;
-  document.querySelectorAll('.carousel-dot').forEach((dot, i) => { dot.classList.toggle('active', i === testimonialIndex); });
-}
-function nextTestimonial() { testimonialIndex = (testimonialIndex + 1) % testimonials.length; updateCarousel(); }
-function prevTestimonial() { testimonialIndex = (testimonialIndex - 1 + testimonials.length) % testimonials.length; updateCarousel(); }
-function goToTestimonial(index) { testimonialIndex = index; updateCarousel(); }
-
-// Barre de progression au scroll
-window.addEventListener('scroll', () => {
-  const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-  const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-  const scrolled = (winScroll / height) * 100;
-  document.getElementById('progress-bar').style.width = scrolled + '%';
-});
-
-// Navigation floue au scroll
-window.addEventListener('scroll', () => {
-  const nav = document.querySelector('.nav');
-  if (nav) { if (window.scrollY > 50) nav.classList.add('scrolled'); else nav.classList.remove('scrolled'); }
-});
-
-// Initialisation au chargement
-window.addEventListener('DOMContentLoaded', () => {
-  createStars();
-  loadFromStorage();
-  startPromoTimer(24, 59, 15);
-  renderTestimonials();
-});
-
-document.addEventListener('click', (e) => {
-  const qualityDropdown = document.getElementById('qualityDropdown');
-  const qualityBtn = document.querySelector('.quality-btn');
-  if(qualityDropdown && !qualityDropdown.contains(e.target) && !qualityBtn.contains(e.target)) qualityDropdown.classList.remove('open');
-});
-</script>
-</body>
-</html>
+    if (remaining <= 0) { clearInterval(interval); timerEl.textContent =
