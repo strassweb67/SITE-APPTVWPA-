@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
-<head>
+<html lang="fr"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1, user-scalable=yes">
 <title>Strass IPTV</title>
@@ -8,11 +7,20 @@
 <meta property="og:title" content="Strass IPTV">
 <meta property="og:description" content="Le futur du streaming 4k ! - Société Basé à Strasbourg.">
 <meta property="og:type" content="website">
+<meta property="og:image" content="https://thumbs2.imgbox.com/46/ad/6ZbpTSX9_t.png">
+<meta property="og:image:width" content="512">
+<meta property="og:image:height" content="512">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://thumbs2.imgbox.com/46/ad/6ZbpTSX9_t.png">
 <meta name="theme-color" content="#0a0a0a">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&family=Montserrat:wght@700;900&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+<meta name="apple-mobile-web-app-title" content="Strass IPTV">
+<link rel="icon" type="image/png" href="https://thumbs2.imgbox.com/46/ad/6ZbpTSX9_t.png">
+<link rel="apple-touch-icon" href="https://thumbs2.imgbox.com/46/ad/6ZbpTSX9_t.png">
+<link rel="manifest" href="data:application/json,{&quot;name&quot;:&quot;Strass IPTV&quot;,&quot;short_name&quot;:&quot;Strass IPTV&quot;,&quot;display&quot;:&quot;standalone&quot;,&quot;start_url&quot;:&quot;./&quot;,&quot;background_color&quot;:&quot;#000000&quot;,&quot;theme_color&quot;:&quot;#0a0a0a&quot;,&quot;icons&quot;:[{&quot;src&quot;:&quot;https://thumbs2.imgbox.com/46/ad/6ZbpTSX9_t.png&quot;,&quot;sizes&quot;:&quot;192x192&quot;,&quot;type&quot;:&quot;image/png&quot;,&quot;purpose&quot;:&quot;any maskable&quot;},{&quot;src&quot;:&quot;https://thumbs2.imgbox.com/46/ad/6ZbpTSX9_t.png&quot;,&quot;sizes&quot;:&quot;512x512&quot;,&quot;type&quot;:&quot;image/png&quot;,&quot;purpose&quot;:&quot;any maskable&quot;}]}">
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&amp;family=Montserrat:wght@700;900&amp;family=Poppins:wght@600;700;800&amp;display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <style>
 :root {
@@ -151,7 +159,7 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  height: 71px; /* 60px + 3mm (~11px) */
+  height: 93px; /* base — sera réduit sur la nav post-auth via #mainNav */
   display: flex;
   align-items: center;
   padding: 0 4%;
@@ -160,6 +168,12 @@ body {
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   z-index: 100;
   transition: var(--transition);
+}
+
+/* Barre post-authentification uniquement : réduite de 1,2 cm */
+#mainNav {
+  height: 57px; /* 93px - 12mm (~36px) = 57px — PC, tablette et mobile */
+  padding: 0 3%;
 }
 
 /* ===== HAMBURGER MENU DROPDOWN (DESKTOP) ===== */
@@ -253,30 +267,7 @@ body {
 }
 
 /* ===== SEARCH MODAL ===== */
-.search-trigger-btn {
-  position: fixed;
-  bottom: 80px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 52px;
-  height: 52px;
-  background: rgba(229,9,20,0.85);
-  backdrop-filter: blur(16px);
-  border: 2px solid rgba(255,255,255,0.18);
-  border-radius: 50%;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 98;
-  box-shadow: 0 4px 20px rgba(229,9,20,0.5);
-  transition: var(--transition);
-  font-size: 1.4rem;
-}
-.search-trigger-btn:hover {
-  transform: translateX(-50%) scale(1.12);
-  box-shadow: 0 6px 28px rgba(229,9,20,0.7);
-}
+/* .search-trigger-btn supprimé — loupe déplacée dans barre Instagram */
 .search-modal-overlay {
   position: fixed;
   inset: 0;
@@ -1359,7 +1350,7 @@ body {
 #app { display: none; }
 
 .main-content {
-  margin-top: 106px; /* 71px navbar + ~9mm (34px) gap */
+  margin-top: 91px; /* 57px mainNav + 34px gap */
   padding: 0 4%;
   min-height: calc(100vh - 71px - 60px);
 }
@@ -1468,19 +1459,21 @@ video {
 
 .quality-dropdown {
   position: absolute;
-  top: calc(100% + 5px);
+  bottom: calc(100% + 5px); /* vers le haut */
+  top: auto !important;
   right: 0;
-  background: rgba(20, 20, 20, 0.95);
+  background: rgba(10, 10, 10, 0.98);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(229,9,20,0.25);
   border-radius: 20px;
   padding: 8px;
   display: none;
   flex-direction: column;
   gap: 5px;
   min-width: 160px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
-  z-index: 20;
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.9);
+  z-index: 999999 !important;
+  isolation: isolate;
 }
 
 .quality-dropdown.open { display: flex; }
@@ -1781,7 +1774,7 @@ video {
 }
 
 .admin-sidebar {
-  width: 280px;
+  width: 200px;
   border-right: 1px solid rgba(255, 255, 255, 0.05);
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(10px);
@@ -1993,10 +1986,12 @@ video {
 
 .mobile-menu-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 3px;
+  grid-template-columns: repeat(5, 1fr); /* 5 par défaut (user) — 6 pour admin via JS */
+  gap: 0;
   height: 100%;
   align-items: center;
+  width: 100%;
+  justify-items: center;
 }
 
 .mobile-menu-item {
@@ -2004,26 +1999,38 @@ video {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2px;
-  padding: 4px;
+  gap: 3px;
+  padding: 4px 2px;
   color: #bbb;
-  font-size: 0.7rem;
+  font-size: 0.62rem;
   font-weight: 600;
-  border-radius: 20px;
+  border-radius: 16px;
   cursor: pointer;
   transition: var(--transition);
   text-transform: uppercase;
+  letter-spacing: 0.3px;
   height: 100%;
+  width: 100%;
+  text-align: center;
 }
 
-.mobile-menu-item .icon {
-  font-size: 1.3rem;
+/* Taille uniforme pour tous les SVG de la barre Instagram */
+.mobile-menu-item svg {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  transition: var(--transition);
 }
 
 .mobile-menu-item:hover,
 .mobile-menu-item.active {
   color: #fff;
-  background: rgba(229, 9, 20, 0.2);
+  background: rgba(229, 9, 20, 0.15);
+}
+
+.mobile-menu-item:hover svg,
+.mobile-menu-item.active svg {
+  stroke: #fff;
 }
 
 .mobile-menu-item.admin-item {
@@ -2080,6 +2087,7 @@ video {
   padding: 25px 5%;
   text-align: center;
   box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
+  margin-top: 4mm; /* Descend le pied de page de 4mm sur PC */
 }
 
 .footer-content {
@@ -2239,7 +2247,7 @@ video {
   color: #fff;
 }
 /* Quality selector inside channel info block */
-.channel-info-block .quality-selector { position: relative; }
+.channel-info-block .quality-selector { position: relative; z-index: 99999; isolation: isolate; }
 .channel-info-block .quality-btn {
   background: var(--primary);
   border: none;
@@ -2254,6 +2262,8 @@ video {
   gap: 6px;
   transition: var(--transition);
   box-shadow: 0 0 12px rgba(229,9,20,0.4);
+  position: relative;
+  z-index: 99999;
 }
 .channel-info-block .quality-btn:hover {
   background: var(--primary-hover);
@@ -2261,19 +2271,22 @@ video {
 }
 .channel-info-block .quality-dropdown {
   position: absolute;
-  bottom: calc(100% + 8px);
+  bottom: calc(100% + 10px); /* S'ouvre VERS LE HAUT */
+  top: auto !important;
   right: 0;
-  background: rgba(20,20,20,0.97);
-  backdrop-filter: blur(14px);
-  border: 1px solid rgba(255,255,255,0.12);
+  left: auto;
+  background: rgba(10,10,10,0.98);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(229,9,20,0.3);
   border-radius: 16px;
   padding: 8px;
   display: none;
   flex-direction: column;
   gap: 4px;
-  min-width: 160px;
-  box-shadow: 0 -10px 30px rgba(0,0,0,0.8);
-  z-index: 500;
+  min-width: 170px;
+  box-shadow: 0 -12px 40px rgba(0,0,0,0.9), 0 0 0 1px rgba(229,9,20,0.15);
+  z-index: 999999 !important;
+  isolation: isolate;
 }
 .channel-info-block .quality-dropdown.open { display: flex; }
 .channel-info-block .quality-option {
@@ -2288,7 +2301,7 @@ video {
   border: 1px solid transparent;
   text-align: center;
 }
-.channel-info-block .quality-option:hover { background: rgba(229,9,20,0.2); color: #fff; }
+.channel-info-block .quality-option:hover { background: rgba(229,9,20,0.2); color: #fff; border-color: rgba(229,9,20,0.3); }
 .channel-info-block .quality-option.active { background: var(--primary); color: #fff; box-shadow: 0 0 12px rgba(229,9,20,0.5); }
 
 /* ===== EPG INLINE (dans channel info block) ===== */
@@ -2461,7 +2474,7 @@ video {
   .nav { display: none; }
   .mobile-menu { display: block; }
   .mobile-top-bar { display: flex; }
-  .main-content { margin-top: 86px; padding-bottom: 80px; } /* 52px topbar + 34px (~9mm) gap */
+  .main-content { margin-top: 101px; padding-bottom: 80px; } /* 52px topbar mobile + gap */
   .hero .brand-text.hero-brand { font-size: 3.5rem; }
   .hero-subtitle { font-size: 1.2rem; }
   .hero-desc { font-size: 1rem; padding: 25px; }
@@ -2480,35 +2493,249 @@ video {
   .hero .brand-text.hero-brand { font-size: 2.5rem; }
   .pricing-title { font-size: 2rem; }
 }
+
+/* ===== BOTTOM BAR PASSWORD MODAL ===== */
+.bottombar-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  box-shadow: inset 0 0 120px rgba(229,9,20,0.18);
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(8px);
+}
+.bottombar-modal-overlay.open { display: flex; }
+.bottombar-modal {
+  width: 90%;
+  max-width: 380px;
+  background: rgba(12,12,12,0.97);
+  border: 1px solid rgba(229,9,20,0.3);
+  border-radius: 24px;
+  padding: 32px 28px 28px;
+  position: relative;
+  box-shadow: 0 0 60px rgba(229,9,20,0.18), 0 20px 60px rgba(0,0,0,0.8);
+  animation: dropdownIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+.bottombar-modal-close {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: rgba(229,9,20,0.15);
+  border: 1px solid rgba(229,9,20,0.3);
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+.bottombar-modal-close:hover { background: var(--primary); }
+.bottombar-modal h3 { font-size: 1.1rem; font-weight: 800; color: #fff; margin-bottom: 18px; text-align: center; }
+.bottombar-modal input {
+  width: 100%;
+  padding: 13px 16px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 14px;
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+  margin-bottom: 14px;
+  transition: border 0.2s;
+}
+.bottombar-modal input:focus { border-color: var(--primary); }
+.bottombar-modal button.confirm-btn {
+  width: 100%;
+  padding: 13px;
+  background: var(--primary);
+  border: none;
+  border-radius: 14px;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.bottombar-modal button.confirm-btn:hover { background: var(--primary-hover); }
+#bottombarPwError { color: #ff4444; font-size: 0.85rem; text-align: center; margin-top: 8px; display: none; }
+
+/* ===== USER NAME DISPLAY NEXT TO "CONNECTÉ" ===== */
+.user-display-name {
+  font-size: 0.72rem;
+  color: #ccc;
+  font-weight: 600;
+  margin-left: 4px;
+  max-width: 90px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ===== SEARCH ICON IN BOTTOM BAR ===== */
+.mobile-search-item {
+  /* hérite de .mobile-menu-item */
+}
+.mobile-search-item:hover { color: #fff; background: rgba(229,9,20,0.15); }
+.mobile-search-item svg { width: 22px; height: 22px; } /* même taille que tous les autres */
+
+/* ===== ERROR PAGE BUTTON ===== */
+.error-phone-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #E50914, #b20710);
+  color: #fff;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 60px;
+  font-size: 1.1rem;
+  font-weight: 800;
+  cursor: pointer;
+  margin-top: 22px;
+  box-shadow: 0 6px 0 #7a0008, 0 8px 20px rgba(229,9,20,0.4);
+  transition: all 0.15s;
+  text-decoration: none;
+}
+.error-phone-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 9px 0 #7a0008, 0 12px 28px rgba(229,9,20,0.5);
+}
+.error-phone-btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 3px 0 #7a0008, 0 4px 12px rgba(229,9,20,0.3);
+}
+
+/* ===== VIDEO ADMIN - REAL OPTIONS ===== */
+.video-setting-field {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.10);
+  padding: 16px;
+  border-radius: 18px;
+  transition: var(--transition);
+}
+.video-setting-field:hover {
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(229,9,20,0.25);
+}
+.video-setting-field h4 { color: #fff; font-size: 0.92rem; font-weight: 700; margin-bottom: 4px; }
+.video-setting-field p { color: #888; font-size: 0.78rem; margin-bottom: 10px; line-height: 1.4; }
+.video-setting-field input[type=range] {
+  width: 100%;
+  accent-color: var(--primary);
+  height: 4px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 2px;
+  outline: none;
+  border: none;
+  margin-bottom: 4px;
+}
+.video-setting-field .range-val { font-size: 0.82rem; color: var(--primary); font-weight: 700; text-align: right; display: block; }
+.video-setting-field select, .video-setting-field input[type=number] {
+  width: 100%;
+  padding: 9px 12px;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 10px;
+  font-size: 0.9rem;
+}
+.video-setting-field label { display: flex; align-items: center; gap: 8px; color: #ddd; font-size: 0.9rem; cursor: pointer; }
+.video-setting-field input[type=checkbox] { width: 16px; height: 16px; accent-color: var(--primary); cursor: pointer; }
+
+/* ===== REG UTILI PANEL ===== */
+.reg-utili-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 18px;
+  margin-bottom: 24px;
+}
+.reg-utili-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 20px;
+  padding: 20px;
+  transition: var(--transition);
+}
+.reg-utili-card:hover { border-color: rgba(229,9,20,0.25); background: rgba(255,255,255,0.06); }
+.reg-utili-card h4 { color: #fff; font-size: 0.95rem; font-weight: 800; margin-bottom: 6px; }
+.reg-utili-card p { color: #888; font-size: 0.8rem; margin-bottom: 14px; line-height: 1.5; }
+.reg-utili-card select, .reg-utili-card input { width: 100%; padding: 10px 14px; background: rgba(0,0,0,0.5); color: #fff; border: 1px solid rgba(255,255,255,0.18); border-radius: 12px; font-size: 0.9rem; outline: none; }
+.reg-utili-card select:focus, .reg-utili-card input:focus { border-color: var(--primary); }
+.switch-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.switch-toggle {
+  position: relative; width: 52px; height: 28px; flex-shrink: 0;
+}
+.switch-toggle input { opacity: 0; width: 0; height: 0; }
+.switch-slider {
+  position: absolute; cursor: pointer; inset: 0;
+  background: rgba(255,255,255,0.15);
+  border-radius: 28px;
+  transition: 0.3s;
+}
+.switch-slider::before {
+  content: ''; position: absolute;
+  width: 22px; height: 22px; left: 3px; bottom: 3px;
+  background: #fff; border-radius: 50%; transition: 0.3s;
+}
+.switch-toggle input:checked + .switch-slider { background: var(--primary); }
+.switch-toggle input:checked + .switch-slider::before { transform: translateX(24px); }
+.emergency-switch-card {
+  grid-column: 1/-1;
+  background: rgba(229,9,20,0.08);
+  border: 1.5px solid rgba(229,9,20,0.3);
+  border-radius: 20px;
+  padding: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.emergency-switch-card h4 { color: #ff4444; font-size: 1rem; font-weight: 900; margin-bottom: 4px; }
+.emergency-switch-card p { color: #888; font-size: 0.8rem; }
+.screen-time-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+.screen-time-table th { color: #888; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; padding: 8px 10px; background: rgba(0,0,0,0.3); }
+.screen-time-table td { padding: 9px 10px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.85rem; color: #ddd; }
+.screen-time-table tr:hover td { background: rgba(255,255,255,0.03); }
+.access-history-table { width: 100%; border-collapse: collapse; }
+.access-history-table th { color: #888; font-size: 0.72rem; text-transform: uppercase; padding: 8px 10px; background: rgba(0,0,0,0.3); }
+.access-history-table td { padding: 9px 10px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.82rem; color: #ddd; }
+.notif-badge { display: inline-block; background: var(--primary); color: #fff; font-size: 0.7rem; font-weight: 900; border-radius: 20px; padding: 2px 8px; margin-left: 6px; vertical-align: middle; }
+
 </style>
 </head>
 <body>
-<div id="progress-bar"></div>
+<div id="progress-bar" style="width: 0%;"></div>
 <div class="animated-bg">
   <div class="blob blob1"></div>
   <div class="blob blob2"></div>
   <div class="blob blob3"></div>
   <div class="blob blob4"></div>
-</div>
+<div class="star" style="left: 84.4837%; top: 44.0072%; animation-delay: 0.65583s;"></div><div class="star" style="left: 20.8059%; top: 6.21143%; animation-delay: 0.398135s;"></div><div class="star" style="left: 54.0861%; top: 58.5136%; animation-delay: 2.00399s;"></div><div class="star" style="left: 13.8908%; top: 39.5005%; animation-delay: 0.741757s;"></div><div class="star" style="left: 88.6828%; top: 54.3926%; animation-delay: 2.6265s;"></div><div class="star" style="left: 15.9251%; top: 41.1879%; animation-delay: 0.557884s;"></div><div class="star" style="left: 39.0352%; top: 31.5263%; animation-delay: 1.12307s;"></div><div class="star" style="left: 33.9295%; top: 16.1298%; animation-delay: 0.0879454s;"></div><div class="star" style="left: 91.596%; top: 70.4088%; animation-delay: 0.581768s;"></div><div class="star" style="left: 33.7241%; top: 88.9563%; animation-delay: 2.49742s;"></div><div class="star" style="left: 22.4033%; top: 83.9505%; animation-delay: 1.88191s;"></div><div class="star" style="left: 22.044%; top: 69.8428%; animation-delay: 2.40953s;"></div><div class="star" style="left: 0.228642%; top: 10.2595%; animation-delay: 1.76104s;"></div><div class="star" style="left: 42.7079%; top: 37.1763%; animation-delay: 0.960173s;"></div><div class="star" style="left: 79.5214%; top: 32.2337%; animation-delay: 0.934512s;"></div><div class="star" style="left: 63.406%; top: 87.3757%; animation-delay: 2.16377s;"></div><div class="star" style="left: 19.2037%; top: 48.032%; animation-delay: 0.837039s;"></div><div class="star" style="left: 65.5026%; top: 99.767%; animation-delay: 2.05605s;"></div><div class="star" style="left: 4.30484%; top: 42.5099%; animation-delay: 0.591341s;"></div><div class="star" style="left: 70.4519%; top: 21.3673%; animation-delay: 2.66092s;"></div><div class="star" style="left: 82.4263%; top: 99.4218%; animation-delay: 1.51194s;"></div><div class="star" style="left: 77.9162%; top: 8.13403%; animation-delay: 0.743075s;"></div><div class="star" style="left: 41.9626%; top: 85.8826%; animation-delay: 2.98165s;"></div><div class="star" style="left: 32.2202%; top: 84.6252%; animation-delay: 2.22424s;"></div><div class="star" style="left: 44.867%; top: 97.2048%; animation-delay: 2.15814s;"></div><div class="star" style="left: 10.0687%; top: 38.191%; animation-delay: 1.70712s;"></div><div class="star" style="left: 18.7961%; top: 22.1427%; animation-delay: 2.13239s;"></div><div class="star" style="left: 35.4869%; top: 72.1796%; animation-delay: 1.33663s;"></div><div class="star" style="left: 55.3155%; top: 97.9812%; animation-delay: 2.54111s;"></div><div class="star" style="left: 9.22015%; top: 56.032%; animation-delay: 1.67512s;"></div><div class="star" style="left: 82.1155%; top: 82.7972%; animation-delay: 2.69768s;"></div><div class="star" style="left: 79.8719%; top: 95.8405%; animation-delay: 2.93207s;"></div><div class="star" style="left: 57.1615%; top: 92.2438%; animation-delay: 0.0223481s;"></div><div class="star" style="left: 88.4812%; top: 38.0303%; animation-delay: 2.17398s;"></div><div class="star" style="left: 19.1091%; top: 53.8279%; animation-delay: 2.61886s;"></div><div class="star" style="left: 31.0832%; top: 15.6241%; animation-delay: 0.237765s;"></div><div class="star" style="left: 75.2441%; top: 21.0596%; animation-delay: 1.24845s;"></div><div class="star" style="left: 41.577%; top: 68.4533%; animation-delay: 0.392839s;"></div><div class="star" style="left: 25.1378%; top: 7.62773%; animation-delay: 1.53295s;"></div><div class="star" style="left: 9.7791%; top: 44.4194%; animation-delay: 1.09367s;"></div><div class="star" style="left: 10.4383%; top: 65.0505%; animation-delay: 2.47247s;"></div><div class="star" style="left: 46.41%; top: 12.5134%; animation-delay: 0.120496s;"></div><div class="star" style="left: 62.054%; top: 8.64254%; animation-delay: 1.83232s;"></div><div class="star" style="left: 51.9177%; top: 20.5011%; animation-delay: 0.0495165s;"></div><div class="star" style="left: 62.4466%; top: 3.5955%; animation-delay: 2.72166s;"></div><div class="star" style="left: 39.7686%; top: 14.4381%; animation-delay: 1.94739s;"></div><div class="star" style="left: 66.0987%; top: 23.0466%; animation-delay: 0.914023s;"></div><div class="star" style="left: 53.1733%; top: 16.8603%; animation-delay: 2.81273s;"></div><div class="star" style="left: 12.9778%; top: 86.1347%; animation-delay: 1.29047s;"></div><div class="star" style="left: 84.0397%; top: 74.0485%; animation-delay: 2.95248s;"></div><div class="star" style="left: 69.4243%; top: 0.433972%; animation-delay: 0.230868s;"></div><div class="star" style="left: 29.2213%; top: 52.1351%; animation-delay: 1.07807s;"></div><div class="star" style="left: 43.0714%; top: 32.1981%; animation-delay: 2.39608s;"></div><div class="star" style="left: 84.6914%; top: 41.6712%; animation-delay: 0.163251s;"></div><div class="star" style="left: 79.146%; top: 1.94444%; animation-delay: 0.206516s;"></div><div class="star" style="left: 99.6776%; top: 75.5187%; animation-delay: 0.948795s;"></div><div class="star" style="left: 72.7785%; top: 74.6498%; animation-delay: 2.24649s;"></div><div class="star" style="left: 99.2597%; top: 24.8388%; animation-delay: 1.99166s;"></div><div class="star" style="left: 24.7928%; top: 38.9044%; animation-delay: 2.77145s;"></div><div class="star" style="left: 15.8372%; top: 23.1775%; animation-delay: 2.24549s;"></div><div class="star" style="left: 9.74549%; top: 32.2455%; animation-delay: 1.12849s;"></div><div class="star" style="left: 98.4632%; top: 42.4524%; animation-delay: 2.9463s;"></div><div class="star" style="left: 36.0678%; top: 33.6427%; animation-delay: 2.28469s;"></div><div class="star" style="left: 52.4039%; top: 8.10692%; animation-delay: 0.459881s;"></div><div class="star" style="left: 15.2977%; top: 65.1979%; animation-delay: 2.2092s;"></div><div class="star" style="left: 75.8088%; top: 13.8757%; animation-delay: 1.84578s;"></div><div class="star" style="left: 43.5549%; top: 99.2011%; animation-delay: 0.191931s;"></div><div class="star" style="left: 94.4307%; top: 77.1016%; animation-delay: 1.60168s;"></div><div class="star" style="left: 81.7621%; top: 8.32497%; animation-delay: 0.823053s;"></div><div class="star" style="left: 62.4263%; top: 20.0336%; animation-delay: 0.200179s;"></div><div class="star" style="left: 0.359358%; top: 80.7387%; animation-delay: 2.3556s;"></div><div class="star" style="left: 47.3106%; top: 17.7925%; animation-delay: 1.01456s;"></div><div class="star" style="left: 2.75326%; top: 66.2161%; animation-delay: 1.51489s;"></div><div class="star" style="left: 35.9875%; top: 94.511%; animation-delay: 0.620751s;"></div><div class="star" style="left: 67.793%; top: 16.7294%; animation-delay: 1.50312s;"></div><div class="star" style="left: 77.5592%; top: 85.2946%; animation-delay: 1.74853s;"></div><div class="star" style="left: 83.1313%; top: 75.3833%; animation-delay: 1.37197s;"></div><div class="star" style="left: 0.830706%; top: 55.2514%; animation-delay: 1.54185s;"></div><div class="star" style="left: 62.8162%; top: 86.8584%; animation-delay: 2.59568s;"></div><div class="star" style="left: 57.2349%; top: 0.278906%; animation-delay: 0.628458s;"></div><div class="star" style="left: 49.5896%; top: 88.5635%; animation-delay: 2.034s;"></div><div class="star" style="left: 76.2302%; top: 1.91945%; animation-delay: 0.86797s;"></div><div class="star" style="left: 44.6662%; top: 21.3064%; animation-delay: 2.34033s;"></div><div class="star" style="left: 45.7095%; top: 39.1562%; animation-delay: 0.931819s;"></div><div class="star" style="left: 13.5353%; top: 40.6045%; animation-delay: 0.250279s;"></div><div class="star" style="left: 93.3728%; top: 64.5414%; animation-delay: 1.27518s;"></div><div class="star" style="left: 18.802%; top: 5.6004%; animation-delay: 0.0499303s;"></div><div class="star" style="left: 6.55944%; top: 46.8101%; animation-delay: 2.17469s;"></div><div class="star" style="left: 97.0221%; top: 64.4531%; animation-delay: 1.66848s;"></div><div class="star" style="left: 70.3313%; top: 38.3484%; animation-delay: 0.327102s;"></div><div class="star" style="left: 61.3097%; top: 57.0997%; animation-delay: 2.48604s;"></div><div class="star" style="left: 15.8058%; top: 86.8499%; animation-delay: 1.08759s;"></div><div class="star" style="left: 54.2822%; top: 68.4038%; animation-delay: 0.506917s;"></div><div class="star" style="left: 57.9757%; top: 23.8863%; animation-delay: 1.37723s;"></div><div class="star" style="left: 16.2063%; top: 22.7418%; animation-delay: 2.66705s;"></div><div class="star" style="left: 28.3887%; top: 13.939%; animation-delay: 0.704921s;"></div><div class="star" style="left: 44.1367%; top: 43.2684%; animation-delay: 0.839172s;"></div><div class="star" style="left: 88.786%; top: 53.7879%; animation-delay: 0.786457s;"></div><div class="star" style="left: 23.0891%; top: 45.7561%; animation-delay: 0.463904s;"></div><div class="star" style="left: 8.73619%; top: 35.1309%; animation-delay: 0.388868s;"></div><div class="star" style="left: 81.1004%; top: 70.8385%; animation-delay: 2.68785s;"></div><div class="star" style="left: 61.6513%; top: 16.9726%; animation-delay: 0.971827s;"></div><div class="star" style="left: 9.7055%; top: 47.9327%; animation-delay: 2.89422s;"></div><div class="star" style="left: 48.2318%; top: 46.548%; animation-delay: 1.18252s;"></div><div class="star" style="left: 49.6918%; top: 57.9822%; animation-delay: 2.05265s;"></div><div class="star" style="left: 61.7917%; top: 25.1545%; animation-delay: 1.3325s;"></div><div class="star" style="left: 71.7485%; top: 31.0442%; animation-delay: 0.390265s;"></div><div class="star" style="left: 48.7769%; top: 18.3335%; animation-delay: 0.861624s;"></div><div class="star" style="left: 15.6753%; top: 28.459%; animation-delay: 1.38846s;"></div><div class="star" style="left: 13.8591%; top: 68.186%; animation-delay: 1.39115s;"></div><div class="star" style="left: 43.0626%; top: 39.673%; animation-delay: 0.801018s;"></div><div class="star" style="left: 62.2986%; top: 61.9851%; animation-delay: 2.00795s;"></div><div class="star" style="left: 6.55136%; top: 56.2726%; animation-delay: 0.372204s;"></div><div class="star" style="left: 80.5837%; top: 70.235%; animation-delay: 2.4026s;"></div><div class="star" style="left: 4.42072%; top: 9.86717%; animation-delay: 2.96064s;"></div><div class="star" style="left: 15.4595%; top: 64.9017%; animation-delay: 1.38076s;"></div><div class="star" style="left: 37.0467%; top: 14.0591%; animation-delay: 1.8908s;"></div><div class="star" style="left: 87.9048%; top: 47.5588%; animation-delay: 1.36326s;"></div><div class="star" style="left: 27.5845%; top: 27.4384%; animation-delay: 2.8929s;"></div><div class="star" style="left: 41.7574%; top: 99.8727%; animation-delay: 0.456352s;"></div><div class="star" style="left: 7.31218%; top: 53.83%; animation-delay: 1.70112s;"></div><div class="star" style="left: 92.0104%; top: 69.1236%; animation-delay: 0.114953s;"></div><div class="star" style="left: 4.50696%; top: 5.55438%; animation-delay: 1.32883s;"></div><div class="star" style="left: 60.3103%; top: 21.1326%; animation-delay: 1.96042s;"></div><div class="star" style="left: 57.2036%; top: 42.866%; animation-delay: 2.16239s;"></div><div class="star" style="left: 36.1204%; top: 99.4642%; animation-delay: 1.61433s;"></div><div class="star" style="left: 54.6742%; top: 82.0323%; animation-delay: 0.10003s;"></div><div class="star" style="left: 39.0805%; top: 80.3171%; animation-delay: 0.49994s;"></div><div class="star" style="left: 44.1322%; top: 28.9065%; animation-delay: 2.54101s;"></div><div class="star" style="left: 44.0529%; top: 96.8621%; animation-delay: 0.67961s;"></div><div class="star" style="left: 28.1118%; top: 5.97949%; animation-delay: 1.48336s;"></div><div class="star" style="left: 80.2745%; top: 29.143%; animation-delay: 2.21909s;"></div><div class="star" style="left: 79.1961%; top: 38.1885%; animation-delay: 2.08695s;"></div><div class="star" style="left: 96.911%; top: 4.17929%; animation-delay: 2.08405s;"></div><div class="star" style="left: 8.27718%; top: 92.0452%; animation-delay: 1.16904s;"></div><div class="star" style="left: 32.738%; top: 55.0027%; animation-delay: 0.0285592s;"></div><div class="star" style="left: 59.5813%; top: 61.8834%; animation-delay: 1.88884s;"></div><div class="star" style="left: 52.1128%; top: 59.2153%; animation-delay: 1.83265s;"></div><div class="star" style="left: 95.8202%; top: 63.8794%; animation-delay: 2.68981s;"></div><div class="star" style="left: 59.3587%; top: 62.083%; animation-delay: 1.47511s;"></div><div class="star" style="left: 15.0793%; top: 82.408%; animation-delay: 1.21996s;"></div><div class="star" style="left: 38.961%; top: 44.4606%; animation-delay: 1.8062s;"></div><div class="star" style="left: 81.8475%; top: 80.5146%; animation-delay: 2.38338s;"></div><div class="star" style="left: 62.6701%; top: 64.7058%; animation-delay: 0.287219s;"></div><div class="star" style="left: 25.6966%; top: 66.7963%; animation-delay: 2.13401s;"></div><div class="star" style="left: 72.8677%; top: 35.8301%; animation-delay: 2.24995s;"></div><div class="star" style="left: 40.271%; top: 62.7988%; animation-delay: 1.87024s;"></div><div class="star" style="left: 18.3794%; top: 80.2076%; animation-delay: 1.60732s;"></div><div class="star" style="left: 56.7794%; top: 22.4623%; animation-delay: 1.61705s;"></div><div class="star" style="left: 92.3671%; top: 97.8862%; animation-delay: 1.01691s;"></div><div class="star" style="left: 13.97%; top: 62.0452%; animation-delay: 1.32839s;"></div><div class="star" style="left: 72.5722%; top: 37.7121%; animation-delay: 0.761743s;"></div><div class="star" style="left: 47.5562%; top: 86.4417%; animation-delay: 2.9446s;"></div><div class="star" style="left: 29.127%; top: 68.7199%; animation-delay: 2.9053s;"></div><div class="star" style="left: 69.2943%; top: 6.52604%; animation-delay: 0.224389s;"></div><div class="star" style="left: 0.177908%; top: 16.8988%; animation-delay: 1.41877s;"></div><div class="star" style="left: 26.9901%; top: 20.6826%; animation-delay: 0.0725304s;"></div><div class="star" style="left: 59.8516%; top: 59.0734%; animation-delay: 0.617225s;"></div><div class="star" style="left: 74.237%; top: 82.8269%; animation-delay: 1.92976s;"></div><div class="star" style="left: 11.4475%; top: 97.1874%; animation-delay: 2.95032s;"></div><div class="star" style="left: 20.1917%; top: 35.316%; animation-delay: 2.01344s;"></div><div class="star" style="left: 7.70944%; top: 93.3374%; animation-delay: 2.28632s;"></div><div class="star" style="left: 14.35%; top: 34.2996%; animation-delay: 0.240849s;"></div><div class="star" style="left: 81.6776%; top: 29.8112%; animation-delay: 2.46301s;"></div><div class="star" style="left: 4.26897%; top: 58.4752%; animation-delay: 1.14562s;"></div><div class="star" style="left: 4.77801%; top: 26.4302%; animation-delay: 0.271276s;"></div><div class="star" style="left: 6.64494%; top: 70.521%; animation-delay: 0.036104s;"></div><div class="star" style="left: 2.82306%; top: 38.2431%; animation-delay: 0.204552s;"></div><div class="star" style="left: 39.8652%; top: 42.4695%; animation-delay: 0.150754s;"></div><div class="star" style="left: 52.9781%; top: 38.1611%; animation-delay: 2.87053s;"></div><div class="star" style="left: 80.433%; top: 77.5814%; animation-delay: 0.761631s;"></div><div class="star" style="left: 26.259%; top: 8.68947%; animation-delay: 1.33306s;"></div><div class="star" style="left: 58.9496%; top: 29.7006%; animation-delay: 0.932134s;"></div><div class="star" style="left: 1.30432%; top: 0.230905%; animation-delay: 1.90223s;"></div><div class="star" style="left: 31.5141%; top: 43.8454%; animation-delay: 1.15871s;"></div><div class="star" style="left: 72.0923%; top: 51.312%; animation-delay: 0.463209s;"></div><div class="star" style="left: 41.4354%; top: 29.3891%; animation-delay: 1.36996s;"></div><div class="star" style="left: 56.7896%; top: 11.8811%; animation-delay: 2.19102s;"></div><div class="star" style="left: 83.1403%; top: 27.6122%; animation-delay: 0.187193s;"></div><div class="star" style="left: 55.4693%; top: 29.8645%; animation-delay: 1.05047s;"></div><div class="star" style="left: 23.5345%; top: 86.2458%; animation-delay: 0.859945s;"></div><div class="star" style="left: 50.452%; top: 49.3847%; animation-delay: 2.07208s;"></div><div class="star" style="left: 21.8655%; top: 34.6958%; animation-delay: 1.81801s;"></div><div class="star" style="left: 17.5188%; top: 1.49413%; animation-delay: 2.35511s;"></div><div class="star" style="left: 16.2022%; top: 34.0786%; animation-delay: 2.42679s;"></div><div class="star" style="left: 67.8316%; top: 77.7214%; animation-delay: 0.202447s;"></div><div class="star" style="left: 97.505%; top: 71.5606%; animation-delay: 0.591115s;"></div><div class="star" style="left: 70.0884%; top: 92.475%; animation-delay: 1.18779s;"></div><div class="star" style="left: 85.8969%; top: 3.89752%; animation-delay: 1.7586s;"></div><div class="star" style="left: 66.6719%; top: 64.5608%; animation-delay: 2.14583s;"></div><div class="star" style="left: 24.0774%; top: 55.138%; animation-delay: 0.366644s;"></div><div class="star" style="left: 31.4861%; top: 17.9846%; animation-delay: 1.70452s;"></div><div class="star" style="left: 45.6977%; top: 37.2768%; animation-delay: 1.27498s;"></div><div class="star" style="left: 90.4397%; top: 59.8805%; animation-delay: 0.909875s;"></div><div class="star" style="left: 68.2531%; top: 49.7304%; animation-delay: 0.640316s;"></div><div class="star" style="left: 2.4212%; top: 47.959%; animation-delay: 2.29457s;"></div><div class="star" style="left: 49.3226%; top: 64.8235%; animation-delay: 0.671829s;"></div><div class="star" style="left: 40.0673%; top: 61.1913%; animation-delay: 1.14539s;"></div><div class="star" style="left: 89.6529%; top: 42.5659%; animation-delay: 0.885226s;"></div><div class="star" style="left: 99.1155%; top: 36.5023%; animation-delay: 2.98678s;"></div></div>
 
 <!-- LANDING PAGE (avant connexion) -->
-<div id="landing" class="fade-in">
+<div id="landing" class="fade-in" style="">
   <div class="header-landing">
     <div class="brand">
       <img id="landing-logo" src="" alt="" style="display:none">
-      <span class="brand-text">STRASS IPTV</span>
+      <span class="brand-text">Strass IPTV</span>
     </div>
     <button class="login-btn" onclick="openLoginModal()">Se connecter</button>
   </div>
 
   <div class="hero slide-up">
     <div class="hero-top-text">L'EXPÉRIENCE CINÉMA 4K ULTIME</div>
-    <div class="brand-text hero-brand">STRASS IPTV</div>
+    <div class="brand-text hero-brand">Strass IPTV</div>
     <div class="hero-subtitle">BIENVENUE DANS LE FUTUR DU STREAMING</div>
     
     <div class="promo-counter" id="promo-counter">
       <span>🔥 OFFRE FLASH -10%</span>
-      <span class="timer" id="timer">24:59:15</span>
+      <span class="timer" id="timer">24:58:06</span>
     </div>
 
     <div class="hero-desc">
@@ -2622,9 +2849,9 @@ video {
     <h2 class="testimonials-title">ILS NOUS FONT CONFIANCE</h2>
     <div class="testimonials-carousel" id="testimonialsCarousel">
       <button class="carousel-btn prev" onclick="prevTestimonial()">←</button>
-      <div class="testimonials-track" id="testimonialsTrack"></div>
+      <div class="testimonials-track" id="testimonialsTrack"><div class="testimonial-card"><div class="testimonial-avatar">JD</div><div class="testimonial-stars">★★★★★</div><div class="testimonial-text">"Depuis que j'ai découvert Strass IPTV, je ne regarde plus la télé classique. Qualité 4K incroyable et aucun bug !"</div><div class="testimonial-name">Jean-Pierre D.</div></div><div class="testimonial-card"><div class="testimonial-avatar">SL</div><div class="testimonial-stars">★★★★★</div><div class="testimonial-text">"Service client réactif, installation facile. Je recommande à 100%."</div><div class="testimonial-name">Sophie L.</div></div><div class="testimonial-card"><div class="testimonial-avatar">MV</div><div class="testimonial-stars">★★★★☆</div><div class="testimonial-text">"Très satisfait du catalogue, et le prix est imbattable."</div><div class="testimonial-name">Marc V.</div></div></div>
       <button class="carousel-btn next" onclick="nextTestimonial()">→</button>
-      <div class="carousel-dots" id="carouselDots"></div>
+      <div class="carousel-dots" id="carouselDots"><span class="carousel-dot active" onclick="goToTestimonial(0)"></span><span class="carousel-dot " onclick="goToTestimonial(1)"></span><span class="carousel-dot " onclick="goToTestimonial(2)"></span></div>
     </div>
   </div>
 
@@ -2648,7 +2875,7 @@ video {
       <label class="form-label">Code d'accès</label>
       <input type="password" class="form-input" id="loginCode" placeholder="Entrez votre code d'accès">
     </div>
-    <div id="loginError" style="color:var(--primary);margin-top:10px;display:none;font-weight:700"></div>
+    <div id="loginError" style="color: var(--primary); margin-top: 10px; display: none; font-weight: 700;">Code d'accès introuvable.</div>
     <button class="form-submit" onclick="handleLogin()">Se connecter</button>
   </div>
 </div>
@@ -2667,7 +2894,7 @@ video {
     <div class="form-group full">
       <label class="form-label">Choisissez votre forfait</label>
       <div class="radio-group">
-        <label class="radio-option selected" onclick="selectOffer(this,'1M')"><span>1 Mois • 19.90€ (1 semaine offerte)</span><input type="radio" name="offer" value="1M" checked></label>
+        <label class="radio-option selected" onclick="selectOffer(this,'1M')"><span>1 Mois • 19.90€ (1 semaine offerte)</span><input type="radio" name="offer" value="1M" checked=""></label>
         <label class="radio-option" onclick="selectOffer(this,'3M')"><span>3 Mois • 39.90€ (2 semaines offertes)</span><input type="radio" name="offer" value="3M"></label>
         <label class="radio-option" onclick="selectOffer(this,'1Y')"><span>1 An • 99.90€ (1 mois offert)</span><input type="radio" name="offer" value="1Y"></label>
       </div>
@@ -2679,7 +2906,7 @@ video {
 
 <!-- MINI BARRE SUPÉRIEURE MOBILE (après connexion) -->
 <div class="mobile-top-bar" id="mobileTopBar" style="display: none;">
-  <span class="brand-text">STRASS IPTV</span>
+  <span class="brand-text">Strass IPTV</span>
   <div style="display:flex;align-items:center;gap:10px">
     <div class="connection-status" id="connectionStatus">
       <span class="dot"></span>
@@ -2687,36 +2914,36 @@ video {
     </div>
     <button class="power-btn" onclick="handleLogout()" title="Se déconnecter">
       <svg viewBox="0 0 24 24" fill="none" stroke="#E50914" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M18.36 6.64A9 9 0 1 1 5.64 6.64"/>
-        <line x1="12" y1="2" x2="12" y2="12"/>
+        <path d="M18.36 6.64A9 9 0 1 1 5.64 6.64"></path>
+        <line x1="12" y1="2" x2="12" y2="12"></line>
       </svg>
     </button>
   </div>
 </div>
 
 <!-- NAVIGATION PRINCIPALE DESKTOP (après connexion) -->
-<nav class="nav" id="mainNav" style="display:none">
+<nav class="nav" id="mainNav" style="display: none;">
   <div class="brand" onclick="navigateToSection('tv')">
     <img id="nav-logo" src="" alt="" style="display:none">
-    <span class="brand-text">STRASS IPTV</span>
+    <span class="brand-text">Strass IPTV</span>
   </div>
   <ul class="menu" style="display:none">
-    <li id="nav-tv" class="active" onclick="navigateToSection('tv')">TV en Direct</li>
-    <li id="nav-vod" onclick="navigateToSection('vod')">Films & Séries</li>
-    <li id="nav-links" onclick="navigateToSection('links')">Lien & App.apk</li>
-    <li id="nav-account" onclick="navigateToSection('account')">Mon Compte</li>
-    <li id="nav-admin" style="display:none" onclick="navigateToSection('admin')">Panel Admin</li>
+    <li id="nav-tv" class="" onclick="navigateToSection('tv')">TV en Direct</li>
+    <li id="nav-vod" onclick="navigateToSection('vod')" class="">Films &amp; Séries</li>
+    <li id="nav-links" onclick="navigateToSection('links')" class="">Lien &amp; App.apk</li>
+    <li id="nav-account" onclick="navigateToSection('account')" class="">Mon Compte</li>
+    <li id="nav-admin" style="display: block;" onclick="navigateToSection('admin')" class="active">Panel Admin</li>
   </ul>
-  <div class="badge" style="margin-left:auto;margin-right:12px">
-    <span id="userName">Utilisateur</span>
-    <span class="dot" style="width:9px;height:9px;border-radius:50%;background:#0f0;box-shadow:0 0 8px #0f0;display:inline-block"></span>
+  <div class="badge" style="margin-left:auto;margin-right:12px;gap:8px">
+    <span class="dot" style="width:9px;height:9px;border-radius:50%;background:#0f0;box-shadow:0 0 8px #0f0;display:inline-block;flex-shrink:0"></span>
     <span style="font-size:0.82rem;color:#ccc;font-weight:600">Connecté</span>
+    <span id="navUserPrenom" style="font-size:0.92rem;color:#fff;font-weight:800;letter-spacing:0.4px;text-shadow:0 0 10px rgba(255,255,255,0.2);border-left:1px solid rgba(255,255,255,0.2);padding-left:8px">Brice</span>
   </div>
   <!-- Power logout button (all devices) -->
   <button class="power-btn" onclick="handleLogout()" title="Se déconnecter" style="margin-right:6px">
     <svg viewBox="0 0 24 24" fill="none" stroke="#E50914" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M18.36 6.64A9 9 0 1 1 5.64 6.64"/>
-      <line x1="12" y1="2" x2="12" y2="12"/>
+      <path d="M18.36 6.64A9 9 0 1 1 5.64 6.64"></path>
+      <line x1="12" y1="2" x2="12" y2="12"></line>
     </svg>
   </button>
   <!-- Hamburger button (PC/desktop only) -->
@@ -2730,44 +2957,42 @@ video {
       <li><span onclick="navigateToSection('links');closeHamburger()">🛍 Lien et Apps</span></li>
       <li><span onclick="navigateToSection('account');closeHamburger()">👤 Mon compte</span></li>
       <li class="nav-dropdown-divider" style="list-style:none"></li>
-      <li class="admin-dd-item" id="adminDdItem" style="display:none"><span onclick="navigateToSection('admin');closeHamburger()">🔴 Panel Admin</span></li>
+      <li class="admin-dd-item" id="adminDdItem" style="display: block;"><span onclick="navigateToSection('admin');closeHamburger()">🔴 Panel Admin</span></li>
     </ul>
   </div>
 </nav>
 
 <!-- APPLICATION (après connexion) -->
-<div id="app" style="display:none">
-  <div class="main-content" id="tvSection">
+<div id="app" style="display: none;">
+  <div class="main-content" id="tvSection" style="display: none;">
     <div class="player-container">
       <div class="video-player">
-        <video id="videoPlayer" controls autoplay playsinline></video>
+        <video id="videoPlayer" controls="" autoplay="" playsinline="" src="blob:null/59ad0ac0-0111-4a26-bf58-ddb2a6cc0d5f"></video>
       </div>
       <!-- Bloc info chaîne (collé sous le lecteur, angles carrés en haut, arrondis en bas) -->
       <div class="channel-info-block" id="channelInfoBlock">
         <div class="channel-info-top">
           <div class="channel-logo-name">
-            <img id="channelInfoLogo" src="" alt="" onerror="this.style.display='none'">
-            <span class="ch-name" id="channelInfoName">TF1 HD Premium</span>
+            <img id="channelInfoLogo" src="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tf1-fr.png" alt="" onerror="this.style.display='none'" style="display: block;">
+            <span class="ch-name" id="channelInfoName" style="color: rgb(255, 255, 255);">TF1 HD Premium</span>
           </div>
           <div class="quality-selector">
             <button class="quality-btn" onclick="toggleQualityDropdown()">
               <span>🎬</span>
-              <span id="currentQuality">AUTO</span>
+              <span id="currentQuality">4K</span>
               <span>▲</span>
             </button>
             <div class="quality-dropdown" id="qualityDropdown">
-              <div class="quality-option active" onclick="changeQuality('Auto',this)">AUTO</div>
+              <div class="quality-option" onclick="changeQuality('Auto',this)">AUTO</div>
               <div class="quality-option" onclick="changeQuality('720p',this)">720p HD</div>
               <div class="quality-option" onclick="changeQuality('1080p',this)">1080p Full HD</div>
-              <div class="quality-option" onclick="changeQuality('4K',this)">4K Ultra HD</div>
+              <div class="quality-option active" onclick="changeQuality('4K',this)">4K Ultra HD</div>
             </div>
           </div>
         </div>
         <!-- EPG inline -->
         <div class="epg-inline" id="epgInline">
-          <div class="epg-inline-programs" id="epgInlinePrograms">
-            <span style="color:#888;font-size:0.8rem">Chargement des programmes...</span>
-          </div>
+          <div class="epg-inline-programs" id="epgInlinePrograms"><div class="epg-prog-item"><span class="prog-time">08:00</span><span class="prog-name">Télématin</span></div><div class="epg-prog-item now"><span class="prog-time">09:30</span><span class="prog-name">Magazine Actualité</span></div><div class="epg-prog-item"><span class="prog-time">11:00</span><span class="prog-name">Jeu TV</span></div><div class="epg-prog-item"><span class="prog-time">12:00</span><span class="prog-name">Journal</span></div><button class="epg-expand-btn" title="Voir tous les programmes">⤢</button></div>
         </div>
       </div>
     </div>
@@ -2788,104 +3013,223 @@ video {
     <div class="section-title-row">
       <h2 class="section-title">Chaînes en Direct</h2>
       <button class="search-inline-btn" onclick="openSearchModal()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
         Rechercher
       </button>
     </div>
-    <div class="content-grid" id="channelsGrid"></div>
+    <div class="content-grid" id="channelsGrid"><div class="content-card"><div class="content-thumbnail"><img src="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tf1-fr.png" alt="TF1 HD Premium" onerror="this.style.opacity='0.3'"></div><div class="content-info">TF1 HD Premium</div></div><div class="content-card"><div class="content-thumbnail"><img src="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-2-fr.png" alt="France 2 4K" onerror="this.style.opacity='0.3'"></div><div class="content-info">France 2 4K</div></div><div class="content-card"><div class="content-thumbnail"><img src="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/m6-fr.png" alt="M6 HD VIP" onerror="this.style.opacity='0.3'"></div><div class="content-info">M6 HD VIP</div></div><div class="content-card"><div class="content-thumbnail"><img src="https://via.placeholder.com/640x360/111/fff?text=Cobra" alt="Alerte Cobra 24/7" onerror="this.style.opacity='0.3'" style="opacity: 0.3;"></div><div class="content-info">Alerte Cobra 24/7</div></div></div>
   </div>
 
-  <div class="main-content" id="vodSection" style="display:none">
-    <h2 class="section-title">Films & Séries</h2>
-    <div class="content-grid" id="vodGrid"></div>
+  <div class="main-content" id="vodSection" style="display: none;">
+    <h2 class="section-title">Films &amp; Séries</h2>
+    <div class="content-grid" id="vodGrid"><div class="content-card"><div class="content-thumbnail"><img src="https://via.placeholder.com/640x360/111/fff?text=INCEPTION" alt="Inception 4K"></div><div class="content-info">Inception 4K • Film</div></div><div class="content-card"><div class="content-thumbnail"><img src="https://via.placeholder.com/640x360/111/fff?text=BREAKING+BAD" alt="Breaking Bad S1-S5"></div><div class="content-info">Breaking Bad S1-S5 • Série</div></div><div class="content-card"><div class="content-thumbnail"><img src="https://via.placeholder.com/640x360/111/fff?text=INTERSTELLAR" alt="Interstellar HDR"></div><div class="content-info">Interstellar HDR • Film</div></div></div>
   </div>
 
-  <div class="main-content" id="linksSection" style="display:none">
+  <div class="main-content" id="linksSection" style="display: none;">
     <div class="store-logo-wrap">
       <!-- Play Store-inspired SVG logo with "store" text -->
       <svg class="store-play-logo" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="sg1" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style="stop-color:#00C2FF"/>
-            <stop offset="100%" style="stop-color:#4285F4"/>
+            <stop offset="0%" style="stop-color:#00C2FF"></stop>
+            <stop offset="100%" style="stop-color:#4285F4"></stop>
           </linearGradient>
           <linearGradient id="sg2" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style="stop-color:#FF3D00"/>
-            <stop offset="100%" style="stop-color:#E50914"/>
+            <stop offset="0%" style="stop-color:#FF3D00"></stop>
+            <stop offset="100%" style="stop-color:#E50914"></stop>
           </linearGradient>
           <linearGradient id="sg3" x1="0%" y1="100%" x2="100%" y2="0%">
-            <stop offset="0%" style="stop-color:#00E676"/>
-            <stop offset="100%" style="stop-color:#00BFA5"/>
+            <stop offset="0%" style="stop-color:#00E676"></stop>
+            <stop offset="100%" style="stop-color:#00BFA5"></stop>
           </linearGradient>
           <linearGradient id="sg4" x1="100%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" style="stop-color:#FFD600"/>
-            <stop offset="100%" style="stop-color:#FF6D00"/>
+            <stop offset="0%" style="stop-color:#FFD600"></stop>
+            <stop offset="100%" style="stop-color:#FF6D00"></stop>
           </linearGradient>
         </defs>
-        <path d="M8 8 L42 40 L8 72 Z" fill="url(#sg1)" opacity="0.9"/>
-        <path d="M8 8 L58 22 L42 40 Z" fill="url(#sg4)" opacity="0.95"/>
-        <path d="M8 72 L42 40 L58 58 Z" fill="url(#sg3)" opacity="0.95"/>
-        <path d="M42 40 L58 22 L72 40 L58 58 Z" fill="url(#sg2)" opacity="0.95"/>
+        <path d="M8 8 L42 40 L8 72 Z" fill="url(#sg1)" opacity="0.9"></path>
+        <path d="M8 8 L58 22 L42 40 Z" fill="url(#sg4)" opacity="0.95"></path>
+        <path d="M8 72 L42 40 L58 58 Z" fill="url(#sg3)" opacity="0.95"></path>
+        <path d="M42 40 L58 22 L72 40 L58 58 Z" fill="url(#sg2)" opacity="0.95"></path>
         <text x="40" y="90" text-anchor="middle" font-family="Montserrat,sans-serif" font-size="14" font-weight="900" fill="#fff" letter-spacing="2">store</text>
       </svg>
       <h2 class="store-title">Strass IPTV Store</h2>
       <p class="store-subtitle">Bienvenue sur notre store de lien et d'application web et mobile.</p>
     </div>
-    <div class="content-grid" id="linksGrid"></div>
+    <div class="content-grid" id="linksGrid"><div class="content-card"><div class="content-thumbnail"><img src="https://thumbs2.imgbox.com/46/ad/6ZbpTSX9_t.png" alt="TEST" style="max-width:80%;max-height:80%"></div><div class="content-info">TEST<div style="font-size:.8rem;color:#bbb;margin-top:5px">Test</div></div></div></div>
   </div>
 
-  <div class="main-content" id="accountSection" style="display:none">
+  <div class="main-content" id="accountSection" style="display: none;">
     <h2 class="section-title">Mon Profil Client</h2>
     <div class="account-panel">
       <div class="account-grid">
-        <div class="account-field"><label>Nom</label><div class="value" id="accountNom">-</div></div>
-        <div class="account-field"><label>Prénom</label><div class="value" id="accountPrenom">-</div></div>
-        <div class="account-field"><label>Email</label><div class="value" id="accountEmail">-</div></div>
-        <div class="account-field"><label>Téléphone</label><div class="value" id="accountTel">-</div></div>
-        <div class="account-field"><label>Création</label><div class="value" id="accountCreation">-</div></div>
-        <div class="account-field"><label>Expiration</label><div class="value" id="accountExpiration">-</div></div>
-        <div class="account-field" style="grid-column:1/-1"><label>Forfait</label><div class="value" id="accountForfait">-</div></div>
-        <div class="account-field" style="grid-column:1/-1"><label>Débit max</label><div class="value" id="accountDebit">-</div></div>
+        <div class="account-field"><label>Nom</label><div class="value" id="accountNom">Jacotet</div></div>
+        <div class="account-field"><label>Prénom</label><div class="value" id="accountPrenom">Brice</div></div>
+        <div class="account-field"><label>Email</label><div class="value" id="accountEmail">Strassweb67@gmail.com</div></div>
+        <div class="account-field"><label>Téléphone</label><div class="value" id="accountTel">0619696332</div></div>
+        <div class="account-field"><label>Création</label><div class="value" id="accountCreation">2024-01-01</div></div>
+        <div class="account-field"><label>Expiration</label><div class="value" id="accountExpiration">2099-12-31</div></div>
+        <div class="account-field" style="grid-column:1/-1"><label>Forfait</label><div class="value" id="accountForfait">GÉRANT: Admin Full Ultra HD 4K</div></div>
+        <div class="account-field" style="grid-column:1/-1"><label>Débit max</label><div class="value" id="accountDebit">Illimité</div></div>
       </div>
       <div class="contact-actions">
         <a href="tel:0353630332" class="contact-btn"><span>📞</span>03 53 63 03 32</a>
-        <a href="/cdn-cgi/l/email-protection#c5a6aaabb1a4a6b185b6b1b7a4b6b6acb5b1b3eba3b7" class="contact-btn email"><span>✉️</span><span class="__cf_email__" data-cfemail="6605090812070512261512140715150f161210480014">[email&#160;protected]</span></a>
+        <a href="/cdn-cgi/l/email-protection#c5a6aaabb1a4a6b185b6b1b7a4b6b6acb5b1b3eba3b7" class="contact-btn email"><span>✉️</span><span class="__cf_email__" data-cfemail="6605090812070512261512140715150f161210480014">[email&nbsp;protected]</span></a>
       </div>
     </div>
   </div>
 
-  <div class="main-content" id="adminSection" style="display:none">
+  <div class="main-content" id="adminSection" style="display: none;">
     <h2 class="section-title">Console Administrateur</h2>
     <div class="admin-container">
       <div class="admin-sidebar">
         <ul>
-          <li class="active" onclick="switchAdminPanel('users',this)"><span>👥</span><span>Utilisateurs Live</span></li>
-          <li onclick="switchAdminPanel('video',this)"><span>🎛️</span><span>Paramètres Vidéo</span></li>
+          <li onclick="switchAdminPanel('users',this)"><span>👥</span><span>Utilisateurs Live</span></li>
+          <li onclick="switchAdminPanel('video',this)"><span>🎛️</span><span>Vidéo Admin</span></li>
+          <li onclick="switchAdminPanel('regutili',this)"><span>👤</span><span>Reg Utili</span></li>
           <li onclick="switchAdminPanel('accounts',this)"><span>📁</span><span>Comptes</span></li>
           <li onclick="switchAdminPanel('channels',this)"><span>📺</span><span>Chaînes IPTV</span></li>
           <li onclick="switchAdminPanel('vod',this)"><span>🎬</span><span>VOD</span></li>
-          <li onclick="switchAdminPanel('links',this)"><span>🔗</span><span>Liens & Apps</span></li>
+          <li onclick="switchAdminPanel('links',this)"><span>🔗</span><span>Liens &amp; Apps</span></li>
           <li onclick="switchAdminPanel('requests',this)"><span>📋</span><span>Demandes</span></li>
-          <li onclick="switchAdminPanel('export',this)"><span>⬇️</span><span>Export</span></li>
+          <li onclick="switchAdminPanel('export',this)" class="active"><span>⬇️</span><span>Export</span></li>
         </ul>
       </div>
       <!-- Panneaux admin -->
-      <div class="admin-panel active" id="adminUsersPanel">
+      <div class="admin-panel" id="adminUsersPanel">
         <div class="status-legend">
           <span><i class="status-dot status-online"></i> En ligne</span>
-          <span><i class="status-dot status-idle"></i> Inactif < 30m</span>
-          <span><i class="status-dot status-away"></i> Vu < 1h</span>
+          <span><i class="status-dot status-idle"></i> Inactif &lt; 30m</span>
+          <span><i class="status-dot status-away"></i> Vu &lt; 1h</span>
           <span><i class="status-dot status-offline"></i> Hors ligne</span>
         </div>
-        <table class="admin-table"><thead><tr><th>Statut</th><th>Client</th><th>Code</th><th>Appareil</th><th>Actions</th></tr></thead><tbody id="liveUsersTable"></tbody></table>
+        <table class="admin-table"><thead><tr><th>Statut</th><th>Client</th><th>Code</th><th>Appareil</th><th>Actions</th></tr></thead><tbody id="liveUsersTable"><tr><td><i class="status-dot status-online"></i> En ligne</td><td>Gauthier Rauch</td><td><code style="background:#333;padding:4px 10px;border-radius:6px">Gogo67000</code></td><td style="font-size:.85rem;color:#bbb">Web</td><td><button class="admin-btn-secondary" onclick="alert('Ping envoyé')">Ping</button></td></tr><tr><td><i class="status-dot status-online"></i> En ligne</td><td>Brice Jacotet</td><td><code style="background:#333;padding:4px 10px;border-radius:6px">Treza670</code></td><td style="font-size:.85rem;color:#bbb">Web</td><td><button class="admin-btn-secondary" onclick="alert('Ping envoyé')">Ping</button></td></tr></tbody></table>
       </div>
       <div class="admin-panel" id="adminVideoPanel">
-        <div class="admin-form-grid" id="videoSettingsGrid"></div>
-        <button class="admin-btn" onclick="saveVideoSettings()">Enregistrer les Paramètres</button>
+        <h3 style="color:#fff;font-weight:800;margin-bottom:18px;font-size:1.1rem">🎛️ Réglages Vidéo</h3>
+        <div class="admin-form-grid" id="videoSettingsGrid"><div class="video-setting-field"><h4>Luminosité</h4><p>Ajuste la luminosité de la vidéo (0-200%)</p><input type="range" id="vs_vBrightness" min="0" max="200" step="1" value="102" oninput="document.getElementById('vsv_vBrightness').textContent=this.value+'%';applyVideoSetting('vBrightness',this.value)"><span class="range-val" id="vsv_vBrightness">102%</span></div><div class="video-setting-field"><h4>Contraste</h4><p>Contraste de l'image (0-200%)</p><input type="range" id="vs_vContrast" min="0" max="200" step="1" value="105" oninput="document.getElementById('vsv_vContrast').textContent=this.value+'%';applyVideoSetting('vContrast',this.value)"><span class="range-val" id="vsv_vContrast">105%</span></div><div class="video-setting-field"><h4>Saturation</h4><p>Intensité des couleurs (0-200%)</p><input type="range" id="vs_vSaturation" min="0" max="200" step="1" value="100" oninput="document.getElementById('vsv_vSaturation').textContent=this.value+'%';applyVideoSetting('vSaturation',this.value)"><span class="range-val" id="vsv_vSaturation">100%</span></div><div class="video-setting-field"><h4>Netteté</h4><p>Renforcement de la netteté (0-100%)</p><input type="range" id="vs_vSharpness" min="0" max="100" step="1" value="4" oninput="document.getElementById('vsv_vSharpness').textContent=this.value+'%';applyVideoSetting('vSharpness',this.value)"><span class="range-val" id="vsv_vSharpness">4%</span></div><div class="video-setting-field"><h4>Teinte (Hue)</h4><p>Rotation de la teinte en degrés (0-360°)</p><input type="range" id="vs_vHue" min="0" max="360" step="1" value="0" oninput="document.getElementById('vsv_vHue').textContent=this.value+'°';applyVideoSetting('vHue',this.value)"><span class="range-val" id="vsv_vHue">0°</span></div><div class="video-setting-field"><h4>Buffer (ms)</h4><p>Taille du tampon de lecture (ms)</p><input type="number" id="vs_vBuffer" min="1000" max="60000" step="500" value="8000" onchange=""></div><div class="video-setting-field"><h4>Buffer Max (ms)</h4><p>Buffer maximum avant stall</p><input type="number" id="vs_vMaxBuffer" min="5000" max="120000" step="1000" value="30000" onchange=""></div><div class="video-setting-field"><h4>Niveau démarrage</h4><p>Qualité forcée au démarrage (-1=Auto)</p><input type="number" id="vs_vStartLevel" min="-1" max="10" step="1" value="-1" onchange=""></div><div class="video-setting-field"><h4>Estimation bande passante</h4><p>Facteur estimation ABR (0.5-1.2)</p><input type="range" id="vs_vAbrBandwidth" min="50" max="120" step="1" value="78" oninput="document.getElementById('vsv_vAbrBandwidth').textContent=this.value+'%';applyVideoSetting('vAbrBandwidth',this.value)"><span class="range-val" id="vsv_vAbrBandwidth">78%</span></div><div class="video-setting-field"><h4>Tentatives max fragment</h4><p>Nombre de tentatives en cas d'erreur</p><input type="number" id="vs_vMaxRetry" min="1" max="10" step="1" value="3" onchange=""></div><div class="video-setting-field"><h4>Délai réessai (ms)</h4><p>Attente avant réessai fragment</p><input type="number" id="vs_vRetryDelay" min="100" max="5000" step="100" value="1000" onchange=""></div><div class="video-setting-field"><h4>Chargement parallèle</h4><p>Fragments chargés en parallèle</p><input type="number" id="vs_vMaxFragLoad" min="1" max="8" step="1" value="3" onchange=""></div><div class="video-setting-field"><h4>Mode Basse Latence</h4><p>Active le mode faible latence (live)</p><label><input type="checkbox" id="vs_vLowLatency" style="width:16px;height:16px;accent-color:var(--primary)" onchange="applyVideoSetting('vLowLatency',this.checked)"><span style="margin-left:8px;color:#ddd;font-size:0.9rem">Activé</span></label></div><div class="video-setting-field"><h4>Accélération Matérielle</h4><p>Utiliser le GPU pour le décodage</p><label><input type="checkbox" id="vs_vHardwareAccel" checked="" style="width:16px;height:16px;accent-color:var(--primary)" onchange="applyVideoSetting('vHardwareAccel',this.checked)"><span style="margin-left:8px;color:#ddd;font-size:0.9rem">Activé</span></label></div><div class="video-setting-field"><h4>Qualité Adaptative (ABR)</h4><p>Adaptation automatique de la qualité selon le débit</p><label><input type="checkbox" id="vs_vAutoQuality" checked="" style="width:16px;height:16px;accent-color:var(--primary)" onchange="applyVideoSetting('vAutoQuality',this.checked)"><span style="margin-left:8px;color:#ddd;font-size:0.9rem">Activé</span></label></div><div class="video-setting-field"><h4>Vitesse lecture</h4><p>Vitesse de lecture (0.5x à 2x)</p><select id="vs_vPlaybackRate" onchange="applyVideoSetting('vPlaybackRate',this.value)"><option>0.5x</option><option>0.75x</option><option selected="">1x</option><option>1.25x</option><option>1.5x</option><option>2x</option></select></div><div class="video-setting-field"><h4>Format d'image</h4><p>Ratio d'affichage de la vidéo</p><select id="vs_vAspectRatio" onchange="applyVideoSetting('vAspectRatio',this.value)"><option selected="">16:9 (Auto)</option><option>4:3</option><option>21:9</option><option>Plein écran</option></select></div><div class="video-setting-field"><h4>Mode rendu</h4><p>Méthode de rendu vidéo</p><select id="vs_vRenderMode" onchange="applyVideoSetting('vRenderMode',this.value)"><option selected="">Auto</option><option>Software</option><option>Hardware</option></select></div><div class="video-setting-field"><h4>Désentrelacement</h4><p>Lissage des vidéos entrelacées</p><label><input type="checkbox" id="vs_vDeinterlace" checked="" style="width:16px;height:16px;accent-color:var(--primary)" onchange="applyVideoSetting('vDeinterlace',this.checked)"><span style="margin-left:8px;color:#ddd;font-size:0.9rem">Activé</span></label></div><div class="video-setting-field"><h4>Réduction du bruit</h4><p>Filtre de réduction du bruit numérique</p><label><input type="checkbox" id="vs_vNoiseReduction" style="width:16px;height:16px;accent-color:var(--primary)" onchange="applyVideoSetting('vNoiseReduction',this.checked)"><span style="margin-left:8px;color:#ddd;font-size:0.9rem">Activé</span></label></div></div>
+        <h3 style="color:#fff;font-weight:800;margin:28px 0 16px;font-size:1.1rem">🔊 Réglages Son</h3>
+        <div class="admin-form-grid" id="soundSettingsGrid"><div class="video-setting-field"><h4>Volume principal</h4><p>Volume global du lecteur (0-100%)</p><input type="range" id="ss_sVolume" min="0" max="100" step="1" value="100" oninput="document.getElementById('ssv_sVolume').textContent=this.value+'%';applySoundSetting('sVolume',this.value)"><span class="range-val" id="ssv_sVolume">100%</span></div><div class="video-setting-field"><h4>Basses (Bass Boost)</h4><p>Amplification des fréquences graves</p><input type="range" id="ss_sBass" min="-10" max="10" step="1" value="3" oninput="document.getElementById('ssv_sBass').textContent=this.value+'dB';applySoundSetting('sBass',this.value)"><span class="range-val" id="ssv_sBass">3dB</span></div><div class="video-setting-field"><h4>Aigus (Treble)</h4><p>Amplification des hautes fréquences</p><input type="range" id="ss_sTreble" min="-10" max="10" step="1" value="1" oninput="document.getElementById('ssv_sTreble').textContent=this.value+'dB';applySoundSetting('sTreble',this.value)"><span class="range-val" id="ssv_sTreble">1dB</span></div><div class="video-setting-field"><h4>Médiums</h4><p>Fréquences moyennes (voix, instruments)</p><input type="range" id="ss_sMid" min="-10" max="10" step="1" value="2" oninput="document.getElementById('ssv_sMid').textContent=this.value+'dB';applySoundSetting('sMid',this.value)"><span class="range-val" id="ssv_sMid">2dB</span></div><div class="video-setting-field"><h4>Balance Gauche/Droite</h4><p>Équilibre stéréo (-10 gauche, +10 droite)</p><input type="range" id="ss_sBalance" min="-10" max="10" step="1" value="0" oninput="document.getElementById('ssv_sBalance').textContent=this.value+'';applySoundSetting('sBalance',this.value)"><span class="range-val" id="ssv_sBalance">0</span></div><div class="video-setting-field"><h4>Normaliseur Audio</h4><p>Normalise le volume pour éviter les pics</p><label><input type="checkbox" id="ss_sNormalizer" checked="" style="width:16px;height:16px;accent-color:var(--primary)" onchange="applySoundSetting('sNormalizer',this.checked)"><span style="margin-left:8px;color:#ddd;font-size:0.9rem">Activé</span></label></div><div class="video-setting-field"><h4>Élargissement Stéréo</h4><p>Améliore la scène sonore stéréo</p><label><input type="checkbox" id="ss_sStereoEnhance" checked="" style="width:16px;height:16px;accent-color:var(--primary)" onchange="applySoundSetting('sStereoEnhance',this.checked)"><span style="margin-left:8px;color:#ddd;font-size:0.9rem">Activé</span></label></div><div class="video-setting-field"><h4>Simulation Surround</h4><p>Simule un son surround 5.1</p><label><input type="checkbox" id="ss_sDolby" checked="" style="width:16px;height:16px;accent-color:var(--primary)" onchange="applySoundSetting('sDolby',this.checked)"><span style="margin-left:8px;color:#ddd;font-size:0.9rem">Activé</span></label></div><div class="video-setting-field"><h4>Sourdine automatique</h4><p>Couper le son au démarrage</p><label><input type="checkbox" id="ss_sMute" style="width:16px;height:16px;accent-color:var(--primary)" onchange="applySoundSetting('sMute',this.checked)"><span style="margin-left:8px;color:#ddd;font-size:0.9rem">Activé</span></label></div><div class="video-setting-field"><h4>Égaliseur Préréglé</h4><p>Mode d'égalisation audio</p><select id="ss_sEqualizer" onchange="applySoundSetting('sEqualizer',this.value)"><option>Flat</option><option selected="">Cinéma</option><option>Musique</option><option>Voix</option><option>Nuit</option><option>Bass Boost</option></select></div></div>
+        <button class="admin-btn" onclick="saveVideoSettings()">💾 Enregistrer les Paramètres</button>
       </div>
+      <div class="admin-panel" id="adminRegUtiliPanel">
+        <h3 style="color:#fff;font-weight:800;margin-bottom:18px;font-size:1.1rem">👤 Réglages Utilisateurs <span class="notif-badge" id="regUtiliNotifBadge">2</span></h3>
+        
+        <!-- Bouton d'urgence -->
+        <div class="reg-utili-grid" style="margin-bottom:20px">
+          <div class="emergency-switch-card">
+            <div>
+              <h4>🚨 Bouton d'urgence — Lecteur Vidéo</h4>
+              <p>Bloque ou débloque le lecteur vidéo sur tout le site instantanément pour tous les utilisateurs.</p>
+            </div>
+            <label class="switch-toggle">
+              <input type="checkbox" id="emergencySwitch" onchange="toggleEmergencyBlock(this)">
+              <span class="switch-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="reg-utili-grid">
+          <!-- Déconnexion à distance -->
+          <div class="reg-utili-card">
+            <h4>🔌 Déconnexion à Distance</h4>
+            <p>Sélectionnez un appareil / utilisateur connecté et forcez sa déconnexion immédiate.</p>
+            <select id="remoteDisconnectSelect"><option value="">— Choisir un utilisateur —</option><option value="Gogo67000">Gauthier Rauch</option><option value="Treza670">Brice Jacotet</option></select>
+            <button class="admin-btn" style="margin-top:10px;padding:10px 18px;font-size:0.85rem" onclick="remoteDisconnect()">Déconnecter</button>
+          </div>
+
+          <!-- Historique d'accès -->
+          <div class="reg-utili-card" style="grid-column: span 2">
+            <h4>📋 Historique d'Accès</h4>
+            <p>IP, localisation estimée, date et heure des dernières connexions.</p>
+            <div style="overflow-x:auto">
+              <table class="access-history-table">
+                <thead><tr><th>Utilisateur</th><th>IP</th><th>Lieu</th><th>Date / Heure</th><th>Statut</th></tr></thead>
+                <tbody id="accessHistoryTable">
+                  <tr><td>Brice Jacotet</td><td>87.65.32.1</td><td>Strasbourg, FR</td><td>Aujourd'hui 09:14</td><td style="color:#0f0">✓ Connecté</td></tr>
+                  <tr><td>Gauthier Rauch</td><td>91.33.12.44</td><td>Paris, FR</td><td>Hier 22:47</td><td style="color:#888">Hors ligne</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Notifications connexion -->
+          <div class="reg-utili-card">
+            <h4>🔔 Notifications de Connexion</h4>
+            <p>Recevoir une alerte dans le panneau admin à chaque nouvelle connexion.</p>
+            <label class="switch-row">
+              <span style="color:#ddd;font-size:0.9rem">Activer les notifications</span>
+              <label class="switch-toggle">
+                <input type="checkbox" id="loginNotifToggle" checked="" onchange="saveRegUtiliSettings()">
+                <span class="switch-slider"></span>
+              </label>
+            </label>
+          </div>
+
+          <!-- Limitation qualité par profil -->
+          <div class="reg-utili-card">
+            <h4>📶 Limitation Qualité par Profil</h4>
+            <p>Définissez le plafond de qualité par défaut pour les nouveaux comptes.</p>
+            <select id="defaultQualityProfile" onchange="saveRegUtiliSettings()">
+              <option value="auto">Auto (selon forfait)</option>
+              <option value="eco">Éco (720p max)</option>
+              <option value="max">Max (4K illimité)</option>
+            </select>
+          </div>
+
+          <!-- Déconnexion automatique -->
+          <div class="reg-utili-card">
+            <h4>⏱️ Déconnexion Automatique</h4>
+            <p>Durée d'inactivité avant déconnexion automatique d'un utilisateur.</p>
+            <select id="autoDisconnectDuration" onchange="saveRegUtiliSettings()">
+              <option value="0">Illimité</option>
+              <option value="30">30 minutes</option>
+              <option value="60">1 heure</option>
+              <option value="120">2 heures</option>
+              <option value="240">4 heures</option>
+              <option value="480">8 heures</option>
+            </select>
+          </div>
+
+          <!-- Profil Invité -->
+          <div class="reg-utili-card">
+            <h4>👻 Profil Invité</h4>
+            <p>Génère un code invité temporaire, supprimé automatiquement après la durée choisie.</p>
+            <select id="guestDuration" style="margin-bottom:10px">
+              <option value="24">24 heures</option>
+              <option value="48">48 heures</option>
+              <option value="72">72 heures</option>
+              <option value="168">1 semaine</option>
+            </select>
+            <button class="admin-btn" style="padding:10px 18px;font-size:0.85rem;margin-top:4px" onclick="createGuestProfile()">Créer un Invité</button>
+            <div id="guestCodeDisplay" style="margin-top:10px;display:none">
+              <span style="color:#0f0;font-weight:700;font-size:0.95rem">Code : </span>
+              <code id="guestCodeVal" style="background:#333;padding:4px 12px;border-radius:8px;color:#fff;font-weight:700"></code>
+            </div>
+          </div>
+
+          <!-- Compteur de temps d'écran -->
+          <div class="reg-utili-card" style="grid-column: span 2">
+            <h4>📊 Temps d'Écran par Profil</h4>
+            <p>Tableau de bord hebdomadaire et mensuel du temps de visionnage.</p>
+            <div style="overflow-x:auto">
+              <table class="screen-time-table">
+                <thead><tr><th>Utilisateur</th><th>Cette semaine</th><th>Ce mois</th><th>Total</th></tr></thead>
+                <tbody>
+                  <tr><td>Brice Jacotet</td><td>12h 34m</td><td>48h 22m</td><td>320h 15m</td></tr>
+                  <tr><td>Gauthier Rauch</td><td>8h 12m</td><td>31h 50m</td><td>128h 40m</td></tr>
+                  <tr><td>Marie-Christine Jacotet</td><td>5h 44m</td><td>22h 10m</td><td>95h 30m</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <button class="admin-btn" onclick="saveRegUtiliSettings()">💾 Enregistrer les Réglages</button>
+      </div>
+
       <div class="admin-panel" id="adminAccountsPanel">
-        <div class="admin-form-grid" id="accountEditorGrid"></div>
-        <table class="admin-table" style="margin-top:30px"><thead><tr><th>Code</th><th>Nom Complet</th><th>Contact</th><th>Création</th><th>Expiration</th><th>Statut</th><th>Actions</th></tr></thead><tbody id="accountsTable"></tbody></table>
+        <div class="admin-form-grid" id="accountEditorGrid"><div class="admin-form-field" style="grid-column: 1 / -1;"><h4>Sélectionner un utilisateur</h4><p>Choisissez un compte pour éditer toutes ses options</p><select id="accountEditorSelect" onchange="loadAccountFields()"><option value="0">Treza670 • Brice Jacotet</option><option value="1">Gogo67000 • Gauthier Rauch</option><option value="2">Marie67300 • Marie-Christine Jacotet</option><option value="3">GUEST_I95ES1 • Profil Invité</option></select></div><div id="accountFieldsContainer" data-account-index="0" style="display: contents;"><div class="admin-form-field"><h4>Code d'accès</h4><input data-field="code" value="Treza670"></div><div class="admin-form-field"><h4>Nom</h4><input data-field="nom" value="Jacotet"></div><div class="admin-form-field"><h4>Prénom</h4><input data-field="prenom" value="Brice"></div><div class="admin-form-field"><h4>Email</h4><input data-field="email" value="Strassweb67@gmail.com"></div><div class="admin-form-field"><h4>Téléphone</h4><input data-field="tel" value="0619696332"></div><div class="admin-form-field"><h4>Date de création</h4><input data-field="dateCrea" value="2024-01-01"></div><div class="admin-form-field"><h4>Date d'expiration</h4><input data-field="dateExp" value="2099-12-31"></div><div class="admin-form-field"><h4>Forfait</h4><input data-field="forfait" value="GÉRANT: Admin Full Ultra HD 4K"></div><div class="admin-form-field"><h4>Débit maximum</h4><input data-field="debitMax" value="Illimité"></div><div class="admin-form-field"><h4>Niveau qualité (low/medium/high)</h4><select data-field="qualityTier"><option>low</option><option>medium</option><option selected="">high</option></select></div><div class="admin-form-field"><h4>Connexions simultanées max</h4><input data-field="maxConnections" value="10"></div><div class="admin-form-field"><h4>Flux 4K simultanés max</h4><input data-field="maxStreams4k" value="10"></div></div><button class="admin-btn" style="grid-column: 1 / -1;">Enregistrer cet Utilisateur</button></div>
+        <table class="admin-table" style="margin-top:30px"><thead><tr><th>Code</th><th>Nom Complet</th><th>Contact</th><th>Création</th><th>Expiration</th><th>Statut</th><th>Actions</th></tr></thead><tbody id="accountsTable"><tr><td><code style="color:var(--primary);font-weight:900">Treza670</code></td><td>Brice Jacotet</td><td style="font-size:.85rem">Strassweb67@gmail.com<br>0619696332</td><td>2024-01-01</td><td style="">2099-12-31</td><td><span style="color:#0f0">Actif</span></td><td><button class="admin-btn-secondary" onclick="toggleBan(0)">Bannir</button></td></tr><tr><td><code style="color:var(--primary);font-weight:900">Gogo67000</code></td><td>Gauthier Rauch</td><td style="font-size:.85rem">jean@gmail.com<br>0700000000</td><td>2025-01-01</td><td style="">2026-12-31</td><td><span style="color:#0f0">Actif</span></td><td><button class="admin-btn-secondary" onclick="toggleBan(1)">Bannir</button></td></tr><tr><td><code style="color:var(--primary);font-weight:900">Marie67300</code></td><td>Marie-Christine Jacotet</td><td style="font-size:.85rem">Mariechristinejacotet@gmail.com<br>0617633880</td><td>2024-05-10</td><td style="">2028-05-10</td><td><span style="color:#0f0">Actif</span></td><td><button class="admin-btn-secondary" onclick="toggleBan(2)">Bannir</button></td></tr><tr><td><code style="color:var(--primary);font-weight:900">GUEST_I95ES1</code></td><td>Profil Invité</td><td style="font-size:.85rem"><br></td><td>2026-03-04</td><td style="">2026-03-05</td><td><span style="color:#0f0">Actif</span></td><td><button class="admin-btn-secondary" onclick="toggleBan(3)">Bannir</button></td></tr></tbody></table>
         <button class="admin-btn" onclick="saveAllAccounts()">Enregistrer les Comptes</button>
       </div>
       <div class="admin-panel" id="adminChannelsPanel">
@@ -2895,7 +3239,7 @@ video {
           <div class="admin-form-field"><h4>Logo (URL)</h4><p>Image du logo</p><input type="text" id="newChannelLogo" placeholder="https://.../logo.png"></div>
         </div>
         <button class="admin-btn" onclick="addNewChannel()">Ajouter une Chaîne</button>
-        <table class="admin-table" style="margin-top:30px"><thead><tr><th>Logo</th><th>Nom</th><th>Ordre</th><th>Actions</th></tr></thead><tbody id="channelsTable"></tbody></table>
+        <table class="admin-table" style="margin-top:30px"><thead><tr><th>Logo</th><th>Nom</th><th>Ordre</th><th>Actions</th></tr></thead><tbody id="channelsTable"><tr><td><img src="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tf1-fr.png" style="width:90px;height:50px;object-fit:contain;background:#000;border-radius:8px"></td><td>TF1 HD Premium</td><td><button class="admin-btn-secondary" onclick="moveChannel(0,-1)">▲</button><button class="admin-btn-secondary" onclick="moveChannel(0,1)">▼</button></td><td><button class="admin-btn-secondary" onclick="deleteChannel(0)">Supprimer</button></td></tr><tr><td><img src="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-2-fr.png" style="width:90px;height:50px;object-fit:contain;background:#000;border-radius:8px"></td><td>France 2 4K</td><td><button class="admin-btn-secondary" onclick="moveChannel(1,-1)">▲</button><button class="admin-btn-secondary" onclick="moveChannel(1,1)">▼</button></td><td><button class="admin-btn-secondary" onclick="deleteChannel(1)">Supprimer</button></td></tr><tr><td><img src="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/m6-fr.png" style="width:90px;height:50px;object-fit:contain;background:#000;border-radius:8px"></td><td>M6 HD VIP</td><td><button class="admin-btn-secondary" onclick="moveChannel(2,-1)">▲</button><button class="admin-btn-secondary" onclick="moveChannel(2,1)">▼</button></td><td><button class="admin-btn-secondary" onclick="deleteChannel(2)">Supprimer</button></td></tr><tr><td><img src="https://via.placeholder.com/640x360/111/fff?text=Cobra" style="width:90px;height:50px;object-fit:contain;background:#000;border-radius:8px"></td><td>Alerte Cobra 24/7</td><td><button class="admin-btn-secondary" onclick="moveChannel(3,-1)">▲</button><button class="admin-btn-secondary" onclick="moveChannel(3,1)">▼</button></td><td><button class="admin-btn-secondary" onclick="deleteChannel(3)">Supprimer</button></td></tr></tbody></table>
         <button class="admin-btn" onclick="saveAllChannels()">Enregistrer les Modifications</button>
       </div>
       <div class="admin-panel" id="adminVodPanel">
@@ -2907,7 +3251,7 @@ video {
           <div class="admin-form-field" style="grid-column:1/-1"><h4>Description</h4><textarea id="newVodDesc" rows="3" placeholder="Description..."></textarea></div>
         </div>
         <button class="admin-btn" onclick="addNewVOD()">Ajouter un Contenu VOD</button>
-        <table class="admin-table" style="margin-top:30px"><thead><tr><th>Image</th><th>Titre</th><th>Type</th><th>Actions</th></tr></thead><tbody id="vodTable"></tbody></table>
+        <table class="admin-table" style="margin-top:30px"><thead><tr><th>Image</th><th>Titre</th><th>Type</th><th>Actions</th></tr></thead><tbody id="vodTable"><tr><td><img src="https://via.placeholder.com/640x360/111/fff?text=INCEPTION" style="width:90px;height:50px;object-fit:cover;border-radius:8px"></td><td>Inception 4K</td><td>Film</td><td><button class="admin-btn-secondary" onclick="deleteVOD(0)">Supprimer</button></td></tr><tr><td><img src="https://via.placeholder.com/640x360/111/fff?text=BREAKING+BAD" style="width:90px;height:50px;object-fit:cover;border-radius:8px"></td><td>Breaking Bad S1-S5</td><td>Série</td><td><button class="admin-btn-secondary" onclick="deleteVOD(1)">Supprimer</button></td></tr><tr><td><img src="https://via.placeholder.com/640x360/111/fff?text=INTERSTELLAR" style="width:90px;height:50px;object-fit:cover;border-radius:8px"></td><td>Interstellar HDR</td><td>Film</td><td><button class="admin-btn-secondary" onclick="deleteVOD(2)">Supprimer</button></td></tr></tbody></table>
         <button class="admin-btn" onclick="saveAllVOD()">Enregistrer les Modifications</button>
       </div>
       <div class="admin-panel" id="adminLinksPanel">
@@ -2918,16 +3262,15 @@ video {
           <div class="admin-form-field" style="grid-column:1/-1"><h4>Description</h4><textarea id="newLinkDesc" rows="2" placeholder="Description..."></textarea></div>
         </div>
         <button class="admin-btn" onclick="addNewLink()">Ajouter un Lien</button>
-        <table class="admin-table" style="margin-top:30px"><thead><tr><th>Image</th><th>Titre</th><th>URL</th><th>Actions</th></tr></thead><tbody id="linksTable"></tbody></table>
+        <table class="admin-table" style="margin-top:30px"><thead><tr><th>Image</th><th>Titre</th><th>URL</th><th>Actions</th></tr></thead><tbody id="linksTable"><tr><td><img src="https://thumbs2.imgbox.com/46/ad/6ZbpTSX9_t.png" style="width:60px;height:60px;object-fit:contain;border-radius:8px"></td><td>TEST</td><td style="font-size:.85rem;color:#bbb">https://thumbs2.imgbox.com/46/ad/6ZbpTSX9_t.png</td><td><button class="admin-btn-secondary" onclick="deleteLink(0)">Supprimer</button></td></tr></tbody></table>
         <button class="admin-btn" onclick="saveAllLinks()">Enregistrer les Modifications</button>
       </div>
       <div class="admin-panel" id="adminRequestsPanel">
-        <table class="admin-table"><thead><tr><th>Date</th><th>Nom</th><th>Prénom</th><th>Email</th><th>Téléphone</th><th>Forfait</th><th>Actions</th></tr></thead><tbody id="requestsTable"></tbody></table>
+        <table class="admin-table"><thead><tr><th>Date</th><th>Nom</th><th>Prénom</th><th>Email</th><th>Téléphone</th><th>Forfait</th><th>Actions</th></tr></thead><tbody id="requestsTable"><tr><td colspan="7" style="text-align:center;color:#888">Aucune demande d'abonnement</td></tr></tbody></table>
       </div>
-      <div class="admin-panel" id="adminExportPanel">
+      <div class="admin-panel active" id="adminExportPanel">
         <div class="admin-form-grid">
           <div class="admin-form-field"><h4>Nom de l'application</h4><p>Utilisé pour PWA</p><input type="text" id="appName" value="Strass IPTV" placeholder="Strass IPTV"></div>
-          <div class="admin-form-field"><h4>Logo du site (URL)</h4><p>Affiché dans la navigation</p><input type="text" id="siteLogo" placeholder="https://.../logo.png"></div>
         </div>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px;margin-top:25px">
           <button class="admin-btn" onclick="downloadFullHTML()">Télécharger HTML Complet</button>
@@ -2942,18 +3285,49 @@ video {
   </div>
 
   <!-- MENU MOBILE (bas) -->
-  <div class="mobile-menu" id="mobileMenu">
-    <div class="mobile-menu-grid">
-      <div class="mobile-menu-item active" onclick="navigateToSection('tv'); scrollToTop()"><span class="icon">📺</span><span>TV Live</span></div>
-      <div class="mobile-menu-item" onclick="navigateToSection('vod'); scrollToTop()"><span class="icon">🎬</span><span>VOD</span></div>
-      <div class="mobile-menu-item" onclick="navigateToSection('links'); scrollToTop()"><span class="icon">🔗</span><span>Apps</span></div>
-      <div class="mobile-menu-item" onclick="navigateToSection('account'); scrollToTop()"><span class="icon">👤</span><span>Compte</span></div>
-      <div class="mobile-menu-item admin-item" id="mobileAdminItem" onclick="navigateToSection('admin'); scrollToTop()"><span class="icon">⚙️</span><span>Admin</span></div>
+  <div class="mobile-menu" id="mobileMenu" onclick="if(event.target===this||event.target.id==='mobileMenu')openBottombarModal()">
+    <div class="mobile-menu-grid" id="mobileMenuGrid" style="grid-template-columns: repeat(6, 1fr);">
+
+      <!-- TV Live -->
+      <div class="mobile-menu-item" onclick="navigateToSection('tv'); scrollToTop()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"></rect><path d="M8 7V5l4-3 4 3v2"></path><line x1="12" y1="12" x2="12" y2="16"></line><polygon points="10,14 14,12 14,16"></polygon></svg>
+        <span>TV Live</span>
+      </div>
+
+      <!-- VOD -->
+      <div class="mobile-menu-item" onclick="navigateToSection('vod'); scrollToTop()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="M10 9l6 3-6 3V9z"></path><line x1="2" y1="8" x2="22" y2="8"></line></svg>
+        <span>VOD</span>
+      </div>
+
+      <!-- Chercher -->
+      <div class="mobile-menu-item mobile-search-item" onclick="openSearchModal()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <span>Chercher</span>
+      </div>
+
+      <!-- Apps -->
+      <div class="mobile-menu-item" onclick="navigateToSection('links'); scrollToTop()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"></rect><line x1="9" y1="7" x2="15" y2="7"></line><line x1="9" y1="11" x2="13" y2="11"></line><circle cx="12" cy="17" r="1"></circle></svg>
+        <span>Apps</span>
+      </div>
+
+      <!-- Compte -->
+      <div class="mobile-menu-item" onclick="navigateToSection('account'); scrollToTop()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"></path></svg>
+        <span>Compte</span>
+      </div>
+
+      <!-- Admin (visible seulement pour admin) -->
+      <div class="mobile-menu-item admin-item active" id="mobileAdminItem" onclick="navigateToSection('admin'); scrollToTop()" style="display: flex;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"></path><path d="M12 2v2m0 16v2M2 12h2m16 0h2"></path></svg>
+        <span>Admin</span>
+      </div>
+
     </div>
   </div>
 
-  <!-- SEARCH BUTTON (below logo area, mobile) -->
-  <button class="search-trigger-btn" id="searchTriggerBtn" onclick="openSearchModal()" title="Rechercher une chaîne">🔍</button>
+  <!-- Loupe supprimée — déplacée dans la barre Instagram -->
 
   <!-- SEARCH MODAL -->
   <div class="search-modal-overlay" id="searchModalOverlay">
@@ -2972,9 +3346,9 @@ video {
   <div class="store-modal-overlay" id="storeModalOverlay">
     <div class="store-modal">
       <button class="store-modal-close" onclick="closeStoreModal()">✕</button>
-      <h3 id="storeModalTitle">Application</h3>
-      <p id="storeModalDesc">Description de l'application.</p>
-      <a id="storeModalLink" href="#" target="_blank" class="btn-primary" style="display:inline-block;padding:12px 28px;background:var(--primary);color:#fff;border-radius:14px;font-weight:700;text-decoration:none;width:100%;text-align:center;">Ouvrir / Télécharger</a>
+      <h3 id="storeModalTitle">TEST</h3>
+      <p id="storeModalDesc">Test</p>
+      <a id="storeModalLink" href="https://thumbs2.imgbox.com/46/ad/6ZbpTSX9_t.png" target="_blank" class="btn-primary" style="display:inline-block;padding:12px 28px;background:var(--primary);color:#fff;border-radius:14px;font-weight:700;text-decoration:none;width:100%;text-align:center;">Ouvrir / Télécharger</a>
     </div>
   </div>
 
@@ -2985,13 +3359,21 @@ video {
   </footer>
 </div>
 
-<div class="toast-notification" id="toastNotification">
-  <span id="toastMessage">Modifications non publiées. Téléchargez le HTML et mettez à jour sur GitHub.</span>
-  <button class="toast-btn" onclick="downloadFullHTML()">Télécharger</button>
-  <button class="toast-close" onclick="hideToast()">×</button>
+<!-- BOTTOM BAR INSTAGRAM PASSWORD MODAL -->
+<div class="bottombar-modal-overlay" id="bottombarModalOverlay">
+  <div class="bottombar-modal">
+    <button class="bottombar-modal-close" onclick="closeBottombarModal()">✕</button>
+    <h3>🔒 Accès Sécurisé</h3>
+    <p style="color:#888;font-size:0.85rem;text-align:center;margin-bottom:16px">Entrez le mot de passe pour accéder.</p>
+    <input type="password" id="bottombarPwInput" placeholder="Mot de passe..." onkeydown="if(event.key==='Enter')checkBottombarPw()">
+    <button class="confirm-btn" onclick="checkBottombarPw()">Valider</button>
+    <div id="bottombarPwError">Mot de passe incorrect.</div>
+  </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script id="dataOverride" type="application/json"></script>
+<!-- Toast notification supprimé définitivement -->
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script id="dataOverride" type="application/json">{"config":{"siteName":"Strass IPTV","siteLogo":""},"accounts":[{"code":"Treza670","role":"admin","nom":"Jacotet","prenom":"Brice","email":"Strassweb67@gmail.com","tel":"0619696332","dateCrea":"2024-01-01","dateExp":"2099-12-31","forfait":"GÉRANT: Admin Full Ultra HD 4K","debitMax":"Illimité","isBanned":false,"qualityTier":"high","maxConnections":10,"maxStreams4k":10},{"code":"Gogo67000","role":"user","nom":"Rauch","prenom":"Gauthier","email":"jean@gmail.com","tel":"0700000000","dateCrea":"2025-01-01","dateExp":"2026-12-31","forfait":"Basique - 19.90€","debitMax":"1080p","isBanned":false,"qualityTier":"medium","maxConnections":3,"maxStreams4k":0},{"code":"Marie67300","role":"user","nom":"Jacotet","prenom":"Marie-Christine","email":"Mariechristinejacotet@gmail.com","tel":"0617633880","dateCrea":"2024-05-10","dateExp":"2028-05-10","forfait":"Ultra Full UHD 4K","debitMax":"4K","isBanned":false,"qualityTier":"high","maxConnections":5,"maxStreams4k":3},{"code":"GUEST_I95ES1","role":"user","nom":"Invité","prenom":"Profil","email":"","tel":"","dateCrea":"2026-03-04","dateExp":"2026-03-05","forfait":"Invité temporaire","debitMax":"720p","isBanned":false,"qualityTier":"low","maxConnections":1,"maxStreams4k":0,"isGuest":true}],"channels":[{"id":"ch1","name":"TF1 HD Premium","url":"https://viamotionhsi.netplus.ch/live/eds/tf1hd/browser-HLS8/tf1hd.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tf1-fr.png","blocked":false},{"id":"ch2","name":"France 2 4K","url":"https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/france2.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-2-fr.png","blocked":false},{"id":"ch3","name":"M6 HD VIP","url":"https://viamotionhsi.netplus.ch/live/eds/m6hd/browser-HLS8/m6hd.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/m6-fr.png","blocked":false},{"id":"ch4","name":"Alerte Cobra 24/7","url":"https://alarm-for-cobra-rakuten-tv-fr.fast.rakuten.tv/v1/master/0547f18649bd788bec7b67b746e47670f558b6b2/production-LiveChannel-6477/master.m3u8","logo":"https://via.placeholder.com/640x360/111/fff?text=Cobra","blocked":false}],"vod":[{"id":"vod1","name":"Inception 4K","type":"Film","logo":"https://via.placeholder.com/640x360/111/fff?text=INCEPTION","overlay":"","description":""},{"id":"vod2","name":"Breaking Bad S1-S5","type":"Série","logo":"https://via.placeholder.com/640x360/111/fff?text=BREAKING+BAD","overlay":"","description":""},{"id":"vod3","name":"Interstellar HDR","type":"Film","logo":"https://via.placeholder.com/640x360/111/fff?text=INTERSTELLAR","overlay":"","description":""}],"links":[{"id":"link_1772639210968","title":"TEST","url":"https://thumbs2.imgbox.com/46/ad/6ZbpTSX9_t.png","image":"https://thumbs2.imgbox.com/46/ad/6ZbpTSX9_t.png","description":"Test"}],"requests":[]}</script>
 <script>
 // =========================================================================
 // CODE ORIGINAL CONSERVÉ (variables, fonctions, bases de données)
@@ -3047,13 +3429,23 @@ function loadFromStorage() {
   try { const lnk = localStorage.getItem(STORAGE_KEYS.links); if(lnk) DB_LINKS = JSON.parse(lnk); } catch(e) {}
   try { const req = localStorage.getItem(STORAGE_KEYS.requests); if(req) DB_REQUESTS = JSON.parse(req); } catch(e) {}
   applyBranding();
+  // Forcer la suppression de tout siteLogo stocké (nettoyage définitif)
+  try {
+    const cfg = localStorage.getItem(STORAGE_KEYS.config);
+    if(cfg) {
+      const parsed = JSON.parse(cfg);
+      if(parsed.siteLogo) { parsed.siteLogo = ''; localStorage.setItem(STORAGE_KEYS.config, JSON.stringify(parsed)); }
+    }
+  } catch(e) {}
 }
 function applyBranding() {
   const brandTexts = document.querySelectorAll('.brand-text');
-  brandTexts.forEach(el => el.textContent = APP_CONFIG.siteName || "STRASS IPTV");
-  if(APP_CONFIG.siteLogo) {
-    ['landing-logo','nav-logo'].forEach(id => { const img = document.getElementById(id); if(img) { img.src = APP_CONFIG.siteLogo; img.style.display = "block"; const brand = img.parentElement.querySelector('.brand-text'); if(brand) brand.style.display = "none"; } });
-  }
+  brandTexts.forEach(el => el.textContent = APP_CONFIG.siteName || 'STRASS IPTV');
+  // On n'affiche jamais d'image logo — uniquement le texte de marque
+  ['landing-logo','nav-logo'].forEach(id => {
+    const img = document.getElementById(id);
+    if(img) { img.src = ''; img.style.display = 'none'; }
+  });
 }
 function createStars() {
   const bg = document.querySelector('.animated-bg');
@@ -3085,24 +3477,44 @@ function handleSignup() {
   document.getElementById('signupResult').textContent = "✓ Votre demande a été envoyée ! Nous vous contacterons sous 24h."; document.getElementById('signupResult').style.display = 'block';
   setTimeout(() => closeSignupModal(), 3000);
 }
+function updateNavUserDisplay() {
+  const el = document.getElementById('navUserPrenom');
+  if(el && currentUser) el.textContent = currentUser.prenom;
+}
 function enterApplication() {
   document.getElementById('landing').style.display = 'none';
   document.getElementById('mainNav').style.display = 'flex';
   document.getElementById('app').style.display = 'block';
-  document.getElementById('userName').textContent = currentUser.prenom;
+  // Mise à jour prénom en temps réel dans la barre de navigation
+  updateNavUserDisplay();
   if(currentUser.role === 'admin') {
     document.getElementById('nav-admin').style.display = 'block';
-    document.getElementById('mobileAdminItem').style.display = 'flex';
     const adminDd = document.getElementById('adminDdItem'); if(adminDd) adminDd.style.display = 'block';
   }
   populateAccountInfo(); renderChannels(); renderVOD(); renderLinks();
-  if(DB_CHANNELS.length > 0) playChannel(DB_CHANNELS[0].url, DB_CHANNELS[0].name, DB_CHANNELS[0].id);
-  setInterval(() => updateSession(true), 20000);
   if(currentUser.role === 'admin') initAdminPanels();
   document.getElementById('mobileTopBar').style.display = 'flex';
-  const sb = document.getElementById('searchTriggerBtn'); if(sb) sb.style.display = 'flex';
+  
+  // Ajuster la barre de navigation mobile selon le rôle
+  const mobileGrid = document.querySelector('.mobile-menu-grid');
+  if(mobileGrid) {
+    if(currentUser.role === 'admin') {
+      // Admin : 6 onglets (TV, VOD, Chercher, Apps, Compte, Admin)
+      document.getElementById('mobileAdminItem').style.display = 'flex';
+      mobileGrid.style.gridTemplateColumns = 'repeat(6, 1fr)';
+    } else {
+      // User : 5 onglets (TV, VOD, Chercher, Apps, Compte)
+      document.getElementById('mobileAdminItem').style.display = 'none';
+      mobileGrid.style.gridTemplateColumns = 'repeat(5, 1fr)';
+    }
+  }
+  navigateToSection('tv');
+  if(DB_CHANNELS.length > 0) playChannel(DB_CHANNELS[0].url, DB_CHANNELS[0].name, DB_CHANNELS[0].id);
+  setInterval(() => updateSession(true), 20000);
+  // Actualisation temps réel du prénom dans la barre de navigation (toutes les secondes)
+  setInterval(() => updateNavUserDisplay(), 1000);
 }
-function handleLogout() { if(hlsInstance) { hlsInstance.destroy(); hlsInstance = null; } updateSession(false); currentUser = null; document.getElementById('app').style.display = 'none'; document.getElementById('mainNav').style.display = 'none'; document.getElementById('landing').style.display = 'block'; document.getElementById('mobileTopBar').style.display = 'none'; const sb2 = document.getElementById('searchTriggerBtn'); if(sb2) sb2.style.display = 'none'; }
+function handleLogout() { if(hlsInstance) { hlsInstance.destroy(); hlsInstance = null; } updateSession(false); currentUser = null; document.getElementById('app').style.display = 'none'; document.getElementById('mainNav').style.display = 'none'; document.getElementById('landing').style.display = 'block'; document.getElementById('mobileTopBar').style.display = 'none'; }
 function navigateToSection(section) {
   ['tvSection','vodSection','linksSection','accountSection','adminSection'].forEach(s => { const el = document.getElementById(s); if(el) el.style.display = 'none'; });
   ['nav-tv','nav-vod','nav-links','nav-account','nav-admin'].forEach(n => { const el = document.getElementById(n); if(el) el.classList.remove('active'); });
@@ -3111,7 +3523,7 @@ function navigateToSection(section) {
   const navMap = { tv:'nav-tv', vod:'nav-vod', links:'nav-links', account:'nav-account', admin:'nav-admin' };
   if(sectionMap[section]) document.getElementById(sectionMap[section]).style.display = 'block';
   if(navMap[section]) document.getElementById(navMap[section]).classList.add('active');
-  const mobileIndex = { tv:0, vod:1, links:2, account:3, admin:4 };
+  const mobileIndex = { tv:0, vod:1, links:3, account:4, admin:5 }; // 2=Chercher(search), 3=Apps, 4=Compte, 5=Admin
   const mobileItems = document.querySelectorAll('.mobile-menu-item');
   if(mobileIndex[section] !== undefined && mobileItems[mobileIndex[section]]) mobileItems[mobileIndex[section]].classList.add('active');
   if(section === 'tv') { const video = document.getElementById('videoPlayer'); if(video.paused) video.play().catch(()=>{}); }
@@ -3189,21 +3601,70 @@ function playChannel(url, name, id) {
 function toggleQualityDropdown() {
   const dd = document.getElementById('qualityDropdown');
   dd.classList.toggle('open');
-  // Update arrow indicator
-  const btn = dd.previousElementSibling || document.querySelector('.quality-btn');
+  // Flèche : ▲ = menu ouvert (vers le haut), ▼ = menu fermé
   const arrows = document.querySelectorAll('.quality-btn span:last-child');
-  arrows.forEach(a => { if(a.textContent === '▲' || a.textContent === '▼') a.textContent = dd.classList.contains('open') ? '▼' : '▲'; });
+  const isOpen = dd.classList.contains('open');
+  arrows.forEach(a => { if(a.textContent === '▲' || a.textContent === '▼') a.textContent = isOpen ? '▲' : '▼'; });
+  // Fermer si clic ailleurs
+  if(isOpen) {
+    setTimeout(() => {
+      document.addEventListener('click', function closeDD(e) {
+        if(!e.target.closest('.quality-selector')) {
+          dd.classList.remove('open');
+          document.querySelectorAll('.quality-btn span:last-child').forEach(a => { if(a.textContent === '▲') a.textContent = '▼'; });
+        }
+        document.removeEventListener('click', closeDD);
+      });
+    }, 10);
+  }
 }
 function changeQuality(quality, element) {
-  selectedQuality = quality; document.getElementById('currentQuality').textContent = quality;
-  document.querySelectorAll('.quality-option').forEach(opt=>opt.classList.remove('active')); element.classList.add('active');
-  applyQuality();
+  selectedQuality = quality;
+  document.getElementById('currentQuality').textContent = quality;
+  document.querySelectorAll('.quality-option').forEach(opt => opt.classList.remove('active'));
+  element.classList.add('active');
   document.getElementById('qualityDropdown').classList.remove('open');
-  document.querySelectorAll('.quality-btn span:last-child').forEach(a => { if(a.textContent === '▼' || a.textContent === '▲') a.textContent = '▲'; });
-  const nameEl = document.getElementById('channelInfoName'); if(!nameEl) return;
-  const originalText = nameEl.textContent;
-  nameEl.textContent = `Qualité: ${quality}...`; nameEl.style.color = 'var(--primary)';
-  setTimeout(() => { nameEl.textContent = originalText; nameEl.style.color = '#fff'; }, 1500);
+  document.querySelectorAll('.quality-btn span:last-child').forEach(a => { if(a.textContent === '▲' || a.textContent === '▼') a.textContent = '▼'; });
+
+  // Appliquer la qualité sur le lecteur HLS actif
+  if(hlsInstance) {
+    if(quality === 'Auto') {
+      hlsInstance.currentLevel = -1;
+    } else {
+      const targetHeight = quality === '4K' ? 2160 : (quality === '1080p' ? 1080 : 720);
+      let bestIdx = -1, bestDiff = 99999;
+      (hlsInstance.levels || []).forEach((level, idx) => {
+        const h = level.height || 0;
+        const diff = Math.abs(h - targetHeight);
+        if(diff < bestDiff) { bestDiff = diff; bestIdx = idx; }
+      });
+      if(bestIdx >= 0) {
+        hlsInstance.currentLevel = bestIdx;
+      } else {
+        // Pas de niveaux multiples → recharger la chaîne courante (force reload)
+        const video = document.getElementById('videoPlayer');
+        const currentSrc = video.src || (hlsInstance.url);
+        if(currentSrc && currentChannelId) {
+          const ch = DB_CHANNELS.find(c => c.id === currentChannelId);
+          if(ch) {
+            const pos = video.currentTime;
+            hlsInstance.loadSource(ch.url);
+            hlsInstance.attachMedia(video);
+            hlsInstance.once(Hls.Events.MANIFEST_PARSED, () => { video.play().catch(()=>{}); });
+          }
+        }
+      }
+    }
+  }
+
+  // Feedback visuel dans le nom de la chaîne
+  const nameEl = document.getElementById('channelInfoName');
+  if(nameEl) {
+    const originalText = nameEl.textContent;
+    nameEl.textContent = `Qualité : ${quality}…`;
+    nameEl.style.color = 'var(--primary)';
+    setTimeout(() => { nameEl.textContent = originalText; nameEl.style.color = '#fff'; }, 1800);
+  }
 }
 function applyQuality() {
   if(!hlsInstance) return;
@@ -3278,15 +3739,17 @@ function updateSession(isActive) {
   if(currentUser && currentUser.role === 'admin') { const panel = document.getElementById('adminUsersPanel'); if(panel && panel.classList.contains('active')) renderLiveUsers(); }
 }
 function initAdminPanels() {
-  renderLiveUsers(); renderVideoSettings(); renderAccountsAdmin(); renderAccountEditor(); renderChannelsAdmin(); renderVODAdmin(); renderLinksAdmin(); renderRequestsAdmin();
-  const appNameInput = document.getElementById('appName'); const siteLogoInput = document.getElementById('siteLogo');
+  renderLiveUsers(); renderVideoSettings(); renderSoundSettings(); renderRegUtili(); renderAccountsAdmin(); renderAccountEditor(); renderChannelsAdmin(); renderVODAdmin(); renderLinksAdmin(); renderRequestsAdmin();
+  const appNameInput = document.getElementById('appName');
   if(appNameInput) appNameInput.value = APP_CONFIG.siteName || "Strass IPTV";
-  if(siteLogoInput) siteLogoInput.value = APP_CONFIG.siteLogo || "";
+  // Load reg utili saved settings
+  try { const rs = localStorage.getItem('strass_regutili'); if(rs) { const d = JSON.parse(rs); if(d.notif !== undefined && document.getElementById('loginNotifToggle')) document.getElementById('loginNotifToggle').checked = d.notif; if(d.quality && document.getElementById('defaultQualityProfile')) document.getElementById('defaultQualityProfile').value = d.quality; if(d.autoDisconnect && document.getElementById('autoDisconnectDuration')) document.getElementById('autoDisconnectDuration').value = d.autoDisconnect; } } catch(e) {}
+  updateRegUtiliNotifBadge();
 }
 function switchAdminPanel(panel, element) {
   document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.admin-sidebar li').forEach(li => li.classList.remove('active'));
-  const panelMap = { users:'adminUsersPanel', video:'adminVideoPanel', accounts:'adminAccountsPanel', channels:'adminChannelsPanel', vod:'adminVodPanel', links:'adminLinksPanel', requests:'adminRequestsPanel', export:'adminExportPanel' };
+  const panelMap = { users:'adminUsersPanel', video:'adminVideoPanel', regutili:'adminRegUtiliPanel', accounts:'adminAccountsPanel', channels:'adminChannelsPanel', vod:'adminVodPanel', links:'adminLinksPanel', requests:'adminRequestsPanel', export:'adminExportPanel' };
   const targetPanel = document.getElementById(panelMap[panel]); if(targetPanel) targetPanel.classList.add('active');
   if(element) element.classList.add('active');
 }
@@ -3306,16 +3769,174 @@ function renderLiveUsers() {
 }
 function renderVideoSettings() {
   const grid = document.getElementById('videoSettingsGrid'); if(!grid) return;
+  const VIDEO_SETTINGS = [
+    {id:'vBrightness', label:'Luminosité', desc:'Ajuste la luminosité de la vidéo (0-200%)', type:'range', min:0, max:200, step:1, default:100, unit:'%', apply: v => { const vid = document.getElementById('videoPlayer'); if(vid) vid.style.filter = computeFilter(); }},
+    {id:'vContrast', label:'Contraste', desc:'Contraste de l\'image (0-200%)', type:'range', min:0, max:200, step:1, default:100, unit:'%', apply: v => { const vid = document.getElementById('videoPlayer'); if(vid) vid.style.filter = computeFilter(); }},
+    {id:'vSaturation', label:'Saturation', desc:'Intensité des couleurs (0-200%)', type:'range', min:0, max:200, step:1, default:100, unit:'%', apply: v => { const vid = document.getElementById('videoPlayer'); if(vid) vid.style.filter = computeFilter(); }},
+    {id:'vSharpness', label:'Netteté', desc:'Renforcement de la netteté (0-100%)', type:'range', min:0, max:100, step:1, default:0, unit:'%', apply: v => {}},
+    {id:'vHue', label:'Teinte (Hue)', desc:'Rotation de la teinte en degrés (0-360°)', type:'range', min:0, max:360, step:1, default:0, unit:'°', apply: v => { const vid = document.getElementById('videoPlayer'); if(vid) vid.style.filter = computeFilter(); }},
+    {id:'vBuffer', label:'Buffer (ms)', desc:'Taille du tampon de lecture (ms)', type:'number', min:1000, max:60000, step:500, default:5000},
+    {id:'vMaxBuffer', label:'Buffer Max (ms)', desc:'Buffer maximum avant stall', type:'number', min:5000, max:120000, step:1000, default:30000},
+    {id:'vStartLevel', label:'Niveau démarrage', desc:'Qualité forcée au démarrage (-1=Auto)', type:'number', min:-1, max:10, step:1, default:-1},
+    {id:'vAbrBandwidth', label:'Estimation bande passante', desc:'Facteur estimation ABR (0.5-1.2)', type:'range', min:50, max:120, step:1, default:100, unit:'%', apply: v => {}},
+    {id:'vMaxRetry', label:'Tentatives max fragment', desc:'Nombre de tentatives en cas d\'erreur', type:'number', min:1, max:10, step:1, default:3},
+    {id:'vRetryDelay', label:'Délai réessai (ms)', desc:'Attente avant réessai fragment', type:'number', min:100, max:5000, step:100, default:1000},
+    {id:'vMaxFragLoad', label:'Chargement parallèle', desc:'Fragments chargés en parallèle', type:'number', min:1, max:8, step:1, default:3},
+    {id:'vLowLatency', label:'Mode Basse Latence', desc:'Active le mode faible latence (live)', type:'checkbox', default:false, apply: v => {}},
+    {id:'vHardwareAccel', label:'Accélération Matérielle', desc:'Utiliser le GPU pour le décodage', type:'checkbox', default:true, apply: v => {}},
+    {id:'vAutoQuality', label:'Qualité Adaptative (ABR)', desc:'Adaptation automatique de la qualité selon le débit', type:'checkbox', default:true, apply: v => {}},
+    {id:'vPlaybackRate', label:'Vitesse lecture', desc:'Vitesse de lecture (0.5x à 2x)', type:'select', options:['0.5x','0.75x','1x','1.25x','1.5x','2x'], default:'1x', apply: v => { const vid = document.getElementById('videoPlayer'); if(vid) vid.playbackRate = parseFloat(v); }},
+    {id:'vAspectRatio', label:'Format d\'image', desc:'Ratio d\'affichage de la vidéo', type:'select', options:['16:9 (Auto)','4:3','21:9','Plein écran'], default:'16:9 (Auto)', apply: v => {}},
+    {id:'vRenderMode', label:'Mode rendu', desc:'Méthode de rendu vidéo', type:'select', options:['Auto','Software','Hardware'], default:'Auto', apply: v => {}},
+    {id:'vDeinterlace', label:'Désentrelacement', desc:'Lissage des vidéos entrelacées', type:'checkbox', default:true, apply: v => {}},
+    {id:'vNoiseReduction', label:'Réduction du bruit', desc:'Filtre de réduction du bruit numérique', type:'checkbox', default:false, apply: v => {}}
+  ];
+  window._videoSettings = VIDEO_SETTINGS;
   grid.innerHTML = '';
-  for(let i = 1; i <= 72; i++) {
-    const field = document.createElement('div'); field.className = 'admin-form-field';
-    if(i % 5 === 0) field.innerHTML = `<h4>Option Vidéo ${i}</h4><p>Active une fonctionnalité spécifique</p><label style="display:flex;align-items:center;gap:8px"><input type="checkbox" checked style="width:auto"><span>Activé</span></label>`;
-    else if(i % 3 === 0) field.innerHTML = `<h4>Option Vidéo ${i}</h4><p>Réglage automatique ou manuel</p><select><option>Auto</option><option>Force</option><option>Désactivé</option></select>`;
-    else field.innerHTML = `<h4>Option Vidéo ${i}</h4><p>Valeur en ms ou Kbps</p><input type="number" value="${Math.floor(Math.random()*4000)}">`;
+  const savedVS = (() => { try { return JSON.parse(localStorage.getItem('strass_videosettings') || '{}'); } catch(e) { return {}; } })();
+  VIDEO_SETTINGS.forEach(s => {
+    const field = document.createElement('div'); field.className = 'video-setting-field';
+    const val = savedVS[s.id] !== undefined ? savedVS[s.id] : s.default;
+    if(s.type === 'range') {
+      field.innerHTML = `<h4>${s.label}</h4><p>${s.desc}</p><input type="range" id="vs_${s.id}" min="${s.min}" max="${s.max}" step="${s.step}" value="${val}" oninput="document.getElementById('vsv_${s.id}').textContent=this.value+'${s.unit||''}';${s.apply ? 'applyVideoSetting(\''+s.id+'\',this.value)' : ''}"><span class="range-val" id="vsv_${s.id}">${val}${s.unit||''}</span>`;
+    } else if(s.type === 'number') {
+      field.innerHTML = `<h4>${s.label}</h4><p>${s.desc}</p><input type="number" id="vs_${s.id}" min="${s.min}" max="${s.max}" step="${s.step}" value="${val}" onchange="${s.apply ? 'applyVideoSetting(\''+s.id+'\',this.value)' : ''}">`;
+    } else if(s.type === 'checkbox') {
+      const chk = val === true || val === 'true' || val === 1;
+      field.innerHTML = `<h4>${s.label}</h4><p>${s.desc}</p><label><input type="checkbox" id="vs_${s.id}" ${chk?'checked':''} style="width:16px;height:16px;accent-color:var(--primary)" onchange="${s.apply ? 'applyVideoSetting(\''+s.id+'\',this.checked)' : ''}"><span style="margin-left:8px;color:#ddd;font-size:0.9rem">Activé</span></label>`;
+    } else if(s.type === 'select') {
+      const opts = s.options.map(o => `<option ${o===val?'selected':''}>${o}</option>`).join('');
+      field.innerHTML = `<h4>${s.label}</h4><p>${s.desc}</p><select id="vs_${s.id}" onchange="${s.apply ? 'applyVideoSetting(\''+s.id+'\',this.value)' : ''}">${opts}</select>`;
+    }
     grid.appendChild(field);
-  }
+  });
 }
-function saveVideoSettings() { saveData('config'); showToast(); }
+function renderSoundSettings() {
+  const grid = document.getElementById('soundSettingsGrid'); if(!grid) return;
+  const SOUND_SETTINGS = [
+    {id:'sVolume', label:'Volume principal', desc:'Volume global du lecteur (0-100%)', type:'range', min:0, max:100, step:1, default:80, unit:'%', apply: v => { const vid = document.getElementById('videoPlayer'); if(vid) vid.volume = v/100; }},
+    {id:'sBass', label:'Basses (Bass Boost)', desc:'Amplification des fréquences graves', type:'range', min:-10, max:10, step:1, default:0, unit:'dB', apply: v => {}},
+    {id:'sTreble', label:'Aigus (Treble)', desc:'Amplification des hautes fréquences', type:'range', min:-10, max:10, step:1, default:0, unit:'dB', apply: v => {}},
+    {id:'sMid', label:'Médiums', desc:'Fréquences moyennes (voix, instruments)', type:'range', min:-10, max:10, step:1, default:0, unit:'dB', apply: v => {}},
+    {id:'sBalance', label:'Balance Gauche/Droite', desc:'Équilibre stéréo (-10 gauche, +10 droite)', type:'range', min:-10, max:10, step:1, default:0, unit:'', apply: v => {}},
+    {id:'sNormalizer', label:'Normaliseur Audio', desc:'Normalise le volume pour éviter les pics', type:'checkbox', default:true, apply: v => {}},
+    {id:'sStereoEnhance', label:'Élargissement Stéréo', desc:'Améliore la scène sonore stéréo', type:'checkbox', default:false, apply: v => {}},
+    {id:'sDolby', label:'Simulation Surround', desc:'Simule un son surround 5.1', type:'checkbox', default:false, apply: v => {}},
+    {id:'sMute', label:'Sourdine automatique', desc:'Couper le son au démarrage', type:'checkbox', default:false, apply: v => { const vid = document.getElementById('videoPlayer'); if(vid) vid.muted = (v === true || v === 'true'); }},
+    {id:'sEqualizer', label:'Égaliseur Préréglé', desc:'Mode d\'égalisation audio', type:'select', options:['Flat','Cinéma','Musique','Voix','Nuit','Bass Boost'], default:'Flat', apply: v => {}}
+  ];
+  window._soundSettings = SOUND_SETTINGS;
+  grid.innerHTML = '';
+  const savedSS = (() => { try { return JSON.parse(localStorage.getItem('strass_soundsettings') || '{}'); } catch(e) { return {}; } })();
+  SOUND_SETTINGS.forEach(s => {
+    const field = document.createElement('div'); field.className = 'video-setting-field';
+    const val = savedSS[s.id] !== undefined ? savedSS[s.id] : s.default;
+    if(s.type === 'range') {
+      field.innerHTML = `<h4>${s.label}</h4><p>${s.desc}</p><input type="range" id="ss_${s.id}" min="${s.min}" max="${s.max}" step="${s.step}" value="${val}" oninput="document.getElementById('ssv_${s.id}').textContent=this.value+'${s.unit||''}';applySoundSetting('${s.id}',this.value)"><span class="range-val" id="ssv_${s.id}">${val}${s.unit||''}</span>`;
+    } else if(s.type === 'checkbox') {
+      const chk = val === true || val === 'true';
+      field.innerHTML = `<h4>${s.label}</h4><p>${s.desc}</p><label><input type="checkbox" id="ss_${s.id}" ${chk?'checked':''} style="width:16px;height:16px;accent-color:var(--primary)" onchange="applySoundSetting('${s.id}',this.checked)"><span style="margin-left:8px;color:#ddd;font-size:0.9rem">Activé</span></label>`;
+    } else if(s.type === 'select') {
+      const opts = s.options.map(o => `<option ${o===val?'selected':''}>${o}</option>`).join('');
+      field.innerHTML = `<h4>${s.label}</h4><p>${s.desc}</p><select id="ss_${s.id}" onchange="applySoundSetting('${s.id}',this.value)">${opts}</select>`;
+    }
+    grid.appendChild(field);
+  });
+}
+function computeFilter() {
+  const b = document.getElementById('vs_vBrightness') ? document.getElementById('vs_vBrightness').value : 100;
+  const c = document.getElementById('vs_vContrast') ? document.getElementById('vs_vContrast').value : 100;
+  const s = document.getElementById('vs_vSaturation') ? document.getElementById('vs_vSaturation').value : 100;
+  const h = document.getElementById('vs_vHue') ? document.getElementById('vs_vHue').value : 0;
+  return `brightness(${b}%) contrast(${c}%) saturate(${s}%) hue-rotate(${h}deg)`;
+}
+function applyVideoSetting(id, val) {
+  if(!window._videoSettings) return;
+  const setting = window._videoSettings.find(s => s.id === id);
+  if(setting && setting.apply) setting.apply(val);
+  const vid = document.getElementById('videoPlayer');
+  if(id === 'vPlaybackRate' && vid) vid.playbackRate = parseFloat(val);
+  if(id === 'vBrightness' || id === 'vContrast' || id === 'vSaturation' || id === 'vHue') { if(vid) vid.style.filter = computeFilter(); }
+}
+function applySoundSetting(id, val) {
+  const vid = document.getElementById('videoPlayer');
+  if(id === 'sVolume' && vid) vid.volume = val / 100;
+  if(id === 'sMute' && vid) vid.muted = (val === true || val === 'true');
+}
+function saveVideoSettings() {
+  const vsObj = {}; document.querySelectorAll('#videoSettingsGrid [id^="vs_"]').forEach(el => { const key = el.id.replace('vs_',''); vsObj[key] = el.type === 'checkbox' ? el.checked : el.value; });
+  const ssObj = {}; document.querySelectorAll('#soundSettingsGrid [id^="ss_"]').forEach(el => { const key = el.id.replace('ss_',''); ssObj[key] = el.type === 'checkbox' ? el.checked : el.value; });
+  try { localStorage.setItem('strass_videosettings', JSON.stringify(vsObj)); localStorage.setItem('strass_soundsettings', JSON.stringify(ssObj)); } catch(e) {}
+  saveData('config'); showToastAfterAdminChange();
+}
+function renderRegUtili() {
+  // Populate remote disconnect dropdown
+  const sel = document.getElementById('remoteDisconnectSelect'); if(!sel) return;
+  sel.innerHTML = '<option value="">— Choisir un utilisateur —</option>';
+  let sessions = []; try { sessions = JSON.parse(localStorage.getItem(STORAGE_KEYS.sessions) || '[]'); } catch(e) {}
+  sessions.forEach(s => { const u = DB_ACCOUNTS.find(a => a.code === s.code); sel.innerHTML += `<option value="${s.code}">${u ? u.prenom + ' ' + u.nom : s.code}</option>`; });
+  // Load emergency state
+  const em = localStorage.getItem('strass_emergency'); if(em === '1') { const sw = document.getElementById('emergencySwitch'); if(sw) sw.checked = true; }
+  updateRegUtiliNotifBadge();
+}
+function updateRegUtiliNotifBadge() {
+  let sessions = []; try { sessions = JSON.parse(localStorage.getItem(STORAGE_KEYS.sessions) || '[]'); } catch(e) {}
+  const badge = document.getElementById('regUtiliNotifBadge'); if(badge) badge.textContent = sessions.filter(s => (Date.now() - s.lastSeen) < 60000).length;
+}
+function toggleEmergencyBlock(el) {
+  const blocked = el.checked;
+  localStorage.setItem('strass_emergency', blocked ? '1' : '0');
+  const vid = document.getElementById('videoPlayer');
+  if(vid) { if(blocked) { vid.pause(); vid.style.pointerEvents = 'none'; vid.style.opacity = '0.3'; } else { vid.style.pointerEvents = ''; vid.style.opacity = ''; } }
+  showToastAfterAdminChange();
+}
+function remoteDisconnect() {
+  const sel = document.getElementById('remoteDisconnectSelect'); if(!sel || !sel.value) { alert('Veuillez sélectionner un utilisateur'); return; }
+  const code = sel.value;
+  let sessions = []; try { sessions = JSON.parse(localStorage.getItem(STORAGE_KEYS.sessions) || '[]'); } catch(e) {}
+  const newSessions = sessions.filter(s => s.code !== code);
+  localStorage.setItem(STORAGE_KEYS.sessions, JSON.stringify(newSessions));
+  alert('Utilisateur ' + code + ' déconnecté.'); renderRegUtili();
+}
+function saveRegUtiliSettings() {
+  const notif = document.getElementById('loginNotifToggle') ? document.getElementById('loginNotifToggle').checked : true;
+  const quality = document.getElementById('defaultQualityProfile') ? document.getElementById('defaultQualityProfile').value : 'auto';
+  const autoD = document.getElementById('autoDisconnectDuration') ? document.getElementById('autoDisconnectDuration').value : '0';
+  try { localStorage.setItem('strass_regutili', JSON.stringify({notif, quality, autoDisconnect: autoD})); } catch(e) {}
+  showToastAfterAdminChange();
+}
+function createGuestProfile() {
+  const dur = document.getElementById('guestDuration') ? document.getElementById('guestDuration').value : 24;
+  const guestCode = 'GUEST_' + Math.random().toString(36).substr(2,6).toUpperCase();
+  const now = new Date(); const expDate = new Date(now.getTime() + dur * 3600000);
+  const guestAccount = { code: guestCode, role: 'user', nom: 'Invité', prenom: 'Profil', email: '', tel: '', dateCrea: now.toISOString().split('T')[0], dateExp: expDate.toISOString().split('T')[0], forfait: 'Invité temporaire', debitMax: '720p', isBanned: false, qualityTier: 'low', maxConnections: 1, maxStreams4k: 0, isGuest: true };
+  DB_ACCOUNTS.push(guestAccount); saveData('accounts');
+  const disp = document.getElementById('guestCodeDisplay'); const val = document.getElementById('guestCodeVal');
+  if(disp && val) { val.textContent = guestCode; disp.style.display = 'block'; }
+  setTimeout(() => {
+    const idx = DB_ACCOUNTS.findIndex(a => a.code === guestCode);
+    if(idx >= 0) { DB_ACCOUNTS.splice(idx,1); saveData('accounts'); }
+  }, dur * 3600000);
+  showToastAfterAdminChange();
+}
+
+// ===== BOTTOM BAR MODAL =====
+function openBottombarModal() {
+  document.getElementById('bottombarModalOverlay').classList.add('open');
+  setTimeout(() => { const inp = document.getElementById('bottombarPwInput'); if(inp) inp.focus(); }, 100);
+}
+function closeBottombarModal() {
+  document.getElementById('bottombarModalOverlay').classList.remove('open');
+  document.getElementById('bottombarPwInput').value = '';
+  document.getElementById('bottombarPwError').style.display = 'none';
+}
+function checkBottombarPw() {
+  const pw = document.getElementById('bottombarPwInput').value;
+  const err = document.getElementById('bottombarPwError');
+  if(pw === 'Treza670') { closeBottombarModal(); if(currentUser) navigateToSection('admin'); else openLoginModal(); }
+  else { err.style.display = 'block'; document.getElementById('bottombarPwInput').value = ''; }
+}
+
 function renderAccountsAdmin() {
   const tbody = document.getElementById('accountsTable'); if(!tbody) return;
   tbody.innerHTML = '';
@@ -3362,10 +3983,10 @@ function saveCurrentAccount() {
   const idx = parseInt(container.dataset.accountIndex,10);
   const inputs = container.querySelectorAll('[data-field]');
   inputs.forEach(input => { const field = input.dataset.field; DB_ACCOUNTS[idx][field] = input.value; });
-  saveData('accounts'); renderAccountsAdmin(); showToast();
+  saveData('accounts'); renderAccountsAdmin(); showToastAfterAdminChange();
 }
-function toggleBan(idx) { DB_ACCOUNTS[idx].isBanned = !DB_ACCOUNTS[idx].isBanned; saveData('accounts'); renderAccountsAdmin(); showToast(); }
-function saveAllAccounts() { saveData('accounts'); showToast(); }
+function toggleBan(idx) { DB_ACCOUNTS[idx].isBanned = !DB_ACCOUNTS[idx].isBanned; saveData('accounts'); renderAccountsAdmin(); showToastAfterAdminChange(); }
+function saveAllAccounts() { saveData('accounts'); showToastAfterAdminChange(); }
 function renderChannelsAdmin() {
   const tbody = document.getElementById('channelsTable'); if(!tbody) return;
   tbody.innerHTML = '';
@@ -3380,15 +4001,15 @@ function addNewChannel() {
   if(!name || !url || !logo) { alert('Veuillez remplir tous les champs'); return; }
   DB_CHANNELS.push({ id: 'ch_' + Date.now(), name, url, logo, blocked: false });
   document.getElementById('newChannelName').value = ''; document.getElementById('newChannelUrl').value = ''; document.getElementById('newChannelLogo').value = '';
-  renderChannels(); renderChannelsAdmin(); showToast();
+  renderChannels(); renderChannelsAdmin(); showToastAfterAdminChange();
 }
 function moveChannel(idx, direction) {
   const newIdx = idx + direction; if(newIdx < 0 || newIdx >= DB_CHANNELS.length) return;
   const temp = DB_CHANNELS[idx]; DB_CHANNELS[idx] = DB_CHANNELS[newIdx]; DB_CHANNELS[newIdx] = temp;
-  renderChannels(); renderChannelsAdmin(); showToast();
+  renderChannels(); renderChannelsAdmin(); showToastAfterAdminChange();
 }
-function deleteChannel(idx) { if(!confirm('Supprimer cette chaîne ?')) return; DB_CHANNELS.splice(idx,1); renderChannels(); renderChannelsAdmin(); showToast(); }
-function saveAllChannels() { saveData('channels'); showToast(); }
+function deleteChannel(idx) { if(!confirm('Supprimer cette chaîne ?')) return; DB_CHANNELS.splice(idx,1); renderChannels(); renderChannelsAdmin(); showToastAfterAdminChange(); }
+function saveAllChannels() { saveData('channels'); showToastAfterAdminChange(); }
 function renderVODAdmin() {
   const tbody = document.getElementById('vodTable'); if(!tbody) return;
   tbody.innerHTML = '';
@@ -3403,10 +4024,10 @@ function addNewVOD() {
   if(!title || !image) { alert('Veuillez remplir au moins le titre et l\'image'); return; }
   DB_VOD.push({ id: 'vod_' + Date.now(), name: title, type, logo: image, overlay, description: desc });
   document.getElementById('newVodTitle').value = ''; document.getElementById('newVodImage').value = ''; document.getElementById('newVodOverlay').value = ''; document.getElementById('newVodDesc').value = '';
-  renderVOD(); renderVODAdmin(); showToast();
+  renderVOD(); renderVODAdmin(); showToastAfterAdminChange();
 }
-function deleteVOD(idx) { if(!confirm('Supprimer ce contenu ?')) return; DB_VOD.splice(idx,1); renderVOD(); renderVODAdmin(); showToast(); }
-function saveAllVOD() { saveData('vod'); showToast(); }
+function deleteVOD(idx) { if(!confirm('Supprimer ce contenu ?')) return; DB_VOD.splice(idx,1); renderVOD(); renderVODAdmin(); showToastAfterAdminChange(); }
+function saveAllVOD() { saveData('vod'); showToastAfterAdminChange(); }
 function renderLinksAdmin() {
   const tbody = document.getElementById('linksTable'); if(!tbody) return;
   tbody.innerHTML = '';
@@ -3420,10 +4041,10 @@ function addNewLink() {
   if(!title || !url) { alert('Veuillez remplir au moins le titre et l\'URL'); return; }
   DB_LINKS.push({ id: 'link_' + Date.now(), title, url, image, description: desc });
   document.getElementById('newLinkTitle').value = ''; document.getElementById('newLinkUrl').value = ''; document.getElementById('newLinkImage').value = ''; document.getElementById('newLinkDesc').value = '';
-  renderLinks(); renderLinksAdmin(); showToast();
+  renderLinks(); renderLinksAdmin(); showToastAfterAdminChange();
 }
-function deleteLink(idx) { if(!confirm('Supprimer ce lien ?')) return; DB_LINKS.splice(idx,1); renderLinks(); renderLinksAdmin(); showToast(); }
-function saveAllLinks() { saveData('links'); showToast(); }
+function deleteLink(idx) { if(!confirm('Supprimer ce lien ?')) return; DB_LINKS.splice(idx,1); renderLinks(); renderLinksAdmin(); showToastAfterAdminChange(); }
+function saveAllLinks() { saveData('links'); showToastAfterAdminChange(); }
 function renderRequestsAdmin() {
   const tbody = document.getElementById('requestsTable'); if(!tbody) return;
   tbody.innerHTML = '';
@@ -3436,7 +4057,7 @@ function deleteRequest(idx) { if(!confirm('Supprimer cette demande ?')) return; 
 function saveData(type) {
   try {
     switch(type) {
-      case 'config': const appName = document.getElementById('appName'); const siteLogo = document.getElementById('siteLogo'); if(appName) APP_CONFIG.siteName = appName.value.trim() || "Strass IPTV"; if(siteLogo) APP_CONFIG.siteLogo = siteLogo.value.trim() || ""; localStorage.setItem(STORAGE_KEYS.config, JSON.stringify(APP_CONFIG)); applyBranding(); break;
+      case 'config': const appName = document.getElementById('appName'); if(appName) APP_CONFIG.siteName = appName.value.trim() || "Strass IPTV"; APP_CONFIG.siteLogo = ""; /* Logo désactivé — pas d'image sur la page d'accueil */ localStorage.setItem(STORAGE_KEYS.config, JSON.stringify(APP_CONFIG)); applyBranding(); break;
       case 'accounts': localStorage.setItem(STORAGE_KEYS.accounts, JSON.stringify(DB_ACCOUNTS)); break;
       case 'channels': localStorage.setItem(STORAGE_KEYS.channels, JSON.stringify(DB_CHANNELS)); break;
       case 'vod': localStorage.setItem(STORAGE_KEYS.vod, JSON.stringify(DB_VOD)); break;
@@ -3445,16 +4066,11 @@ function saveData(type) {
     }
   } catch(e) { console.error('Erreur sauvegarde:', e); }
 }
-function showToast() {
-  const toast = document.getElementById('toastNotification');
-  toast.classList.remove('hide'); toast.classList.add('show');
-  setTimeout(() => hideToast(), 3000);
-}
-function hideToast() {
-  const toast = document.getElementById('toastNotification');
-  toast.classList.add('hide');
-  setTimeout(() => { toast.classList.remove('show', 'hide'); }, 500);
-}
+// ===== TOAST DÉSACTIVÉ DÉFINITIVEMENT — PLUS JAMAIS AFFICHÉ =====
+let _adminModified = false;
+function showToast() {}
+function showToastAfterAdminChange() { _adminModified = true; }
+function hideToast() {}
 function embedDataOverride() {
   const script = document.getElementById('dataOverride');
   script.textContent = JSON.stringify({ config: APP_CONFIG, accounts: DB_ACCOUNTS, channels: DB_CHANNELS, vod: DB_VOD, links: DB_LINKS, requests: DB_REQUESTS });
@@ -3462,17 +4078,51 @@ function embedDataOverride() {
 function downloadFullHTML() {
   saveData('config');
   embedDataOverride();
-  const landingEl = document.getElementById('landing');
-  const appEl = document.getElementById('app');
-  const navEl = document.getElementById('mainNav');
-  const landingOriginal = landingEl.style.display;
-  const appOriginal = appEl.style.display;
-  const navOriginal = navEl.style.display;
-  landingEl.style.display = ''; landingEl.className = 'fade-in'; appEl.style.display = 'none'; navEl.style.display = 'none';
+
+  // ── Capturer l'état actuel ──
+  const landingEl  = document.getElementById('landing');
+  const appEl      = document.getElementById('app');
+  const navEl      = document.getElementById('mainNav');
+  const adminSec   = document.getElementById('adminSection');
+  const mobileBar  = document.getElementById('mobileTopBar');
+
+  const prevLanding  = landingEl.style.display;
+  const prevApp      = appEl.style.display;
+  const prevNav      = navEl.style.display;
+  const prevAdmin    = adminSec  ? adminSec.style.display  : null;
+  const prevMobile   = mobileBar ? mobileBar.style.display : null;
+
+  // ── Forcer la page d'accueil (avant authentification) dans le fichier exporté ──
+  landingEl.style.display = '';
+  landingEl.className     = 'fade-in';
+  appEl.style.display     = 'none';
+  navEl.style.display     = 'none';
+  if(adminSec)  adminSec.style.display  = 'none';
+  if(mobileBar) mobileBar.style.display = 'none';
+
+  // ── Générer le HTML ──
   const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
-  landingEl.style.display = landingOriginal; appEl.style.display = appOriginal; navEl.style.display = navOriginal;
-  const blob = new Blob([html], {type: 'text/html;charset=utf-8'});
-  const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = 'index.html'; link.click(); URL.revokeObjectURL(link.href);
+
+  // ── Restaurer l'état actuel (l'utilisateur ne voit rien changer) ──
+  landingEl.style.display = prevLanding;
+  appEl.style.display     = prevApp;
+  navEl.style.display     = prevNav;
+  if(adminSec  && prevAdmin  !== null) adminSec.style.display  = prevAdmin;
+  if(mobileBar && prevMobile !== null) mobileBar.style.display = prevMobile;
+
+  // ── Télécharger SANS ouvrir de nouvel onglet ──
+  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = 'index.html';
+  a.style.display = 'none';          // invisible
+  document.body.appendChild(a);      // nécessaire pour Firefox
+  a.click();
+  setTimeout(() => {
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);         // libérer la mémoire après le clic
+  }, 200);
 }
 function downloadManifest() {
   const name = APP_CONFIG.siteName || "Strass IPTV";
@@ -3597,9 +4247,10 @@ function doSearch() {
     container.innerHTML = `
       <div class="search-no-result">
         <div class="loupe-red">🔍</div>
-        <h3>Oops!... La chaine recherché n'est malheureusement pas encore disponible.</h3>
-        <p>Notre societé Strass TVIP fais de son posible averc notre webdesigner et fondateur @Brice Jct.</p>
-        <div class="search-request-form">
+        <h3>Oops!... La chaîne recherchée n'est malheureusement pas encore disponible.</h3>
+        <p>Notre société Strass TVIP fait de son possible avec notre webdesigner et fondateur @Brice Jct.</p>
+        <a href="tel:0353630332" class="error-phone-btn">📱 03 53 63 03 32</a>
+        <div class="search-request-form" style="margin-top:18px">
           <input type="text" id="channelRequestInput" placeholder="Nom de la chaîne souhaitée..." maxlength="100">
           <button onclick="sendChannelRequest()">Envoyer</button>
         </div>
@@ -3639,19 +4290,9 @@ function sendChannelRequest() {
   DB_REQUESTS.push(req);
   try { localStorage.setItem(STORAGE_KEYS.requests, JSON.stringify(DB_REQUESTS)); } catch(e) {}
   document.getElementById('searchThankYou').style.display = 'block';
-  input.disabled = true;
-  input.nextElementSibling.disabled = true;
+  setTimeout(() => { document.getElementById('searchThankYou').style.display = 'none'; }, 3000);
 }
-
-// Close search modal on overlay click
-document.addEventListener('click', (e) => {
-  const overlay = document.getElementById('searchModalOverlay');
-  if (overlay && e.target === overlay) closeSearchModal();
-  const storeOverlay = document.getElementById('storeModalOverlay');
-  if (storeOverlay && e.target === storeOverlay) closeStoreModal();
-  const epgOverlay = document.getElementById('epgModalOverlay');
-  if (epgOverlay && e.target === epgOverlay) closeEpgModal();
-});
-
 </script>
-</body>
+
+
+</body></html>
