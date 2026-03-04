@@ -3,7 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1, user-scalable=yes">
-<title>Strass IPTV - Expérience Cinéma 4K Illimitée</title>
+<title>Strass IPTV</title>
+<meta name="description" content="Le futur du streaming 4k ! - Société Basé à Strasbourg.">
+<meta property="og:title" content="Strass IPTV">
+<meta property="og:description" content="Le futur du streaming 4k ! - Société Basé à Strasbourg.">
+<meta property="og:type" content="website">
 <meta name="theme-color" content="#0a0a0a">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -144,7 +148,7 @@ body {
 /* ===== NAVIGATION PRINCIPALE (DESKTOP) ===== */
 .nav {
   position: fixed;
-  top: 2.5mm; /* MODIFICATION : descendue de 2.5mm */
+  top: 8px; /* slightly lower, overlapping red bar by ~2mm */
   left: 0;
   right: 0;
   height: 60px;
@@ -152,11 +156,338 @@ body {
   align-items: center;
   padding: 0 4%;
   backdrop-filter: blur(20px) saturate(180%);
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.85);
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   z-index: 100;
   transition: var(--transition);
 }
+
+/* ===== HAMBURGER MENU DROPDOWN (DESKTOP) ===== */
+.nav-hamburger-btn {
+  margin-left: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 8px;
+  border-radius: 10px;
+  transition: var(--transition);
+  position: relative;
+  z-index: 200;
+}
+.nav-hamburger-btn span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: #fff;
+  border-radius: 2px;
+  transition: var(--transition);
+}
+.nav-hamburger-btn:hover {
+  background: rgba(229,9,20,0.15);
+}
+.nav-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 4%;
+  min-width: 220px;
+  background: rgba(10,10,10,0.72);
+  backdrop-filter: blur(28px) saturate(200%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 18px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.7), 0 2px 16px rgba(229,9,20,0.12), 0 0 0 1px rgba(229,9,20,0.08);
+  padding: 10px 0;
+  display: none;
+  z-index: 300;
+  animation: dropdownIn 0.25s cubic-bezier(0.34,1.56,0.64,1);
+  transform-origin: top right;
+}
+.nav-dropdown.open { display: block; }
+@keyframes dropdownIn {
+  from { opacity:0; transform:scale(0.88) translateY(-10px) rotateX(-10deg); }
+  to   { opacity:1; transform:scale(1) translateY(0) rotateX(0deg); }
+}
+.nav-dropdown li {
+  list-style: none;
+  padding: 0;
+}
+.nav-dropdown li a, .nav-dropdown li span {
+  display: block;
+  padding: 12px 22px;
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  border-radius: 12px;
+  margin: 2px 6px;
+  transition: background 0.2s, transform 0.2s, text-shadow 0.2s;
+  text-decoration: none;
+  position: relative;
+}
+.nav-dropdown li a:hover, .nav-dropdown li span:hover {
+  background: rgba(229,9,20,0.18);
+  transform: translateX(4px) scale(1.03);
+  text-shadow: 0 0 16px rgba(229,9,20,0.6), 0 2px 8px rgba(0,0,0,0.4);
+  animation: textFloat 2s ease-in-out infinite;
+}
+@keyframes textFloat {
+  0%,100% { transform: translateX(4px) scale(1.03) translateY(0); }
+  50% { transform: translateX(4px) scale(1.03) translateY(-2px); }
+}
+.nav-dropdown .admin-dd-item span {
+  color: #ff3333;
+  text-shadow: 0 0 10px rgba(255,50,50,0.4);
+}
+.nav-dropdown .admin-dd-item span:hover {
+  background: rgba(229,9,20,0.25);
+  text-shadow: 0 0 20px rgba(255,50,50,0.8);
+}
+.nav-dropdown-divider {
+  height: 1px;
+  background: rgba(255,255,255,0.07);
+  margin: 6px 14px;
+}
+
+/* ===== SEARCH MODAL ===== */
+.search-trigger-btn {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 52px;
+  height: 52px;
+  background: rgba(229,9,20,0.85);
+  backdrop-filter: blur(16px);
+  border: 2px solid rgba(255,255,255,0.18);
+  border-radius: 50%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 98;
+  box-shadow: 0 4px 20px rgba(229,9,20,0.5);
+  transition: var(--transition);
+  font-size: 1.4rem;
+}
+.search-trigger-btn:hover {
+  transform: translateX(-50%) scale(1.12);
+  box-shadow: 0 6px 28px rgba(229,9,20,0.7);
+}
+.search-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.82);
+  backdrop-filter: blur(12px);
+  z-index: 500;
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 60px;
+  animation: fadeIn 0.2s ease;
+}
+.search-modal-overlay.open { display: flex; }
+.search-modal {
+  width: 90%;
+  max-width: 560px;
+  background: rgba(15,15,15,0.96);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 24px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 0 1px rgba(229,9,20,0.12);
+  padding: 28px 24px 24px;
+  position: relative;
+  max-height: 80vh;
+  overflow-y: auto;
+  animation: dropdownIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+.search-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  text-shadow: 0 0 10px rgba(229,9,20,0.8), 0 2px 6px rgba(229,9,20,0.5);
+  transition: var(--transition);
+}
+.search-modal-close:hover { background: rgba(229,9,20,0.2); transform: scale(1.1); }
+.search-input-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.search-input-row input {
+  flex: 1;
+  padding: 12px 18px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 14px;
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+  transition: border 0.2s;
+}
+.search-input-row input:focus { border-color: var(--primary); }
+.search-input-row button {
+  padding: 12px 22px;
+  background: var(--primary);
+  border: none;
+  border-radius: 14px;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.search-input-row button:hover { background: var(--primary-hover); transform: scale(1.04); }
+.search-results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 14px;
+}
+.search-result-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 12px 8px;
+  cursor: pointer;
+  transition: var(--transition);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.3;
+}
+.search-result-btn:hover {
+  background: rgba(229,9,20,0.2);
+  border-color: rgba(229,9,20,0.4);
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 8px 20px rgba(229,9,20,0.25);
+}
+.search-result-btn img {
+  width: 64px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.05);
+}
+.search-no-result {
+  text-align: center;
+  padding: 20px 0;
+}
+.search-no-result .loupe-red { font-size: 2.5rem; color: var(--primary); margin-bottom: 14px; }
+.search-no-result h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+.search-no-result p { font-size: 0.8rem; color: #aaa; margin-bottom: 18px; }
+.search-request-form { display: flex; gap: 8px; margin-top: 10px; justify-content: center; }
+.search-request-form input {
+  padding: 9px 14px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px;
+  color: #fff;
+  font-size: 0.85rem;
+  outline: none;
+  width: 200px;
+}
+.search-request-form button {
+  padding: 9px 16px;
+  background: var(--primary);
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+.search-thank-you { color: #0f0; font-weight: 700; margin-top: 12px; text-align:center; }
+
+/* ===== STORE PAGE ===== */
+.store-logo-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 24px;
+}
+.store-play-logo {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 12px;
+}
+.store-title {
+  font-size: 1.8rem;
+  font-weight: 900;
+  text-align: center;
+  background: linear-gradient(135deg, #fff, #f0f0f0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 8px;
+}
+.store-subtitle {
+  text-align: center;
+  color: #fff;
+  font-size: 0.95rem;
+  opacity: 0.8;
+  margin-bottom: 24px;
+}
+/* Store modal */
+.store-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.82);
+  backdrop-filter: blur(12px);
+  z-index: 500;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+.store-modal-overlay.open { display: flex; }
+.store-modal {
+  width: 90%;
+  max-width: 480px;
+  background: rgba(15,15,15,0.97);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 24px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+  padding: 32px 28px 28px;
+  position: relative;
+  animation: dropdownIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+.store-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  text-shadow: 0 0 10px rgba(229,9,20,0.8);
+  transition: var(--transition);
+}
+.store-modal-close:hover { background: rgba(229,9,20,0.2); transform: scale(1.1); }
+.store-modal h3 { font-size: 1.3rem; font-weight: 800; margin-bottom: 10px; }
+.store-modal p { color: #ccc; font-size: 0.9rem; margin-bottom: 20px; line-height: 1.6; }
+.store-modal .btn-primary { width: 100%; text-align: center; }
 
 .nav.scrolled {
   background: rgba(0, 0, 0, 0.8);
@@ -269,7 +600,7 @@ body {
   align-items: center;
   padding: 16px 5%;
   position: fixed;
-  top: 2.5mm; /* MODIFICATION : descendue de 2.5mm */
+  top: 0;
   left: 0;
   right: 0;
   z-index: 100;
@@ -1654,16 +1985,16 @@ video {
   background: rgba(0, 0, 0, 0.9);
   backdrop-filter: blur(20px);
   border-top: 1px solid rgba(255, 255, 255, 0.05);
-  padding: 6px 5%;
+  padding: 8px 2% 10px;
   z-index: 99;
   box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.8);
-  height: 60px;
+  height: 70px;
 }
 
 .mobile-menu-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 5px;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 3px;
   height: 100%;
   align-items: center;
 }
@@ -1703,7 +2034,7 @@ video {
 .mobile-top-bar {
   display: none;
   position: fixed;
-  top: 2.5mm; /* MODIFICATION : descendue de 2.5mm */
+  top: 0;
   left: 0;
   right: 0;
   height: 45px;
@@ -1848,7 +2179,7 @@ video {
   .nav { display: none; }
   .mobile-menu { display: block; }
   .mobile-top-bar { display: flex; }
-  .main-content { margin-top: 55px; padding-bottom: 70px; }
+  .main-content { margin-top: 55px; padding-bottom: 80px; }
   .hero .brand-text.hero-brand { font-size: 3.5rem; }
   .hero-subtitle { font-size: 1.2rem; }
   .hero-desc { font-size: 1rem; padding: 25px; }
@@ -1866,14 +2197,6 @@ video {
 @media (max-width: 480px) {
   .hero .brand-text.hero-brand { font-size: 2.5rem; }
   .pricing-title { font-size: 2rem; }
-}
-
-/* MODIFICATION : Sur PC, la barre noire remonte pour masquer la barre rouge */
-@media (min-width: 769px) {
-  .nav, .header-landing {
-    top: 0;
-    z-index: 1001;
-  }
 }
 </style>
 </head>
@@ -2087,16 +2410,30 @@ video {
     <img id="nav-logo" src="" alt="" style="display:none">
     <span class="brand-text">STRASS IPTV</span>
   </div>
-  <ul class="menu">
+  <ul class="menu" style="display:none">
     <li id="nav-tv" class="active" onclick="navigateToSection('tv')">TV en Direct</li>
     <li id="nav-vod" onclick="navigateToSection('vod')">Films & Séries</li>
     <li id="nav-links" onclick="navigateToSection('links')">Lien & App.apk</li>
     <li id="nav-account" onclick="navigateToSection('account')">Mon Compte</li>
     <li id="nav-admin" style="display:none" onclick="navigateToSection('admin')">Panel Admin</li>
   </ul>
-  <div class="badge">
+  <div class="badge" style="margin-left:auto;margin-right:12px">
     <span id="userName">Utilisateur</span>
     <button class="logout" onclick="handleLogout()">Déconnexion</button>
+  </div>
+  <!-- Hamburger button -->
+  <div style="position:relative">
+    <button class="nav-hamburger-btn" id="hamburgerBtn" onclick="toggleHamburger(event)" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-dropdown" id="navDropdown">
+      <li><span onclick="navigateToSection('tv');closeHamburger()">📺 TV en direct</span></li>
+      <li><span onclick="navigateToSection('vod');closeHamburger()">🎬 VOD</span></li>
+      <li><span onclick="navigateToSection('links');closeHamburger()">🛍 Lien et Apps</span></li>
+      <li><span onclick="navigateToSection('account');closeHamburger()">👤 Mon compte</span></li>
+      <li class="nav-dropdown-divider" style="list-style:none"></li>
+      <li class="admin-dd-item" id="adminDdItem" style="display:none"><span onclick="navigateToSection('admin');closeHamburger()">🔴 Panel Admin</span></li>
+    </ul>
   </div>
 </nav>
 
@@ -2155,7 +2492,36 @@ video {
   </div>
 
   <div class="main-content" id="linksSection" style="display:none">
-    <h2 class="section-title">Lien & Applications</h2>
+    <div class="store-logo-wrap">
+      <!-- Play Store-inspired SVG logo with "store" text -->
+      <svg class="store-play-logo" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="sg1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#00C2FF"/>
+            <stop offset="100%" style="stop-color:#4285F4"/>
+          </linearGradient>
+          <linearGradient id="sg2" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#FF3D00"/>
+            <stop offset="100%" style="stop-color:#E50914"/>
+          </linearGradient>
+          <linearGradient id="sg3" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#00E676"/>
+            <stop offset="100%" style="stop-color:#00BFA5"/>
+          </linearGradient>
+          <linearGradient id="sg4" x1="100%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#FFD600"/>
+            <stop offset="100%" style="stop-color:#FF6D00"/>
+          </linearGradient>
+        </defs>
+        <path d="M8 8 L42 40 L8 72 Z" fill="url(#sg1)" opacity="0.9"/>
+        <path d="M8 8 L58 22 L42 40 Z" fill="url(#sg4)" opacity="0.95"/>
+        <path d="M8 72 L42 40 L58 58 Z" fill="url(#sg3)" opacity="0.95"/>
+        <path d="M42 40 L58 22 L72 40 L58 58 Z" fill="url(#sg2)" opacity="0.95"/>
+        <text x="40" y="90" text-anchor="middle" font-family="Montserrat,sans-serif" font-size="14" font-weight="900" fill="#fff" letter-spacing="2">store</text>
+      </svg>
+      <h2 class="store-title">Strass IPTV Store</h2>
+      <p class="store-subtitle">Bienvenue sur notre store de lien et d'application web et mobile.</p>
+    </div>
     <div class="content-grid" id="linksGrid"></div>
   </div>
 
@@ -2174,7 +2540,7 @@ video {
       </div>
       <div class="contact-actions">
         <a href="tel:0353630332" class="contact-btn"><span>📞</span>03 53 63 03 32</a>
-        <a href="mailto:contact@strassiptv.fr" class="contact-btn email"><span>✉️</span>contact@strassiptv.fr</a>
+        <a href="/cdn-cgi/l/email-protection#c5a6aaabb1a4a6b185b6b1b7a4b6b6acb5b1b3eba3b7" class="contact-btn email"><span>✉️</span><span class="__cf_email__" data-cfemail="6605090812070512261512140715150f161210480014">[email&#160;protected]</span></a>
       </div>
     </div>
   </div>
@@ -2273,4 +2639,744 @@ video {
       <div class="mobile-menu-item" onclick="navigateToSection('vod'); scrollToTop()"><span class="icon">🎬</span><span>VOD</span></div>
       <div class="mobile-menu-item" onclick="navigateToSection('links'); scrollToTop()"><span class="icon">🔗</span><span>Apps</span></div>
       <div class="mobile-menu-item" onclick="navigateToSection('account'); scrollToTop()"><span class="icon">👤</span><span>Compte</span></div>
-      <div class="mobile-menu-item admin-item" id="mobileAdminItem" onclick="navigateTo
+      <div class="mobile-menu-item admin-item" id="mobileAdminItem" onclick="navigateToSection('admin'); scrollToTop()"><span class="icon">⚙️</span><span>Admin</span></div>
+    </div>
+  </div>
+
+  <!-- SEARCH BUTTON (below logo area, mobile) -->
+  <button class="search-trigger-btn" id="searchTriggerBtn" onclick="openSearchModal()" title="Rechercher une chaîne">🔍</button>
+
+  <!-- SEARCH MODAL -->
+  <div class="search-modal-overlay" id="searchModalOverlay">
+    <div class="search-modal">
+      <button class="search-modal-close" onclick="closeSearchModal()">✕</button>
+      <h2 style="font-size:1.2rem;font-weight:800;margin-bottom:16px">🔍 Rechercher une chaîne</h2>
+      <div class="search-input-row">
+        <input type="text" id="searchInput" placeholder="Nom de la chaîne..." onkeydown="if(event.key==='Enter')doSearch()">
+        <button onclick="doSearch()">Chercher</button>
+      </div>
+      <div id="searchResultsContainer"></div>
+    </div>
+  </div>
+
+  <!-- STORE MODAL -->
+  <div class="store-modal-overlay" id="storeModalOverlay">
+    <div class="store-modal">
+      <button class="store-modal-close" onclick="closeStoreModal()">✕</button>
+      <h3 id="storeModalTitle">Application</h3>
+      <p id="storeModalDesc">Description de l'application.</p>
+      <a id="storeModalLink" href="#" target="_blank" class="btn-primary" style="display:inline-block;padding:12px 28px;background:var(--primary);color:#fff;border-radius:14px;font-weight:700;text-decoration:none;width:100%;text-align:center;">Ouvrir / Télécharger</a>
+    </div>
+  </div>
+
+  <!-- FOOTER (visible sur PC uniquement) -->
+  <footer class="footer">
+    <div class="footer-brand">STRASS IPTV</div>
+    <div class="footer-content">Streaming Premium Ultra HD 4K • Strasbourg, France • Tous droits réservés © 2026 • @ By Brice Jct</div>
+  </footer>
+</div>
+
+<div class="toast-notification" id="toastNotification">
+  <span id="toastMessage">Modifications non publiées. Téléchargez le HTML et mettez à jour sur GitHub.</span>
+  <button class="toast-btn" onclick="downloadFullHTML()">Télécharger</button>
+  <button class="toast-close" onclick="hideToast()">×</button>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script id="dataOverride" type="application/json"></script>
+<script>
+// =========================================================================
+// CODE ORIGINAL CONSERVÉ (variables, fonctions, bases de données)
+// =========================================================================
+let APP_CONFIG = { siteName: "Strass IPTV", siteLogo: "" };
+let DB_ACCOUNTS = [
+  {code:"Treza670",role:"admin",nom:"Jacotet",prenom:"Brice",email:"Strassweb67@gmail.com",tel:"0619696332",dateCrea:"2024-01-01",dateExp:"2099-12-31",forfait:"GÉRANT: Admin Full Ultra HD 4K",debitMax:"Illimité",isBanned:false,qualityTier:"high",maxConnections:10,maxStreams4k:10},
+  {code:"Gogo67000",role:"user",nom:"Rauch",prenom:"Gauthier",email:"jean@gmail.com",tel:"0700000000",dateCrea:"2025-01-01",dateExp:"2026-12-31",forfait:"Basique - 19.90€",debitMax:"1080p",isBanned:false,qualityTier:"medium",maxConnections:3,maxStreams4k:0},
+  {code:"Marie67300",role:"user",nom:"Jacotet",prenom:"Marie-Christine",email:"Mariechristinejacotet@gmail.com",tel:"0617633880",dateCrea:"2024-05-10",dateExp:"2028-05-10",forfait:"Ultra Full UHD 4K",debitMax:"4K",isBanned:false,qualityTier:"high",maxConnections:5,maxStreams4k:3}
+];
+let DB_CHANNELS = [
+  {id:"ch1",name:"TF1 HD Premium",url:"https://viamotionhsi.netplus.ch/live/eds/tf1hd/browser-HLS8/tf1hd.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tf1-fr.png",blocked:false},
+  {id:"ch2",name:"France 2 4K",url:"https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/france2.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-2-fr.png",blocked:false},
+  {id:"ch3",name:"M6 HD VIP",url:"https://viamotionhsi.netplus.ch/live/eds/m6hd/browser-HLS8/m6hd.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/m6-fr.png",blocked:false},
+  {id:"ch4",name:"Alerte Cobra 24/7",url:"https://alarm-for-cobra-rakuten-tv-fr.fast.rakuten.tv/v1/master/0547f18649bd788bec7b67b746e47670f558b6b2/production-LiveChannel-6477/master.m3u8",logo:"https://via.placeholder.com/640x360/111/fff?text=Cobra",blocked:false},
+
+
+
+
+
+/* === USER-PROVIDED CHANNELS BEGIN HERE (PLACEHOLDER) === */
+  {id:"ch5",name:"AB EXPLORE HD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/208160.m3u8",logo:"https://via.placeholder.com/80x50/111/fff?text=TV",blocked:false},
+  {id:"ch6",name:"AB1 FHD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/65831.m3u8",logo:"https://via.placeholder.com/80x50/111/fff?text=TV",blocked:false},
+  {id:"ch7",name:"AB3 FHD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/65830.m3u8",logo:"https://via.placeholder.com/80x50/111/fff?text=TV",blocked:false},
+  {id:"ch8",name:"ACTION FHD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/62340.m3u8",logo:"https://via.placeholder.com/80x50/111/fff?text=TV",blocked:false},
+  {id:"ch9",name:"Alpha Ju HD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/91158.m3u8",logo:"https://via.placeholder.com/80x50/111/fff?text=TV",blocked:false},
+  {id:"ch10",name:"Alsace 20 HD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/65703.m3u8",logo:"https://via.placeholder.com/80x50/111/fff?text=TV",blocked:false},
+  {id:"ch11",name:"ALTICE STUDIO FHD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/88506.m3u8",logo:"https://via.placeholder.com/80x50/111/fff?text=TV",blocked:false},
+  {id:"ch12",name:"ANIMAUX FHD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/62339.m3u8",logo:"https://via.placeholder.com/80x50/111/fff?text=TV",blocked:false},
+  {id:"ch13",name:"ANIMAUX HD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/198648.m3u8",logo:"https://via.placeholder.com/80x50/111/fff?text=TV",blocked:false},
+  {id:"ch14",name:"Antenne Reunion",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/155685.m3u8",logo:"https://via.placeholder.com/80x50/111/fff?text=TV",blocked:false},
+  {id:"ch15",name:"ARTE HD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/157241.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/arte-fr.png",blocked:false},
+  {id:"ch16",name:"Assemble Nationale",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/213835.m3u8",logo:"https://via.placeholder.com/80x50/111/fff?text=TV",blocked:false},
+  {id:"ch17",name:"AUTOMOTO HD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/208210.m3u8",logo:"https://via.placeholder.com/80x50/111/fff?text=TV",blocked:false},
+  {id:"ch18",name:"BE CURIOUS",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/208185.m3u8",logo:"https://via.placeholder.com/80x50/111/fff?text=TV",blocked:false},
+  {id:"ch19",name:"beIN Sports 1 HD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/62335.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/bein-sports-1-fr.png",blocked:false},
+  {id:"ch20",name:"beIN Sports 2 HD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/62336.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/bein-sports-1-fr.png",blocked:false},
+  {id:"ch21",name:"beIN Sports 3 HD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/63602.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/bein-sports-1-fr.png",blocked:false},
+  {id:"ch22",name:"BFM HD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/62333.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/bfmtv-fr.png",blocked:false},
+  {id:"ch23",name:"C8 FHD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/86398.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/c8-fr.png",blocked:false},
+  {id:"ch24",name:"CANAL+ HD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/62327.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/canal-plus-fr.png",blocked:false},
+  {id:"ch25",name:"CANAL+ SPORT FHD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/65682.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/canal-plus-fr.png",blocked:false},
+  {id:"ch26",name:"Cartoon Network FHD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/62323.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/cartoon-network-fr.png",blocked:false},
+  {id:"ch27",name:"DISNEY CHANNEL FHD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/62313.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/disney-channel-fr.png",blocked:false},
+  {id:"ch28",name:"EUROSPORT 1 FHD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/73680.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/eurosport-1-fr.png",blocked:false},
+  {id:"ch29",name:"EUROSPORT 2 FHD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/74650.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/eurosport-1-fr.png",blocked:false},
+  {id:"ch30",name:"FRANCE 2 HD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/118958.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-2-fr.png",blocked:false},
+  {id:"ch31",name:"FRANCE 3 FHD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/127908.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-3-fr.png",blocked:false},
+  {id:"ch32",name:"FRANCE 4 FHD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/145076.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-4-fr.png",blocked:false},
+  {id:"ch33",name:"FRANCE 5 FHD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/62067.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-5-fr.png",blocked:false},
+  {id:"ch34",name:"FRANCE 24 HD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/63189.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-2-fr.png",blocked:false},
+  {id:"ch35",name:"GULLI FHD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/62301.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/gulli-fr.png",blocked:false},
+  {id:"ch36",name:"LCI FHD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/73686.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/lci-fr.png",blocked:false},
+  {id:"ch37",name:"M6 HD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/62296.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/m6-fr.png",blocked:false},
+  {id:"ch38",name:"MANGAS HD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/62030.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/mangas-fr.png",blocked:false},
+  {id:"ch39",name:"MCM HD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/73687.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/mcm-fr.png",blocked:false},
+  {id:"ch40",name:"NAT GEO FHD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/62290.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/national-geographic-fr.png",blocked:false},
+  {id:"ch41",name:"NAT GEO WILD FHD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/74834.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/national-geographic-fr.png",blocked:false},
+  {id:"ch42",name:"NICKELODEON FHD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/153579.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/nickelodeon-fr.png",blocked:false},
+  {id:"ch43",name:"RMC SPORT 1 HD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/116454.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/rmc-sport-1-fr.png",blocked:false},
+  {id:"ch44",name:"RMC SPORT 2 HD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/91918.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/rmc-sport-1-fr.png",blocked:false},
+  {id:"ch45",name:"RTL 9 FHD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/150777.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/rtl-9-fr.png",blocked:false},
+  {id:"ch46",name:"SyFy FHD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/62264.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/syfy-fr.png",blocked:false},
+  {id:"ch47",name:"TF1 FHD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/62059.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tf1-fr.png",blocked:false},
+  {id:"ch48",name:"TFX FHD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/91924.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tfx-fr.png",blocked:false},
+  {id:"ch49",name:"TMC HD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/65814.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tmc-fr.png",blocked:false},
+  {id:"ch50",name:"TV5 Monde HD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/118100.m3u8",logo:"https://via.placeholder.com/80x50/111/fff?text=TV",blocked:false},
+  {id:"ch51",name:"W9 FHD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/150805.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/w9-fr.png",blocked:false},
+  {id:"ch52",name:"EURONEWS HD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/154438.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/euronews-fr.png",blocked:false},
+  {id:"ch53",name:"C-NEWS",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/86379.m3u8",logo:"https://via.placeholder.com/80x50/111/fff?text=TV",blocked:false},
+  {id:"ch54",name:"GAME ONE FHD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/73683.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/game-one-fr.png",blocked:false},
+  {id:"ch55",name:"FRANCE Info HD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/88551.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/franceinfo-fr.png",blocked:false},
+  {id:"ch56",name:"L EQUIPE HD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/139099.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/lequipe-fr.png",blocked:false},
+  {id:"ch57",name:"beIN Sports Max 10 HD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/164422.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/bein-sports-1-fr.png",blocked:false},
+  {id:"ch58",name:"BOX OFFICE 1",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/86373.m3u8",logo:"https://via.placeholder.com/80x50/111/fff?text=TV",blocked:false},
+  {id:"ch59",name:"BOX OFFICE 2",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/86374.m3u8",logo:"https://via.placeholder.com/80x50/111/fff?text=TV",blocked:false},
+  {id:"ch60",name:"BOX OFFICE 3",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/86375.m3u8",logo:"https://via.placeholder.com/80x50/111/fff?text=TV",blocked:false},
+  {id:"ch61",name:"CINE+ PREMIER FHD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/65804.m3u8",logo:"https://via.placeholder.com/80x50/111/fff?text=TV",blocked:false},
+  {id:"ch62",name:"CINE+ CLUB HD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/62320.m3u8",logo:"https://via.placeholder.com/80x50/111/fff?text=TV",blocked:false},
+  {id:"ch63",name:"PARIS PREMIERE FHD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/157178.m3u8",logo:"https://via.placeholder.com/80x50/111/fff?text=TV",blocked:false},
+  {id:"ch64",name:"TCM CINEMA FHD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/65792.m3u8",logo:"https://via.placeholder.com/80x50/111/fff?text=TV",blocked:false},
+  {id:"ch65",name:"PARAMOUNT CHANNEL HD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/149151.m3u8",logo:"https://via.placeholder.com/80x50/111/fff?text=TV",blocked:false},
+  {id:"ch66",name:"DISCOVERY Channel FHD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/65685.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/discovery-channel-fr.png",blocked:false},
+  {id:"ch67",name:"Discovery SCIENCE FHD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/70174.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/discovery-channel-fr.png",blocked:false},
+  {id:"ch68",name:"beIN Sports 1 FHD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/198130.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/bein-sports-1-fr.png",blocked:false},
+  {id:"ch69",name:"beIN Sports 2 FHD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/198132.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/bein-sports-1-fr.png",blocked:false},
+  {id:"ch70",name:"RMC SPORT 1 FHD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/208688.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/rmc-sport-1-fr.png",blocked:false},
+  {id:"ch71",name:"RMC SPORT 2 FHD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/208690.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/rmc-sport-1-fr.png",blocked:false},
+  {id:"ch72",name:"TRACE URBAN FHD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/199098.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/trace-urban-fr.png",blocked:false},
+  {id:"ch73",name:"MCM POP",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/210897.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/mcm-fr.png",blocked:false},
+  {id:"ch74",name:"MTV FRANCE",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/210900.m3u8",logo:"https://via.placeholder.com/80x50/111/fff?text=TV",blocked:false},
+  {id:"ch75",name:"BOOMERANG HD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/208661.m3u8",logo:"https://via.placeholder.com/80x50/111/fff?text=TV",blocked:false},
+  {id:"ch76",name:"Africa 24",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/88552.m3u8",logo:"https://via.placeholder.com/80x50/111/fff?text=TV",blocked:false},
+  {id:"ch77",name:"RMC TALK INFO",url:"https://d75bm5ggq4k1o.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-gui89fv6hprsj/RMC_TALK_INFO_FR.m3u8",logo:"https://static-cdn.tv.sfr.net/data/img/apps/chaines/logos/img300RMCTALKINFOcoul.png",blocked:false},
+  {id:"ch78",name:"TRACE SPORTS STARS",url:"https://lightning-tracesport-samsungau.amagi.tv/playlist.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/trace-sport-stars-fr.png",blocked:false},
+  {id:"ch79",name:"TRACE URBAN",url:"https://lightning-traceurban-samsungau.amagi.tv/playlist.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/trace-urban-fr.png",blocked:false},
+  {id:"ch80",name:"TRACE LATINA",url:"https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg01131-tracetv-tracelatinaes-samsungspain/playlist.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/trace-latina-fr.png",blocked:false},
+  {id:"ch81",name:"CLUBBING TV",url:"https://d1j2csarxnwazk.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-uze1m6xh4fiyr-ssai-prd/master.m3u8",logo:"https://freebox.cdn.scw.iliad.fr/274_8e77a87554.png",blocked:false},
+  {id:"ch82",name:"FRANCE 3 ALSACE",url:"https://raw.githubusercontent.com/ipstreet312/freeiptv/master/ressources/ftv/py/fals.m3u8",logo:"https://i.ibb.co/C0KCQtV/fr3region.png",blocked:false},
+  {id:"ch83",name:"FRANCE 3 BRETAGNE",url:"https://raw.githubusercontent.com/ipstreet312/freeiptv/master/ressources/ftv/py/fbre.m3u8",logo:"https://i.ibb.co/C0KCQtV/fr3region.png",blocked:false},
+  {id:"ch84",name:"BFM LYON",url:"https://ncdn-live-bfm.pfd.sfr.net/shls/LIVE$BFM_LYON/index.m3u8?start=LIVE&end=END",logo:"https://static-cdn.tv.sfr.net/data/img/apps/chaines/logos/img300BFMlyoncoul.png",blocked:false},
+  {id:"ch85",name:"BFM ALSACE",url:"https://ncdn-live-bfm.pfd.sfr.net/shls/LIVE$BFM_ALSACE/index.m3u8?start=LIVE&end=END",logo:"https://static-cdn.tv.sfr.net/data/img/apps/chaines/logos/img300BFMalsacecoul.png",blocked:false},
+  {id:"ch86",name:"L'ÉQUIPE LIVE 1",url:"https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/lequipe/l-equipe-live-1-dm.m3u8",logo:"https://i.ibb.co/KXhYwm0/lequipe.png",blocked:false},
+  {id:"ch87",name:"L'ÉQUIPE LIVE 2",url:"https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/lequipe/l-equipe-live-2-dm.m3u8",logo:"https://i.ibb.co/KXhYwm0/lequipe.png",blocked:false}
+];
+let DB_VOD = [
+  {id:"vod1",name:"Inception 4K",type:"Film",logo:"https://via.placeholder.com/640x360/111/fff?text=INCEPTION",overlay:"",description:""},
+  {id:"vod2",name:"Breaking Bad S1-S5",type:"Série",logo:"https://via.placeholder.com/640x360/111/fff?text=BREAKING+BAD",overlay:"",description:""},
+  {id:"vod3",name:"Interstellar HDR",type:"Film",logo:"https://via.placeholder.com/640x360/111/fff?text=INTERSTELLAR",overlay:"",description:""}
+];
+let DB_LINKS = [{id:"link1",title:"Application Android APK",url:"https://example.com/app.apk",image:"",description:"Téléchargez notre application mobile pour Android"}];
+let DB_EPG = {
+  ch1:[{t:"08:00",n:"Télématin"},{t:"09:30",n:"Magazine Actualité"},{t:"11:00",n:"Jeu TV"},{t:"12:00",n:"Journal"}],
+  ch2:[{t:"08:15",n:"Culture & Découverte"},{t:"10:00",n:"Documentaire"},{t:"11:30",n:"Série"},{t:"12:30",n:"Débat"}],
+  ch3:[{t:"08:45",n:"Clips Musicaux"},{t:"10:00",n:"Série"},{t:"11:00",n:"Émission Cuisine"},{t:"12:30",n:"Info"}],
+  ch4:[{t:"08:00",n:"Alerte Cobra"},{t:"09:00",n:"Alerte Cobra"},{t:"10:00",n:"Alerte Cobra"},{t:"11:00",n:"Alerte Cobra"}]
+};
+let DB_REQUESTS = [];
+let currentUser = null;
+let hlsInstance = null;
+let selectedQuality = "Auto";
+let currentChannelId = "ch1";
+const STORAGE_KEYS = { config:"strass_config", accounts:"strass_accounts", channels:"strass_channels", vod:"strass_vod", links:"strass_links", requests:"strass_requests", sessions:"strass_sessions" };
+
+function loadFromStorage() {
+  try { const override = document.getElementById('dataOverride').textContent; if(override) { const data = JSON.parse(override); if(data.config) APP_CONFIG = data.config; if(data.accounts) DB_ACCOUNTS = data.accounts; if(data.channels) DB_CHANNELS = data.channels; if(data.vod) DB_VOD = data.vod; if(data.links) DB_LINKS = data.links; if(data.requests) DB_REQUESTS = data.requests; } } catch(e) {}
+  try { const cfg = localStorage.getItem(STORAGE_KEYS.config); if(cfg) APP_CONFIG = JSON.parse(cfg); } catch(e) {}
+  try { const acc = localStorage.getItem(STORAGE_KEYS.accounts); if(acc) DB_ACCOUNTS = JSON.parse(acc); } catch(e) {}
+  try { const ch = localStorage.getItem(STORAGE_KEYS.channels); if(ch) DB_CHANNELS = JSON.parse(ch); } catch(e) {}
+  try { const vod = localStorage.getItem(STORAGE_KEYS.vod); if(vod) DB_VOD = JSON.parse(vod); } catch(e) {}
+  try { const lnk = localStorage.getItem(STORAGE_KEYS.links); if(lnk) DB_LINKS = JSON.parse(lnk); } catch(e) {}
+  try { const req = localStorage.getItem(STORAGE_KEYS.requests); if(req) DB_REQUESTS = JSON.parse(req); } catch(e) {}
+  applyBranding();
+}
+function applyBranding() {
+  const brandTexts = document.querySelectorAll('.brand-text');
+  brandTexts.forEach(el => el.textContent = APP_CONFIG.siteName || "STRASS IPTV");
+  if(APP_CONFIG.siteLogo) {
+    ['landing-logo','nav-logo'].forEach(id => { const img = document.getElementById(id); if(img) { img.src = APP_CONFIG.siteLogo; img.style.display = "block"; const brand = img.parentElement.querySelector('.brand-text'); if(brand) brand.style.display = "none"; } });
+  }
+}
+function createStars() {
+  const bg = document.querySelector('.animated-bg');
+  for(let i=0;i<100;i++) { const star = document.createElement('div'); star.className='star'; star.style.left = Math.random()*100+'%'; star.style.top = Math.random()*100+'%'; star.style.animationDelay = Math.random()*3+'s'; bg.appendChild(star); }
+}
+function openLoginModal() { document.getElementById('loginModal').classList.add('open'); }
+function closeLoginModal() { document.getElementById('loginModal').classList.remove('open'); document.getElementById('loginError').style.display='none'; }
+function openSignupModal() { document.getElementById('signupModal').classList.add('open'); }
+function closeSignupModal() { document.getElementById('signupModal').classList.remove('open'); document.getElementById('signupResult').style.display='none'; }
+function selectOffer(element, offer) { document.querySelectorAll('.radio-option').forEach(el=>el.classList.remove('selected')); element.classList.add('selected'); element.querySelector('input').checked=true; }
+function handleLogin() {
+  const code = document.getElementById('loginCode').value.trim();
+  const error = document.getElementById('loginError');
+  const user = DB_ACCOUNTS.find(u => u.code.toUpperCase() === code.toUpperCase());
+  if(!user) { error.textContent = "Code d'accès introuvable."; error.style.display = 'block'; return; }
+  if(user.isBanned) { error.textContent = "Compte suspendu. Contactez le support."; error.style.display = 'block'; return; }
+  if(new Date() > new Date(user.dateExp)) { error.textContent = "Abonnement expiré. Veuillez renouveler."; error.style.display = 'block'; return; }
+  currentUser = user; closeLoginModal(); enterApplication(); updateSession(true);
+}
+function handleSignup() {
+  const nom = document.getElementById('signupNom').value.trim();
+  const prenom = document.getElementById('signupPrenom').value.trim();
+  const email = document.getElementById('signupEmail').value.trim();
+  const tel = document.getElementById('signupTel').value.trim();
+  const offer = document.querySelector('input[name="offer"]:checked').value;
+  if(!nom || !prenom || !email) { alert("Veuillez remplir tous les champs obligatoires."); return; }
+  const request = { id: 'req_' + Date.now(), date: new Date().toISOString().split('T')[0], nom, prenom, email, tel, offer };
+  DB_REQUESTS.push(request); saveData('requests');
+  document.getElementById('signupResult').textContent = "✓ Votre demande a été envoyée ! Nous vous contacterons sous 24h."; document.getElementById('signupResult').style.display = 'block';
+  setTimeout(() => closeSignupModal(), 3000);
+}
+function enterApplication() {
+  document.getElementById('landing').style.display = 'none';
+  document.getElementById('mainNav').style.display = 'flex';
+  document.getElementById('app').style.display = 'block';
+  document.getElementById('userName').textContent = currentUser.prenom;
+  if(currentUser.role === 'admin') {
+    document.getElementById('nav-admin').style.display = 'block';
+    document.getElementById('mobileAdminItem').style.display = 'flex';
+    const adminDd = document.getElementById('adminDdItem'); if(adminDd) adminDd.style.display = 'block';
+  }
+  populateAccountInfo(); renderChannels(); renderVOD(); renderLinks();
+  if(DB_CHANNELS.length > 0) playChannel(DB_CHANNELS[0].url, DB_CHANNELS[0].name, DB_CHANNELS[0].id);
+  setInterval(() => updateSession(true), 20000);
+  if(currentUser.role === 'admin') initAdminPanels();
+  document.getElementById('mobileTopBar').style.display = 'flex';
+  const sb = document.getElementById('searchTriggerBtn'); if(sb) sb.style.display = 'flex';
+}
+function handleLogout() { if(hlsInstance) { hlsInstance.destroy(); hlsInstance = null; } updateSession(false); currentUser = null; document.getElementById('app').style.display = 'none'; document.getElementById('mainNav').style.display = 'none'; document.getElementById('landing').style.display = 'block'; document.getElementById('mobileTopBar').style.display = 'none'; const sb2 = document.getElementById('searchTriggerBtn'); if(sb2) sb2.style.display = 'none'; }
+function navigateToSection(section) {
+  ['tvSection','vodSection','linksSection','accountSection','adminSection'].forEach(s => { const el = document.getElementById(s); if(el) el.style.display = 'none'; });
+  ['nav-tv','nav-vod','nav-links','nav-account','nav-admin'].forEach(n => { const el = document.getElementById(n); if(el) el.classList.remove('active'); });
+  document.querySelectorAll('.mobile-menu-item').forEach(item => item.classList.remove('active'));
+  const sectionMap = { tv:'tvSection', vod:'vodSection', links:'linksSection', account:'accountSection', admin:'adminSection' };
+  const navMap = { tv:'nav-tv', vod:'nav-vod', links:'nav-links', account:'nav-account', admin:'nav-admin' };
+  if(sectionMap[section]) document.getElementById(sectionMap[section]).style.display = 'block';
+  if(navMap[section]) document.getElementById(navMap[section]).classList.add('active');
+  const mobileIndex = { tv:0, vod:1, links:2, account:3, admin:4 };
+  const mobileItems = document.querySelectorAll('.mobile-menu-item');
+  if(mobileIndex[section] !== undefined && mobileItems[mobileIndex[section]]) mobileItems[mobileIndex[section]].classList.add('active');
+  if(section === 'tv') { const video = document.getElementById('videoPlayer'); if(video.paused) video.play().catch(()=>{}); }
+}
+function scrollToTop() { window.scrollTo({top:0, behavior:'smooth'}); }
+function renderChannels() {
+  const grid = document.getElementById('channelsGrid'); grid.innerHTML = '';
+  DB_CHANNELS.forEach(channel => {
+    if(channel.blocked && currentUser.role !== 'admin') return;
+    const card = document.createElement('div'); card.className = 'content-card';
+    card.onclick = () => { if(channel.blocked) alert('Contenu bloqué'); else playChannel(channel.url, channel.name, channel.id); };
+    card.innerHTML = `<div class="content-thumbnail"><img src="${channel.logo}" alt="${channel.name}"></div><div class="content-info">${channel.name}</div>`;
+    grid.appendChild(card);
+  });
+}
+function renderVOD() {
+  const grid = document.getElementById('vodGrid'); grid.innerHTML = '';
+  DB_VOD.forEach(item => {
+    const card = document.createElement('div'); card.className = 'content-card';
+    let thumbnail = `<div class="content-thumbnail"><img src="${item.logo}" alt="${item.name}">`;
+    if(item.overlay) thumbnail += `<img src="${item.overlay}" style="position:absolute;right:10px;bottom:10px;width:70px;height:70px;object-fit:contain">`;
+    thumbnail += `</div>`;
+    card.innerHTML = thumbnail + `<div class="content-info">${item.name} • ${item.type}</div>`;
+    grid.appendChild(card);
+  });
+}
+function renderLinks() {
+  const grid = document.getElementById('linksGrid'); grid.innerHTML = '';
+  DB_LINKS.forEach(link => {
+    const card = document.createElement('div'); card.className = 'content-card';
+    card.onclick = () => openStoreModal(link.title, link.description, link.url);
+    const imgHTML = link.image ? `<img src="${link.image}" alt="${link.title}" style="max-width:80%;max-height:80%">` : `<div style="font-size:4rem">🛍</div>`;
+    card.innerHTML = `<div class="content-thumbnail">${imgHTML}</div><div class="content-info">${link.title}${link.description ? `<div style="font-size:.8rem;color:#bbb;margin-top:5px">${link.description}</div>` : ''}</div>`;
+    grid.appendChild(card);
+  });
+}
+function openStoreModal(title, desc, url) {
+  document.getElementById('storeModalTitle').textContent = title;
+  document.getElementById('storeModalDesc').textContent = desc || 'Cliquez pour accéder à cette application.';
+  document.getElementById('storeModalLink').href = url;
+  document.getElementById('storeModalOverlay').classList.add('open');
+}
+function closeStoreModal() {
+  document.getElementById('storeModalOverlay').classList.remove('open');
+}
+function populateAccountInfo() {
+  document.getElementById('accountNom').textContent = currentUser.nom;
+  document.getElementById('accountPrenom').textContent = currentUser.prenom;
+  document.getElementById('accountEmail').textContent = currentUser.email;
+  document.getElementById('accountTel').textContent = currentUser.tel;
+  document.getElementById('accountCreation').textContent = currentUser.dateCrea;
+  document.getElementById('accountExpiration').textContent = currentUser.dateExp;
+  document.getElementById('accountForfait').textContent = currentUser.forfait;
+  document.getElementById('accountDebit').textContent = currentUser.debitMax;
+}
+function playChannel(url, name, id) {
+  document.getElementById('currentChannelName').textContent = name;
+  document.getElementById('epgBarChannel').textContent = name;
+  currentChannelId = id;
+  const video = document.getElementById('videoPlayer');
+  if(Hls.isSupported()) {
+    if(hlsInstance) hlsInstance.destroy();
+    hlsInstance = new Hls({maxBufferLength:30, enableWorker:true});
+    hlsInstance.loadSource(url);
+    hlsInstance.attachMedia(video);
+    hlsInstance.on(Hls.Events.MANIFEST_PARSED, () => { applyQuality(); video.play().catch(()=>{}); });
+  } else if(video.canPlayType('application/vnd.apple.mpegurl')) { video.src = url; video.play().catch(()=>{}); }
+  window.scrollTo({top:0, behavior:'smooth'});
+  renderEPG(id);
+}
+function toggleQualityDropdown() { document.getElementById('qualityDropdown').classList.toggle('open'); }
+function changeQuality(quality, element) {
+  selectedQuality = quality; document.getElementById('currentQuality').textContent = quality;
+  document.querySelectorAll('.quality-option').forEach(opt=>opt.classList.remove('active')); element.classList.add('active');
+  applyQuality(); document.getElementById('qualityDropdown').classList.remove('open');
+  const nameEl = document.getElementById('currentChannelName'); const originalText = nameEl.textContent;
+  nameEl.textContent = `Qualité: ${quality}...`; nameEl.style.color = 'var(--primary)';
+  setTimeout(() => { nameEl.textContent = originalText; nameEl.style.color = '#fff'; }, 1500);
+}
+function applyQuality() {
+  if(!hlsInstance) return;
+  if(selectedQuality === 'Auto') { hlsInstance.currentLevel = -1; return; }
+  const targetHeight = selectedQuality === '4K' ? 2160 : (selectedQuality === '1080p' ? 1080 : 720);
+  let bestIdx = -1, bestDiff = 99999;
+  (hlsInstance.levels || []).forEach((level, idx) => { const h = level.height || 0; const diff = Math.abs(h - targetHeight); if(diff < bestDiff) { bestDiff = diff; bestIdx = idx; } });
+  if(bestIdx >= 0) hlsInstance.currentLevel = bestIdx;
+}
+function toggleEPG() {
+  const container = document.getElementById('epgContainer');
+  container.classList.toggle('open');
+  container.querySelector('.epg-toggle').textContent = container.classList.contains('open') ? 'Masquer' : 'Afficher';
+}
+function renderEPG(channelId) {
+  const programs = DB_EPG[channelId] || [];
+  const channel = DB_CHANNELS.find(ch => ch.id === channelId);
+  document.getElementById('epgTitle').textContent = channel ? `Programmes de ${channel.name}` : 'Programmes';
+  const container = document.getElementById('epgPrograms');
+  container.innerHTML = '';
+  programs.forEach((prog, idx) => {
+    const div = document.createElement('div');
+    div.className = 'epg-program' + (idx === 1 ? ' now' : '');
+    div.innerHTML = `<div class="epg-time">${prog.t}</div><div class="epg-name">${prog.n}</div>`;
+    container.appendChild(div);
+  });
+  if(programs.length > 0) {
+    const now = programs.find((p, i) => i === 1) || programs[0];
+    document.getElementById('epgBarProgram').textContent = now.n;
+    document.getElementById('currentProgram').textContent = now.n;
+    const next = programs[2] ? ` - ${programs[2].t}` : '';
+    document.getElementById('epgBarTime').textContent = `${now.t}${next}`;
+  }
+}
+function updateSession(isActive) {
+  if(!currentUser) return;
+  let sessions = []; try { sessions = JSON.parse(localStorage.getItem(STORAGE_KEYS.sessions) || '[]'); } catch(e) {}
+  const idx = sessions.findIndex(s => s.code === currentUser.code);
+  if(isActive) {
+    const sessionData = { code: currentUser.code, lastSeen: Date.now(), device: 'Web' };
+    if(idx >= 0) sessions[idx] = sessionData; else sessions.push(sessionData);
+  } else { if(idx >= 0) sessions.splice(idx, 1); }
+  localStorage.setItem(STORAGE_KEYS.sessions, JSON.stringify(sessions));
+  if(currentUser && currentUser.role === 'admin') { const panel = document.getElementById('adminUsersPanel'); if(panel && panel.classList.contains('active')) renderLiveUsers(); }
+}
+function initAdminPanels() {
+  renderLiveUsers(); renderVideoSettings(); renderAccountsAdmin(); renderAccountEditor(); renderChannelsAdmin(); renderVODAdmin(); renderLinksAdmin(); renderRequestsAdmin();
+  const appNameInput = document.getElementById('appName'); const siteLogoInput = document.getElementById('siteLogo');
+  if(appNameInput) appNameInput.value = APP_CONFIG.siteName || "Strass IPTV";
+  if(siteLogoInput) siteLogoInput.value = APP_CONFIG.siteLogo || "";
+}
+function switchAdminPanel(panel, element) {
+  document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.admin-sidebar li').forEach(li => li.classList.remove('active'));
+  const panelMap = { users:'adminUsersPanel', video:'adminVideoPanel', accounts:'adminAccountsPanel', channels:'adminChannelsPanel', vod:'adminVodPanel', links:'adminLinksPanel', requests:'adminRequestsPanel', export:'adminExportPanel' };
+  const targetPanel = document.getElementById(panelMap[panel]); if(targetPanel) targetPanel.classList.add('active');
+  if(element) element.classList.add('active');
+}
+function renderLiveUsers() {
+  const tbody = document.getElementById('liveUsersTable'); if(!tbody) return;
+  tbody.innerHTML = '';
+  let sessions = []; try { sessions = JSON.parse(localStorage.getItem(STORAGE_KEYS.sessions) || '[]'); } catch(e) {}
+  if(sessions.length === 0) { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#888">Aucune session active</td></tr>'; return; }
+  const now = Date.now();
+  sessions.forEach(session => {
+    const user = DB_ACCOUNTS.find(u => u.code === session.code);
+    const diff = now - session.lastSeen;
+    let statusClass = 'status-offline', statusText = 'Hors ligne';
+    if(diff < 60000) { statusClass = 'status-online'; statusText = 'En ligne'; } else if(diff < 1800000) { statusClass = 'status-idle'; statusText = 'Inactif < 30m'; } else if(diff < 3600000) { statusClass = 'status-away'; statusText = 'Vu < 1h'; }
+    tbody.innerHTML += `<tr><td><i class="status-dot ${statusClass}"></i> ${statusText}</td><td>${user ? user.prenom + ' ' + user.nom : '?'}</td><td><code style="background:#333;padding:4px 10px;border-radius:6px">${session.code}</code></td><td style="font-size:.85rem;color:#bbb">${session.device || 'Web'}</td><td><button class="admin-btn-secondary" onclick="alert('Ping envoyé')">Ping</button></td></tr>`;
+  });
+}
+function renderVideoSettings() {
+  const grid = document.getElementById('videoSettingsGrid'); if(!grid) return;
+  grid.innerHTML = '';
+  for(let i = 1; i <= 72; i++) {
+    const field = document.createElement('div'); field.className = 'admin-form-field';
+    if(i % 5 === 0) field.innerHTML = `<h4>Option Vidéo ${i}</h4><p>Active une fonctionnalité spécifique</p><label style="display:flex;align-items:center;gap:8px"><input type="checkbox" checked style="width:auto"><span>Activé</span></label>`;
+    else if(i % 3 === 0) field.innerHTML = `<h4>Option Vidéo ${i}</h4><p>Réglage automatique ou manuel</p><select><option>Auto</option><option>Force</option><option>Désactivé</option></select>`;
+    else field.innerHTML = `<h4>Option Vidéo ${i}</h4><p>Valeur en ms ou Kbps</p><input type="number" value="${Math.floor(Math.random()*4000)}">`;
+    grid.appendChild(field);
+  }
+}
+function saveVideoSettings() { saveData('config'); showToast(); }
+function renderAccountsAdmin() {
+  const tbody = document.getElementById('accountsTable'); if(!tbody) return;
+  tbody.innerHTML = '';
+  DB_ACCOUNTS.forEach((acc, idx) => {
+    const isExpired = new Date(acc.dateExp) < new Date();
+    tbody.innerHTML += `<tr><td><code style="color:var(--primary);font-weight:900">${acc.code}</code></td><td>${acc.prenom} ${acc.nom}</td><td style="font-size:.85rem">${acc.email}<br>${acc.tel}</td><td>${acc.dateCrea}</td><td style="${isExpired ? 'color:#f55;font-weight:900' : ''}">${acc.dateExp}</td><td>${acc.isBanned ? '<span style="color:#f55;font-weight:900">BANNI</span>' : '<span style="color:#0f0">Actif</span>'}</td><td><button class="admin-btn-secondary" onclick="toggleBan(${idx})">${acc.isBanned ? 'Débannir' : 'Bannir'}</button></td></tr>`;
+  });
+}
+function renderAccountEditor() {
+  const grid = document.getElementById('accountEditorGrid'); if(!grid) return;
+  grid.innerHTML = '';
+  const selectField = document.createElement('div'); selectField.className = 'admin-form-field'; selectField.style.gridColumn = '1/-1';
+  selectField.innerHTML = `<h4>Sélectionner un utilisateur</h4><p>Choisissez un compte pour éditer toutes ses options</p><select id="accountEditorSelect" onchange="loadAccountFields()">${DB_ACCOUNTS.map((acc, idx) => `<option value="${idx}">${acc.code} • ${acc.prenom} ${acc.nom}</option>`).join('')}</select>`;
+  grid.appendChild(selectField);
+  const fieldsContainer = document.createElement('div'); fieldsContainer.id = 'accountFieldsContainer'; fieldsContainer.style.display = 'contents';
+  grid.appendChild(fieldsContainer);
+  const saveBtn = document.createElement('button'); saveBtn.className = 'admin-btn'; saveBtn.textContent = 'Enregistrer cet Utilisateur'; saveBtn.onclick = saveCurrentAccount; saveBtn.style.gridColumn = '1/-1';
+  grid.appendChild(saveBtn);
+  loadAccountFields();
+}
+function loadAccountFields() {
+  const select = document.getElementById('accountEditorSelect'); if(!select) return;
+  const idx = parseInt(select.value,10); const user = DB_ACCOUNTS[idx];
+  const container = document.getElementById('accountFieldsContainer'); if(!container) return;
+  container.innerHTML = ''; container.dataset.accountIndex = idx;
+  const fields = [
+    {key:'code', label:'Code d\'accès'}, {key:'nom', label:'Nom'}, {key:'prenom', label:'Prénom'}, {key:'email', label:'Email'}, {key:'tel', label:'Téléphone'},
+    {key:'dateCrea', label:'Date de création'}, {key:'dateExp', label:'Date d\'expiration'}, {key:'forfait', label:'Forfait'}, {key:'debitMax', label:'Débit maximum'},
+    {key:'qualityTier', label:'Niveau qualité (low/medium/high)'}, {key:'maxConnections', label:'Connexions simultanées max'}, {key:'maxStreams4k', label:'Flux 4K simultanés max'}
+  ];
+  fields.forEach(field => {
+    const div = document.createElement('div'); div.className = 'admin-form-field';
+    const value = user[field.key] !== undefined ? user[field.key] : '';
+    if(field.key === 'qualityTier') {
+      div.innerHTML = `<h4>${field.label}</h4><select data-field="${field.key}"><option ${value==='low'?'selected':''}>low</option><option ${value==='medium'?'selected':''}>medium</option><option ${value==='high'?'selected':''}>high</option></select>`;
+    } else {
+      div.innerHTML = `<h4>${field.label}</h4><input data-field="${field.key}" value="${value}">`;
+    }
+    container.appendChild(div);
+  });
+}
+function saveCurrentAccount() {
+  const container = document.getElementById('accountFieldsContainer'); if(!container) return;
+  const idx = parseInt(container.dataset.accountIndex,10);
+  const inputs = container.querySelectorAll('[data-field]');
+  inputs.forEach(input => { const field = input.dataset.field; DB_ACCOUNTS[idx][field] = input.value; });
+  saveData('accounts'); renderAccountsAdmin(); showToast();
+}
+function toggleBan(idx) { DB_ACCOUNTS[idx].isBanned = !DB_ACCOUNTS[idx].isBanned; saveData('accounts'); renderAccountsAdmin(); showToast(); }
+function saveAllAccounts() { saveData('accounts'); showToast(); }
+function renderChannelsAdmin() {
+  const tbody = document.getElementById('channelsTable'); if(!tbody) return;
+  tbody.innerHTML = '';
+  DB_CHANNELS.forEach((ch, idx) => {
+    tbody.innerHTML += `<tr><td><img src="${ch.logo}" style="width:90px;height:50px;object-fit:contain;background:#000;border-radius:8px"></td><td>${ch.name}</td><td><button class="admin-btn-secondary" onclick="moveChannel(${idx},-1)">▲</button><button class="admin-btn-secondary" onclick="moveChannel(${idx},1)">▼</button></td><td><button class="admin-btn-secondary" onclick="deleteChannel(${idx})">Supprimer</button></td></tr>`;
+  });
+}
+function addNewChannel() {
+  const name = document.getElementById('newChannelName').value.trim();
+  const url = document.getElementById('newChannelUrl').value.trim();
+  const logo = document.getElementById('newChannelLogo').value.trim();
+  if(!name || !url || !logo) { alert('Veuillez remplir tous les champs'); return; }
+  DB_CHANNELS.push({ id: 'ch_' + Date.now(), name, url, logo, blocked: false });
+  document.getElementById('newChannelName').value = ''; document.getElementById('newChannelUrl').value = ''; document.getElementById('newChannelLogo').value = '';
+  renderChannels(); renderChannelsAdmin(); showToast();
+}
+function moveChannel(idx, direction) {
+  const newIdx = idx + direction; if(newIdx < 0 || newIdx >= DB_CHANNELS.length) return;
+  const temp = DB_CHANNELS[idx]; DB_CHANNELS[idx] = DB_CHANNELS[newIdx]; DB_CHANNELS[newIdx] = temp;
+  renderChannels(); renderChannelsAdmin(); showToast();
+}
+function deleteChannel(idx) { if(!confirm('Supprimer cette chaîne ?')) return; DB_CHANNELS.splice(idx,1); renderChannels(); renderChannelsAdmin(); showToast(); }
+function saveAllChannels() { saveData('channels'); showToast(); }
+function renderVODAdmin() {
+  const tbody = document.getElementById('vodTable'); if(!tbody) return;
+  tbody.innerHTML = '';
+  DB_VOD.forEach((item, idx) => { tbody.innerHTML += `<tr><td><img src="${item.logo}" style="width:90px;height:50px;object-fit:cover;border-radius:8px"></td><td>${item.name}</td><td>${item.type}</td><td><button class="admin-btn-secondary" onclick="deleteVOD(${idx})">Supprimer</button></td></tr>`; });
+}
+function addNewVOD() {
+  const title = document.getElementById('newVodTitle').value.trim();
+  const type = document.getElementById('newVodType').value;
+  const image = document.getElementById('newVodImage').value.trim();
+  const overlay = document.getElementById('newVodOverlay').value.trim();
+  const desc = document.getElementById('newVodDesc').value.trim();
+  if(!title || !image) { alert('Veuillez remplir au moins le titre et l\'image'); return; }
+  DB_VOD.push({ id: 'vod_' + Date.now(), name: title, type, logo: image, overlay, description: desc });
+  document.getElementById('newVodTitle').value = ''; document.getElementById('newVodImage').value = ''; document.getElementById('newVodOverlay').value = ''; document.getElementById('newVodDesc').value = '';
+  renderVOD(); renderVODAdmin(); showToast();
+}
+function deleteVOD(idx) { if(!confirm('Supprimer ce contenu ?')) return; DB_VOD.splice(idx,1); renderVOD(); renderVODAdmin(); showToast(); }
+function saveAllVOD() { saveData('vod'); showToast(); }
+function renderLinksAdmin() {
+  const tbody = document.getElementById('linksTable'); if(!tbody) return;
+  tbody.innerHTML = '';
+  DB_LINKS.forEach((link, idx) => { tbody.innerHTML += `<tr><td>${link.image ? `<img src="${link.image}" style="width:60px;height:60px;object-fit:contain;border-radius:8px">` : '🔗'}</td><td>${link.title}</td><td style="font-size:.85rem;color:#bbb">${link.url}</td><td><button class="admin-btn-secondary" onclick="deleteLink(${idx})">Supprimer</button></td></tr>`; });
+}
+function addNewLink() {
+  const title = document.getElementById('newLinkTitle').value.trim();
+  const url = document.getElementById('newLinkUrl').value.trim();
+  const image = document.getElementById('newLinkImage').value.trim();
+  const desc = document.getElementById('newLinkDesc').value.trim();
+  if(!title || !url) { alert('Veuillez remplir au moins le titre et l\'URL'); return; }
+  DB_LINKS.push({ id: 'link_' + Date.now(), title, url, image, description: desc });
+  document.getElementById('newLinkTitle').value = ''; document.getElementById('newLinkUrl').value = ''; document.getElementById('newLinkImage').value = ''; document.getElementById('newLinkDesc').value = '';
+  renderLinks(); renderLinksAdmin(); showToast();
+}
+function deleteLink(idx) { if(!confirm('Supprimer ce lien ?')) return; DB_LINKS.splice(idx,1); renderLinks(); renderLinksAdmin(); showToast(); }
+function saveAllLinks() { saveData('links'); showToast(); }
+function renderRequestsAdmin() {
+  const tbody = document.getElementById('requestsTable'); if(!tbody) return;
+  tbody.innerHTML = '';
+  if(DB_REQUESTS.length === 0) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#888">Aucune demande d\'abonnement</td></tr>'; return; }
+  DB_REQUESTS.forEach((req, idx) => {
+    tbody.innerHTML += `<tr><td>${req.date}</td><td>${req.nom}</td><td>${req.prenom}</td><td>${req.email}</td><td>${req.tel}</td><td>${req.offer === '1M' ? '1 Mois' : (req.offer === '3M' ? '3 Mois' : '1 An')}</td><td><button class="admin-btn-secondary" onclick="deleteRequest(${idx})">Supprimer</button></td></tr>`;
+  });
+}
+function deleteRequest(idx) { if(!confirm('Supprimer cette demande ?')) return; DB_REQUESTS.splice(idx,1); saveData('requests'); renderRequestsAdmin(); }
+function saveData(type) {
+  try {
+    switch(type) {
+      case 'config': const appName = document.getElementById('appName'); const siteLogo = document.getElementById('siteLogo'); if(appName) APP_CONFIG.siteName = appName.value.trim() || "Strass IPTV"; if(siteLogo) APP_CONFIG.siteLogo = siteLogo.value.trim() || ""; localStorage.setItem(STORAGE_KEYS.config, JSON.stringify(APP_CONFIG)); applyBranding(); break;
+      case 'accounts': localStorage.setItem(STORAGE_KEYS.accounts, JSON.stringify(DB_ACCOUNTS)); break;
+      case 'channels': localStorage.setItem(STORAGE_KEYS.channels, JSON.stringify(DB_CHANNELS)); break;
+      case 'vod': localStorage.setItem(STORAGE_KEYS.vod, JSON.stringify(DB_VOD)); break;
+      case 'links': localStorage.setItem(STORAGE_KEYS.links, JSON.stringify(DB_LINKS)); break;
+      case 'requests': localStorage.setItem(STORAGE_KEYS.requests, JSON.stringify(DB_REQUESTS)); break;
+    }
+  } catch(e) { console.error('Erreur sauvegarde:', e); }
+}
+function showToast() {
+  const toast = document.getElementById('toastNotification');
+  toast.classList.remove('hide'); toast.classList.add('show');
+  setTimeout(() => hideToast(), 3000);
+}
+function hideToast() {
+  const toast = document.getElementById('toastNotification');
+  toast.classList.add('hide');
+  setTimeout(() => { toast.classList.remove('show', 'hide'); }, 500);
+}
+function embedDataOverride() {
+  const script = document.getElementById('dataOverride');
+  script.textContent = JSON.stringify({ config: APP_CONFIG, accounts: DB_ACCOUNTS, channels: DB_CHANNELS, vod: DB_VOD, links: DB_LINKS, requests: DB_REQUESTS });
+}
+function downloadFullHTML() {
+  saveData('config');
+  embedDataOverride();
+  const landingEl = document.getElementById('landing');
+  const appEl = document.getElementById('app');
+  const navEl = document.getElementById('mainNav');
+  const landingOriginal = landingEl.style.display;
+  const appOriginal = appEl.style.display;
+  const navOriginal = navEl.style.display;
+  landingEl.style.display = ''; landingEl.className = 'fade-in'; appEl.style.display = 'none'; navEl.style.display = 'none';
+  const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+  landingEl.style.display = landingOriginal; appEl.style.display = appOriginal; navEl.style.display = navOriginal;
+  const blob = new Blob([html], {type: 'text/html;charset=utf-8'});
+  const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = 'index.html'; link.click(); URL.revokeObjectURL(link.href);
+}
+function downloadManifest() {
+  const name = APP_CONFIG.siteName || "Strass IPTV";
+  const logo = APP_CONFIG.siteLogo || "";
+  const manifest = { name, short_name: name, display: "standalone", start_url: "./", background_color: "#000000", theme_color: "#0a0a0a", icons: [{src: logo, sizes: "192x192", type: "image/png", purpose: "any"}, {src: logo, sizes: "512x512", type: "image/png", purpose: "any"}] };
+  const blob = new Blob([JSON.stringify(manifest, null, 2)], {type: 'application/json'});
+  const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = 'manifest.json'; link.click(); URL.revokeObjectURL(link.href);
+}
+function downloadServiceWorker() {
+  const sw = `self.addEventListener('install', e => { e.waitUntil( caches.open('strass-iptv-v1').then(cache => cache.addAll(['./'])) ); }); self.addEventListener('fetch', e => { e.respondWith( caches.match(e.request).then(response => response || fetch(e.request)) ); });`;
+  const blob = new Blob([sw], {type: 'text/javascript'});
+  const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = 'sw.js'; link.click(); URL.revokeObjectURL(link.href);
+}
+(function initProtection() {
+  document.addEventListener('contextmenu', e => { if(!currentUser || currentUser.role !== 'admin') e.preventDefault(); });
+  document.addEventListener('keydown', e => { if(!currentUser || currentUser.role !== 'admin') { if((e.ctrlKey && ['s','u','p'].includes(e.key.toLowerCase())) || e.key === 'F12') { e.preventDefault(); e.stopPropagation(); } } });
+})();
+
+// =========================================================================
+// NOUVELLES FONCTIONNALITÉS (compteur, carrousel, etc.)
+// =========================================================================
+function startPromoTimer(hours, minutes, seconds) {
+  const timerEl = document.getElementById('timer');
+  let remaining = hours*3600 + minutes*60 + seconds;
+  const interval = setInterval(() => {
+    if (remaining <= 0) { clearInterval(interval); timerEl.textContent = "OFFRE TERMINÉE"; return; }
+    const h = Math.floor(remaining / 3600);
+    const m = Math.floor((remaining % 3600) / 60);
+    const s = remaining % 60;
+    timerEl.textContent = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+    remaining--;
+  }, 1000);
+}
+let testimonialIndex = 0;
+const testimonials = [
+  { name: "Jean-Pierre D.", avatar: "JD", stars: "★★★★★", text: "Depuis que j'ai découvert Strass IPTV, je ne regarde plus la télé classique. Qualité 4K incroyable et aucun bug !" },
+  { name: "Sophie L.", avatar: "SL", stars: "★★★★★", text: "Service client réactif, installation facile. Je recommande à 100%." },
+  { name: "Marc V.", avatar: "MV", stars: "★★★★☆", text: "Très satisfait du catalogue, et le prix est imbattable." },
+];
+function renderTestimonials() {
+  const track = document.getElementById('testimonialsTrack');
+  const dotsContainer = document.getElementById('carouselDots');
+  track.innerHTML = '';
+  testimonials.forEach((t, i) => {
+    track.innerHTML += `<div class="testimonial-card"><div class="testimonial-avatar">${t.avatar}</div><div class="testimonial-stars">${t.stars}</div><div class="testimonial-text">"${t.text}"</div><div class="testimonial-name">${t.name}</div></div>`;
+  });
+  dotsContainer.innerHTML = testimonials.map((_, i) => `<span class="carousel-dot ${i === 0 ? 'active' : ''}" onclick="goToTestimonial(${i})"></span>`).join('');
+}
+function updateCarousel() {
+  const track = document.getElementById('testimonialsTrack');
+  track.style.transform = `translateX(-${testimonialIndex * 100}%)`;
+  document.querySelectorAll('.carousel-dot').forEach((dot, i) => { dot.classList.toggle('active', i === testimonialIndex); });
+}
+function nextTestimonial() { testimonialIndex = (testimonialIndex + 1) % testimonials.length; updateCarousel(); }
+function prevTestimonial() { testimonialIndex = (testimonialIndex - 1 + testimonials.length) % testimonials.length; updateCarousel(); }
+function goToTestimonial(index) { testimonialIndex = index; updateCarousel(); }
+
+// Barre de progression au scroll
+window.addEventListener('scroll', () => {
+  const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+  const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const scrolled = (winScroll / height) * 100;
+  document.getElementById('progress-bar').style.width = scrolled + '%';
+});
+
+// Navigation floue au scroll
+window.addEventListener('scroll', () => {
+  const nav = document.querySelector('.nav');
+  if (nav) { if (window.scrollY > 50) nav.classList.add('scrolled'); else nav.classList.remove('scrolled'); }
+});
+
+// Initialisation au chargement
+window.addEventListener('DOMContentLoaded', () => {
+  createStars();
+  loadFromStorage();
+  startPromoTimer(24, 59, 15);
+  renderTestimonials();
+});
+
+document.addEventListener('click', (e) => {
+  const qualityDropdown = document.getElementById('qualityDropdown');
+  if (qualityDropdown && !qualityDropdown.contains(e.target) && !e.target.closest('.quality-btn')) {
+    qualityDropdown.style.display = 'none';
+  }
+  // Close hamburger if clicking outside
+  const dropdown = document.getElementById('navDropdown');
+  const hamburger = document.getElementById('hamburgerBtn');
+  if (dropdown && hamburger && !dropdown.contains(e.target) && !hamburger.contains(e.target)) {
+    dropdown.classList.remove('open');
+  }
+});
+
+// ===== HAMBURGER MENU =====
+function toggleHamburger(e) {
+  e.stopPropagation();
+  const dd = document.getElementById('navDropdown');
+  dd.classList.toggle('open');
+}
+function closeHamburger() {
+  const dd = document.getElementById('navDropdown');
+  if(dd) dd.classList.remove('open');
+}
+
+// ===== SEARCH MODAL =====
+function openSearchModal() {
+  document.getElementById('searchModalOverlay').classList.add('open');
+  document.getElementById('searchInput').value = '';
+  document.getElementById('searchResultsContainer').innerHTML = '';
+  setTimeout(() => document.getElementById('searchInput').focus(), 100);
+}
+function closeSearchModal() {
+  document.getElementById('searchModalOverlay').classList.remove('open');
+}
+function doSearch() {
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+  const container = document.getElementById('searchResultsContainer');
+  if (!q) { container.innerHTML = '<p style="color:#aaa;text-align:center">Entrez un nom de chaîne.</p>'; return; }
+  const allChannels = DB_CHANNELS;
+  const results = allChannels.filter(ch => ch.name.toLowerCase().includes(q));
+  if (results.length === 0) {
+    container.innerHTML = `
+      <div class="search-no-result">
+        <div class="loupe-red">🔍</div>
+        <h3>Oops!... La chaine recherché n'est malheureusement pas encore disponible.</h3>
+        <p>Notre societé Strass TVIP fais de son posible averc notre webdesigner et fondateur @Brice Jct.</p>
+        <div class="search-request-form">
+          <input type="text" id="channelRequestInput" placeholder="Nom de la chaîne souhaitée..." maxlength="100">
+          <button onclick="sendChannelRequest()">Envoyer</button>
+        </div>
+        <div id="searchThankYou" class="search-thank-you" style="display:none">Merci pour votre message ! Nous en prendrons note. 🙏</div>
+      </div>`;
+  } else {
+    const grid = document.createElement('div');
+    grid.className = 'search-results-grid';
+    results.forEach(ch => {
+      const btn = document.createElement('button');
+      btn.className = 'search-result-btn';
+      btn.innerHTML = `<img src="${ch.logo || ''}" alt="${ch.name}" onerror="this.style.display='none'"><span>${ch.name}</span>`;
+      btn.onclick = () => {
+        closeSearchModal();
+        navigateToSection('tv');
+        setTimeout(() => playChannel(ch.url, ch.name, ch.id), 200);
+      };
+      grid.appendChild(btn);
+    });
+    container.innerHTML = '';
+    container.appendChild(grid);
+  }
+}
+function sendChannelRequest() {
+  const input = document.getElementById('channelRequestInput');
+  if (!input || !input.value.trim()) return;
+  const reqName = input.value.trim();
+  const req = {
+    id: 'req_' + Date.now(),
+    type: 'channel_request',
+    channelName: reqName,
+    user: currentUser ? (currentUser.prenom + ' ' + currentUser.nom) : 'Anonyme',
+    email: currentUser ? currentUser.email : '',
+    date: new Date().toLocaleString('fr-FR'),
+    status: 'pending'
+  };
+  DB_REQUESTS.push(req);
+  try { localStorage.setItem(STORAGE_KEYS.requests, JSON.stringify(DB_REQUESTS)); } catch(e) {}
+  document.getElementById('searchThankYou').style.display = 'block';
+  input.disabled = true;
+  input.nextElementSibling.disabled = true;
+}
+
+// Close search modal on overlay click
+document.addEventListener('click', (e) => {
+  const overlay = document.getElementById('searchModalOverlay');
+  if (overlay && e.target === overlay) closeSearchModal();
+  const storeOverlay = document.getElementById('storeModalOverlay');
+  if (storeOverlay && e.target === storeOverlay) closeStoreModal();
+});
+
+</script>
+</body>
+</html>
