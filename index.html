@@ -148,16 +148,16 @@ body {
 /* ===== NAVIGATION PRINCIPALE (DESKTOP) ===== */
 .nav {
   position: fixed;
-  top: 8px; /* slightly lower, overlapping red bar by ~2mm */
+  top: 0;
   left: 0;
   right: 0;
-  height: 60px;
+  height: 71px; /* 60px + 3mm (~11px) */
   display: flex;
   align-items: center;
   padding: 0 4%;
-  backdrop-filter: blur(20px) saturate(180%);
-  background: rgba(0, 0, 0, 0.85);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  backdrop-filter: none;
+  background: #000;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   z-index: 100;
   transition: var(--transition);
 }
@@ -1359,9 +1359,9 @@ body {
 #app { display: none; }
 
 .main-content {
-  margin-top: 70px;
+  margin-top: 106px; /* 71px navbar + ~9mm (34px) gap */
   padding: 0 4%;
-  min-height: calc(100vh - 70px - 60px);
+  min-height: calc(100vh - 71px - 60px);
 }
 
 .section-title {
@@ -2037,10 +2037,9 @@ video {
   top: 0;
   left: 0;
   right: 0;
-  height: 45px;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  height: 52px;
+  background: #000;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   z-index: 101;
   padding: 0 15px;
   align-items: center;
@@ -2174,12 +2173,295 @@ video {
   transform: translateY(-2px);
 }
 
-/* ===== MEDIA QUERIES ===== */
-@media (max-width: 768px) {
+/* ===== POWER / LOGOUT BUTTON ===== */
+.power-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: var(--transition);
+  flex-shrink: 0;
+}
+.power-btn svg {
+  width: 20px;
+  height: 20px;
+}
+.power-btn:hover {
+  background: rgba(229, 9, 20, 0.2);
+  transform: scale(1.1);
+}
+
+/* Hamburger desktop only */
+@media (max-width: 1024px) {
+  .nav-hamburger-btn { display: none !important; }
+  #navDropdown { display: none !important; }
+}
+
+/* ===== CHANNEL INFO BLOCK (sous lecteur) ===== */
+.channel-info-block {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto 0 auto;
+  background: rgba(15, 15, 15, 0.75);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-top: none;
+  border-radius: 0 0 18px 18px;
+  padding: 12px 18px 14px;
+  box-sizing: border-box;
+}
+.channel-info-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.channel-logo-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.channel-logo-name img {
+  width: 38px;
+  height: 28px;
+  object-fit: contain;
+  background: rgba(255,255,255,0.04);
+  border-radius: 6px;
+}
+.channel-logo-name .ch-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #fff;
+}
+/* Quality selector inside channel info block */
+.channel-info-block .quality-selector { position: relative; }
+.channel-info-block .quality-btn {
+  background: var(--primary);
+  border: none;
+  color: #fff;
+  padding: 7px 14px;
+  border-radius: 40px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: var(--transition);
+  box-shadow: 0 0 12px rgba(229,9,20,0.4);
+}
+.channel-info-block .quality-btn:hover {
+  background: var(--primary-hover);
+  transform: scale(1.02);
+}
+.channel-info-block .quality-dropdown {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  right: 0;
+  background: rgba(20,20,20,0.97);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 16px;
+  padding: 8px;
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 160px;
+  box-shadow: 0 -10px 30px rgba(0,0,0,0.8);
+  z-index: 500;
+}
+.channel-info-block .quality-dropdown.open { display: flex; }
+.channel-info-block .quality-option {
+  padding: 10px 15px;
+  border-radius: 40px;
+  cursor: pointer;
+  transition: var(--transition);
+  color: #ddd;
+  font-weight: 600;
+  font-size: 0.9rem;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid transparent;
+  text-align: center;
+}
+.channel-info-block .quality-option:hover { background: rgba(229,9,20,0.2); color: #fff; }
+.channel-info-block .quality-option.active { background: var(--primary); color: #fff; box-shadow: 0 0 12px rgba(229,9,20,0.5); }
+
+/* ===== EPG INLINE (dans channel info block) ===== */
+.epg-inline {
+  margin-top: 10px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding-top: 10px;
+}
+.epg-inline-programs {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) rgba(255,255,255,0.05);
+  padding-bottom: 4px;
+  align-items: center;
+}
+.epg-inline-programs::-webkit-scrollbar { height: 3px; }
+.epg-inline-programs::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 2px; }
+.epg-prog-item {
+  flex: 0 0 auto;
+  padding: 5px 11px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.06);
+  color: #bbb;
+  white-space: nowrap;
+  transition: var(--transition);
+}
+.epg-prog-item.now {
+  background: rgba(229,9,20,0.18);
+  border-color: var(--primary);
+  color: #fff;
+  font-weight: 700;
+}
+.epg-prog-item .prog-time { color: var(--primary); font-weight: 700; display: block; font-size: 0.68rem; }
+.epg-prog-item .prog-name { display: block; }
+.epg-expand-btn {
+  flex-shrink: 0;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #ccc;
+  border-radius: 50%;
+  width: 26px; height: 26px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  font-size: 0.75rem;
+  transition: var(--transition);
+}
+.epg-expand-btn:hover { background: rgba(229,9,20,0.2); color: var(--primary); }
+
+/* EPG expanded modal */
+.epg-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  backdrop-filter: blur(10px);
+  z-index: 600;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+.epg-modal-overlay.open { display: flex; }
+.epg-modal {
+  width: 90%;
+  max-width: 600px;
+  background: rgba(15,15,15,0.97);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 24px;
+  padding: 24px;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+  animation: dropdownIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+.epg-modal-close {
+  position: absolute;
+  top: 14px; right: 16px;
+  background: rgba(229,9,20,0.2);
+  border: 1px solid var(--primary);
+  color: #fff;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: var(--transition);
+}
+.epg-modal-close:hover { background: var(--primary); }
+.epg-modal h3 { font-size: 1rem; font-weight: 800; margin-bottom: 16px; color: #fff; }
+.epg-modal-programs { display: flex; flex-direction: column; gap: 8px; }
+.epg-modal-prog {
+  display: flex; gap: 14px; align-items: center;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+  transition: var(--transition);
+}
+.epg-modal-prog.now {
+  background: rgba(229,9,20,0.12);
+  border-color: var(--primary);
+}
+.epg-modal-prog .time { color: var(--primary); font-weight: 700; font-size: 0.85rem; min-width: 55px; }
+.epg-modal-prog .name { color: #fff; font-weight: 600; font-size: 0.9rem; }
+.epg-modal-nav { display: flex; gap: 10px; margin-top: 14px; justify-content: center; }
+.epg-modal-nav button {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: #fff;
+  padding: 7px 18px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: var(--transition);
+}
+.epg-modal-nav button:hover { background: rgba(229,9,20,0.2); border-color: var(--primary); }
+
+/* ===== SECTION TITLE ROW (titre chaînes + loupe) ===== */
+.section-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 25px 0 20px;
+  gap: 12px;
+}
+.section-title-row .section-title {
+  margin: 0;
+  flex: 1;
+}
+.search-inline-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(229,9,20,0.15);
+  border: 1.5px solid rgba(229,9,20,0.4);
+  color: #fff;
+  padding: 8px 18px;
+  border-radius: 40px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.85rem;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+.search-inline-btn:hover {
+  background: var(--primary);
+  border-color: var(--primary);
+  box-shadow: 0 0 18px rgba(229,9,20,0.5);
+  transform: translateY(-2px);
+}
+
+/* ===== MOBILE CHANNEL CARDS uniform ===== */
+@media (max-width: 1024px) {
+  .content-card {
+    border-radius: 16px;
+  }
+  .content-thumbnail {
+    aspect-ratio: 16/9;
+    padding: 14px;
+  }
+  .content-info {
+    font-size: 0.75rem;
+    padding: 8px 6px;
+  }
+}
+
   .nav { display: none; }
   .mobile-menu { display: block; }
   .mobile-top-bar { display: flex; }
-  .main-content { margin-top: 55px; padding-bottom: 80px; }
+  .main-content { margin-top: 86px; padding-bottom: 80px; } /* 52px topbar + 34px (~9mm) gap */
   .hero .brand-text.hero-brand { font-size: 3.5rem; }
   .hero-subtitle { font-size: 1.2rem; }
   .hero-desc { font-size: 1rem; padding: 25px; }
@@ -2398,9 +2680,17 @@ video {
 <!-- MINI BARRE SUPÉRIEURE MOBILE (après connexion) -->
 <div class="mobile-top-bar" id="mobileTopBar" style="display: none;">
   <span class="brand-text">STRASS IPTV</span>
-  <div class="connection-status" id="connectionStatus">
-    <span class="dot"></span>
-    <span>Connecté</span>
+  <div style="display:flex;align-items:center;gap:10px">
+    <div class="connection-status" id="connectionStatus">
+      <span class="dot"></span>
+      <span>Connecté</span>
+    </div>
+    <button class="power-btn" onclick="handleLogout()" title="Se déconnecter">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#E50914" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18.36 6.64A9 9 0 1 1 5.64 6.64"/>
+        <line x1="12" y1="2" x2="12" y2="12"/>
+      </svg>
+    </button>
   </div>
 </div>
 
@@ -2419,9 +2709,17 @@ video {
   </ul>
   <div class="badge" style="margin-left:auto;margin-right:12px">
     <span id="userName">Utilisateur</span>
-    <button class="logout" onclick="handleLogout()">Déconnexion</button>
+    <span class="dot" style="width:9px;height:9px;border-radius:50%;background:#0f0;box-shadow:0 0 8px #0f0;display:inline-block"></span>
+    <span style="font-size:0.82rem;color:#ccc;font-weight:600">Connecté</span>
   </div>
-  <!-- Hamburger button -->
+  <!-- Power logout button (all devices) -->
+  <button class="power-btn" onclick="handleLogout()" title="Se déconnecter" style="margin-right:6px">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#E50914" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18.36 6.64A9 9 0 1 1 5.64 6.64"/>
+      <line x1="12" y1="2" x2="12" y2="12"/>
+    </svg>
+  </button>
+  <!-- Hamburger button (PC/desktop only) -->
   <div style="position:relative">
     <button class="nav-hamburger-btn" id="hamburgerBtn" onclick="toggleHamburger(event)" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -2444,45 +2742,56 @@ video {
       <div class="video-player">
         <video id="videoPlayer" controls autoplay playsinline></video>
       </div>
-      <!-- Barre fine sous le lecteur -->
-      <div class="player-controls-bar">
-        <div class="current-channel-info">
-          <span class="current-channel-name" id="currentChannelName">TF1 HD Premium</span>
-          <span class="current-program" id="currentProgram">Télématin</span>
+      <!-- Bloc info chaîne (collé sous le lecteur, angles carrés en haut, arrondis en bas) -->
+      <div class="channel-info-block" id="channelInfoBlock">
+        <div class="channel-info-top">
+          <div class="channel-logo-name">
+            <img id="channelInfoLogo" src="" alt="" onerror="this.style.display='none'">
+            <span class="ch-name" id="channelInfoName">TF1 HD Premium</span>
+          </div>
+          <div class="quality-selector">
+            <button class="quality-btn" onclick="toggleQualityDropdown()">
+              <span>🎬</span>
+              <span id="currentQuality">AUTO</span>
+              <span>▲</span>
+            </button>
+            <div class="quality-dropdown" id="qualityDropdown">
+              <div class="quality-option active" onclick="changeQuality('Auto',this)">AUTO</div>
+              <div class="quality-option" onclick="changeQuality('720p',this)">720p HD</div>
+              <div class="quality-option" onclick="changeQuality('1080p',this)">1080p Full HD</div>
+              <div class="quality-option" onclick="changeQuality('4K',this)">4K Ultra HD</div>
+            </div>
+          </div>
         </div>
-        <div class="quality-selector">
-          <button class="quality-btn" onclick="toggleQualityDropdown()">
-            <span>🎬</span>
-            <span id="currentQuality">AUTO</span>
-            <span>▼</span>
-          </button>
-          <div class="quality-dropdown" id="qualityDropdown">
-            <div class="quality-option active" onclick="changeQuality('Auto',this)">AUTO</div>
-            <div class="quality-option" onclick="changeQuality('720p',this)">720p (SD)</div>
-            <div class="quality-option" onclick="changeQuality('1080p',this)">1080p (HD)</div>
-            <div class="quality-option" onclick="changeQuality('4K',this)">4K Ultra HD</div>
+        <!-- EPG inline -->
+        <div class="epg-inline" id="epgInline">
+          <div class="epg-inline-programs" id="epgInlinePrograms">
+            <span style="color:#888;font-size:0.8rem">Chargement des programmes...</span>
           </div>
         </div>
       </div>
-      <!-- EPG compact -->
-      <div class="epg-bar" id="epgBar">
-        <span>📺 <span id="epgBarChannel">TF1 HD Premium</span></span>
-        <span class="program-name" id="epgBarProgram">Télématin</span>
-        <span class="program-time" id="epgBarTime">08:00 - 09:30</span>
+    </div>
+
+    <!-- EPG modal détaillé -->
+    <div class="epg-modal-overlay" id="epgModalOverlay">
+      <div class="epg-modal">
+        <button class="epg-modal-close" onclick="closeEpgModal()">✕</button>
+        <h3 id="epgModalTitle">Programmes</h3>
+        <div class="epg-modal-programs" id="epgModalPrograms"></div>
+        <div class="epg-modal-nav">
+          <button onclick="epgNavPrev()">◀ Précédent</button>
+          <button onclick="epgNavNext()">Suivant ▶</button>
+        </div>
       </div>
     </div>
 
-    <div class="epg-container" id="epgContainer">
-      <div class="epg-header">
-        <div class="epg-title" id="epgTitle">Programmes détaillés</div>
-        <button class="epg-toggle" onclick="toggleEPG()">Afficher</button>
-      </div>
-      <div class="epg-body">
-        <div class="epg-programs" id="epgPrograms"></div>
-      </div>
+    <div class="section-title-row">
+      <h2 class="section-title">Chaînes en Direct</h2>
+      <button class="search-inline-btn" onclick="openSearchModal()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Rechercher
+      </button>
     </div>
-
-    <h2 class="section-title">Chaînes en Direct</h2>
     <div class="content-grid" id="channelsGrid"></div>
   </div>
 
@@ -2704,12 +3013,10 @@ let DB_CHANNELS = [
 
 
 /* === USER-PROVIDED CHANNELS BEGIN HERE (PLACEHOLDER) === */
-  {id:"ch5",name:"AB EXPLORE HD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/208160.m3u8",logo:"https://via.placeholder.com/80x50/111/fff?text=TV",blocked:false},
-  {id:"ch6",name:"AB1 FHD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/65831.m3u8",logo:"https://via.placeholder.com/80x50/111/fff?text=TV",blocked:false},
-  {id:"ch7",name:"AB3 FHD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/65830.m3u8",logo:"https://via.placeholder.com/80x50/111/fff?text=TV",blocked:false},
-  {id:"ch8",name:"ACTION FHD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/62340.m3u8",logo:"https://via.placeholder.com/80x50/111/fff?text=TV",blocked:false},
-  {id:"ch9",name:"Alpha Ju HD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/91158.m3u8",logo:"https://via.placeholder.com/80x50/111/fff?text=TV",blocked:false},
-  {id:"ch10",name:"Alsace 20 HD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/65703.m3u8",logo:"https://via.placeholder.com/80x50/111/fff?text=TV",blocked:false},
+  {id:"ch5",name:"AB1 FHD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/65831.m3u8",logo:"https://via.placeholder.com/80x50/111/fff?text=AB1",blocked:false},
+  {id:"ch6",name:"AB3 FHD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/65830.m3u8",logo:"https://via.placeholder.com/80x50/111/fff?text=AB3",blocked:false},
+  {id:"ch7",name:"ACTION FHD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/62340.m3u8",logo:"https://via.placeholder.com/80x50/111/fff?text=ACTION",blocked:false},
+  {id:"ch8",name:"Alsace 20 HD",url:"http://dibo.live:8080/live/Ftz4SwuItU/EriObNze6W/65703.m3u8",logo:"https://via.placeholder.com/80x50/111/fff?text=Alsace+20",blocked:false},
 
 ];
 let DB_VOD = [
@@ -2816,7 +3123,7 @@ function renderChannels() {
     if(channel.blocked && currentUser.role !== 'admin') return;
     const card = document.createElement('div'); card.className = 'content-card';
     card.onclick = () => { if(channel.blocked) alert('Contenu bloqué'); else playChannel(channel.url, channel.name, channel.id); };
-    card.innerHTML = `<div class="content-thumbnail"><img src="${channel.logo}" alt="${channel.name}"></div><div class="content-info">${channel.name}</div>`;
+    card.innerHTML = `<div class="content-thumbnail"><img src="${channel.logo}" alt="${channel.name}" onerror="this.style.opacity='0.3'"></div><div class="content-info">${channel.name}</div>`;
     grid.appendChild(card);
   });
 }
@@ -2861,9 +3168,13 @@ function populateAccountInfo() {
   document.getElementById('accountDebit').textContent = currentUser.debitMax;
 }
 function playChannel(url, name, id) {
-  document.getElementById('currentChannelName').textContent = name;
-  document.getElementById('epgBarChannel').textContent = name;
+  document.getElementById('channelInfoName').textContent = name;
+  if(document.getElementById('currentChannelName')) document.getElementById('currentChannelName').textContent = name;
   currentChannelId = id;
+  // Update channel logo in info block
+  const ch = DB_CHANNELS.find(c => c.id === id);
+  const logoEl = document.getElementById('channelInfoLogo');
+  if(logoEl && ch && ch.logo) { logoEl.src = ch.logo; logoEl.style.display = 'block'; } else if(logoEl) { logoEl.style.display = 'none'; }
   const video = document.getElementById('videoPlayer');
   if(Hls.isSupported()) {
     if(hlsInstance) hlsInstance.destroy();
@@ -2873,14 +3184,24 @@ function playChannel(url, name, id) {
     hlsInstance.on(Hls.Events.MANIFEST_PARSED, () => { applyQuality(); video.play().catch(()=>{}); });
   } else if(video.canPlayType('application/vnd.apple.mpegurl')) { video.src = url; video.play().catch(()=>{}); }
   window.scrollTo({top:0, behavior:'smooth'});
-  renderEPG(id);
+  renderEPGInline(id);
 }
-function toggleQualityDropdown() { document.getElementById('qualityDropdown').classList.toggle('open'); }
+function toggleQualityDropdown() {
+  const dd = document.getElementById('qualityDropdown');
+  dd.classList.toggle('open');
+  // Update arrow indicator
+  const btn = dd.previousElementSibling || document.querySelector('.quality-btn');
+  const arrows = document.querySelectorAll('.quality-btn span:last-child');
+  arrows.forEach(a => { if(a.textContent === '▲' || a.textContent === '▼') a.textContent = dd.classList.contains('open') ? '▼' : '▲'; });
+}
 function changeQuality(quality, element) {
   selectedQuality = quality; document.getElementById('currentQuality').textContent = quality;
   document.querySelectorAll('.quality-option').forEach(opt=>opt.classList.remove('active')); element.classList.add('active');
-  applyQuality(); document.getElementById('qualityDropdown').classList.remove('open');
-  const nameEl = document.getElementById('currentChannelName'); const originalText = nameEl.textContent;
+  applyQuality();
+  document.getElementById('qualityDropdown').classList.remove('open');
+  document.querySelectorAll('.quality-btn span:last-child').forEach(a => { if(a.textContent === '▼' || a.textContent === '▲') a.textContent = '▲'; });
+  const nameEl = document.getElementById('channelInfoName'); if(!nameEl) return;
+  const originalText = nameEl.textContent;
   nameEl.textContent = `Qualité: ${quality}...`; nameEl.style.color = 'var(--primary)';
   setTimeout(() => { nameEl.textContent = originalText; nameEl.style.color = '#fff'; }, 1500);
 }
@@ -2892,31 +3213,59 @@ function applyQuality() {
   (hlsInstance.levels || []).forEach((level, idx) => { const h = level.height || 0; const diff = Math.abs(h - targetHeight); if(diff < bestDiff) { bestDiff = diff; bestIdx = idx; } });
   if(bestIdx >= 0) hlsInstance.currentLevel = bestIdx;
 }
-function toggleEPG() {
-  const container = document.getElementById('epgContainer');
-  container.classList.toggle('open');
-  container.querySelector('.epg-toggle').textContent = container.classList.contains('open') ? 'Masquer' : 'Afficher';
-}
-function renderEPG(channelId) {
+function renderEPGInline(channelId) {
   const programs = DB_EPG[channelId] || [];
   const channel = DB_CHANNELS.find(ch => ch.id === channelId);
-  document.getElementById('epgTitle').textContent = channel ? `Programmes de ${channel.name}` : 'Programmes';
-  const container = document.getElementById('epgPrograms');
+  const container = document.getElementById('epgInlinePrograms');
+  if(!container) return;
   container.innerHTML = '';
-  programs.forEach((prog, idx) => {
-    const div = document.createElement('div');
-    div.className = 'epg-program' + (idx === 1 ? ' now' : '');
-    div.innerHTML = `<div class="epg-time">${prog.t}</div><div class="epg-name">${prog.n}</div>`;
-    container.appendChild(div);
-  });
-  if(programs.length > 0) {
-    const now = programs.find((p, i) => i === 1) || programs[0];
-    document.getElementById('epgBarProgram').textContent = now.n;
-    document.getElementById('currentProgram').textContent = now.n;
-    const next = programs[2] ? ` - ${programs[2].t}` : '';
-    document.getElementById('epgBarTime').textContent = `${now.t}${next}`;
+  if(programs.length === 0) {
+    container.innerHTML = '<span style="color:#666;font-size:0.8rem">Aucun programme disponible</span>';
+    return;
   }
+  // Show: 2 avant + current (idx 1 or 0) + 2 après — use idx 1 as "now"
+  const nowIdx = Math.min(1, programs.length - 1);
+  const startIdx = Math.max(0, nowIdx - 2);
+  const endIdx = Math.min(programs.length - 1, nowIdx + 2);
+  for(let i = startIdx; i <= endIdx; i++) {
+    const prog = programs[i];
+    const div = document.createElement('div');
+    div.className = 'epg-prog-item' + (i === nowIdx ? ' now' : '');
+    div.innerHTML = `<span class="prog-time">${prog.t}</span><span class="prog-name">${prog.n}</span>`;
+    container.appendChild(div);
+  }
+  // Expand button
+  const expandBtn = document.createElement('button');
+  expandBtn.className = 'epg-expand-btn';
+  expandBtn.title = 'Voir tous les programmes';
+  expandBtn.innerHTML = '⤢';
+  expandBtn.onclick = () => openEpgModal(channelId);
+  container.appendChild(expandBtn);
 }
+function openEpgModal(channelId) {
+  const programs = DB_EPG[channelId] || [];
+  const channel = DB_CHANNELS.find(ch => ch.id === channelId);
+  document.getElementById('epgModalTitle').textContent = channel ? `Programmes — ${channel.name}` : 'Programmes';
+  const container = document.getElementById('epgModalPrograms');
+  container.innerHTML = '';
+  if(programs.length === 0) { container.innerHTML = '<p style="color:#888;text-align:center">Aucun programme</p>'; }
+  else {
+    const nowIdx = Math.min(1, programs.length - 1);
+    programs.forEach((prog, i) => {
+      const div = document.createElement('div');
+      div.className = 'epg-modal-prog' + (i === nowIdx ? ' now' : '');
+      div.innerHTML = `<span class="time">${prog.t}</span><span class="name">${prog.n}${i === nowIdx ? ' <span style="color:var(--primary);font-size:0.75rem;font-weight:700">● EN DIRECT</span>' : ''}</span>`;
+      container.appendChild(div);
+    });
+  }
+  document.getElementById('epgModalOverlay').classList.add('open');
+}
+function closeEpgModal() { document.getElementById('epgModalOverlay').classList.remove('open'); }
+function epgNavPrev() { /* Navigation EPG - could extend to show earlier programs */ }
+function epgNavNext() { /* Navigation EPG - could extend to show later programs */ }
+// Legacy stub kept for any references
+function renderEPG(channelId) { renderEPGInline(channelId); }
+function toggleEPG() {}
 function updateSession(isActive) {
   if(!currentUser) return;
   let sessions = []; try { sessions = JSON.parse(localStorage.getItem(STORAGE_KEYS.sessions) || '[]'); } catch(e) {}
@@ -3206,7 +3555,8 @@ window.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('click', (e) => {
   const qualityDropdown = document.getElementById('qualityDropdown');
   if (qualityDropdown && !qualityDropdown.contains(e.target) && !e.target.closest('.quality-btn')) {
-    qualityDropdown.style.display = 'none';
+    qualityDropdown.classList.remove('open');
+    document.querySelectorAll('.quality-btn span:last-child').forEach(a => { if(a.textContent === '▼' || a.textContent === '▲') a.textContent = '▲'; });
   }
   // Close hamburger if clicking outside
   const dropdown = document.getElementById('navDropdown');
@@ -3299,8 +3649,9 @@ document.addEventListener('click', (e) => {
   if (overlay && e.target === overlay) closeSearchModal();
   const storeOverlay = document.getElementById('storeModalOverlay');
   if (storeOverlay && e.target === storeOverlay) closeStoreModal();
+  const epgOverlay = document.getElementById('epgModalOverlay');
+  if (epgOverlay && e.target === epgOverlay) closeEpgModal();
 });
 
 </script>
 </body>
-</html>
