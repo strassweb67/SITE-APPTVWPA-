@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html lang="fr"><head>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1, user-scalable=yes">
 <title>Strass IPTV</title>
@@ -3557,6 +3560,9 @@ video {
 }
 </style>
 </head>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <body>
 <div id="progress-bar" style="width: 6.57844%;"></div>
 <div class="animated-bg">
@@ -4149,8 +4155,8 @@ video {
       <span id="navWaveHand" style="font-size:0.85rem;display:inline-block;animation:waveHand 1.8s ease-in-out infinite;transform-origin:70% 70%">👋</span>
     </div>
   </div>
-  <!-- Power logout button (all devices) -->
-  <button class="power-btn" onclick="handleLogout()" title="Se déconnecter" style="margin-right:6px">
+  <!-- Power logout button (all devices) désactivé visuellement -->
+  <button class="power-btn" onclick="handleLogout()" title="Se déconnecter" style="margin-right:6px;display:none">
     <svg viewBox="0 0 24 24" fill="none" stroke="#E50914" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M18.36 6.64A9 9 0 1 1 5.64 6.64"></path>
       <line x1="12" y1="2" x2="12" y2="12"></line>
@@ -4340,6 +4346,7 @@ video {
           <li onclick="switchAdminPanel('video',this)" class=""><span>🎛️</span><span>Vidéo Admin</span></li>
           <li onclick="switchAdminPanel('regutili',this)" class=""><span>👤</span><span>Reg Utili</span></li>
           <li onclick="switchAdminPanel('accounts',this)" class=""><span>📁</span><span>Comptes</span></li>
+          <li onclick="switchAdminPanel('newuser',this)" class=""><span>➕</span><span>New Utilis</span></li>
           <li onclick="switchAdminPanel('channels',this)" class=""><span>📺</span><span>Chaînes IPTV</span></li>
           <li onclick="switchAdminPanel('vod',this)" class=""><span>🎬</span><span>VOD</span></li>
           <li onclick="switchAdminPanel('links',this)" class=""><span>🔗</span><span>Liens &amp; Apps</span></li>
@@ -4535,6 +4542,51 @@ video {
         <table class="admin-table" style="margin-top:30px"><thead><tr><th>Code</th><th>Nom Complet</th><th>Contact</th><th>Création</th><th>Expiration</th><th>Statut</th><th>Actions</th></tr></thead><tbody id="accountsTable"><tr><td><code style="color:var(--primary);font-weight:900">Treza670</code></td><td>Brice Jacotet</td><td style="font-size:.85rem">Strassweb67@gmail.com<br>0619696332</td><td>2024-01-01</td><td style="">2099-12-31</td><td><span style="color:#0f0">Actif</span></td><td><button class="admin-btn-secondary" onclick="toggleBan(0)">Bannir</button></td></tr><tr><td><code style="color:var(--primary);font-weight:900">Gogo67000</code></td><td>Gauthier Rauch</td><td style="font-size:.85rem">jean@gmail.com<br>0700000000</td><td>2025-01-01</td><td style="">2026-12-31</td><td><span style="color:#0f0">Actif</span></td><td><button class="admin-btn-secondary" onclick="toggleBan(1)">Bannir</button></td></tr><tr><td><code style="color:var(--primary);font-weight:900">Marie67300</code></td><td>Marie-Christine Jacotet</td><td style="font-size:.85rem">Mariechristinejacotet@gmail.com<br>0617633880</td><td>2024-05-10</td><td style="">2028-05-10</td><td><span style="color:#0f0">Actif</span></td><td><button class="admin-btn-secondary" onclick="toggleBan(2)">Bannir</button></td></tr></tbody></table>
         <button class="admin-btn" onclick="saveAllAccounts()">Enregistrer les Comptes</button>
       </div>
+
+      <div class="admin-panel" id="adminNewUserPanel">
+        <h3 style="color:#fff;font-weight:800;margin-bottom:16px;font-size:1.05rem">👥 Créer un nouvel utilisateur</h3>
+        <p style="color:#888;font-size:0.82rem;margin-bottom:18px">Renseignez les informations du client et son code d'accès. Le compte sera utilisable immédiatement et inclus dans l'export complet.</p>
+        <div class="admin-form-grid">
+          <div class="admin-form-field">
+            <h4>Code d'accès</h4>
+            <p>Code personnalisé pour l'authentification</p>
+            <input type="text" id="newUserCode" placeholder="Ex: CLIENT123">
+          </div>
+          <div class="admin-form-field">
+            <h4>Nom</h4>
+            <input type="text" id="newUserNom" placeholder="Nom">
+          </div>
+          <div class="admin-form-field">
+            <h4>Prénom</h4>
+            <input type="text" id="newUserPrenom" placeholder="Prénom">
+          </div>
+          <div class="admin-form-field">
+            <h4>Téléphone</h4>
+            <input type="text" id="newUserTel" placeholder="Numéro de téléphone">
+          </div>
+          <div class="admin-form-field">
+            <h4>Email</h4>
+            <input type="email" id="newUserEmail" placeholder="Email (facultatif)">
+          </div>
+          <div class="admin-form-field">
+            <h4>Forfait</h4>
+            <input type="text" id="newUserForfait" placeholder="Ex: Basique - 19.90€">
+          </div>
+          <div class="admin-form-field">
+            <h4>Débit maximum</h4>
+            <input type="text" id="newUserDebitMax" placeholder="Ex: 1080p">
+          </div>
+          <div class="admin-form-field">
+            <h4>Date d'expiration</h4>
+            <input type="date" id="newUserDateExp">
+          </div>
+        </div>
+        <div style="margin-top:18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+          <button class="admin-btn" onclick="createNewUser()">✅ Créer l'utilisateur</button>
+          <span id="newUserStatus" style="font-size:0.8rem;color:#0f0;min-height:18px;"></span>
+        </div>
+      </div>
+
       <div class="admin-panel" id="adminChannelsPanel">
         <div class="admin-form-grid">
           <div class="admin-form-field"><h4>Nom de la chaîne</h4><p>Titre visible</p><input type="text" id="newChannelName" placeholder="Ex: TF1 HD"></div>
@@ -4851,7 +4903,7 @@ video {
   </div>
 
   <!-- MENU MOBILE (bas) -->
-  <div class="mobile-menu" id="mobileMenu" onclick="if(event.target===this||event.target.id==='mobileMenu')openBottombarModal()">
+  <div class="mobile-menu" id="mobileMenu">
     <div class="mobile-menu-grid" id="mobileMenuGrid" style="grid-template-columns: repeat(6, 1fr);">
 
       <!-- TV Live -->
@@ -4896,7 +4948,7 @@ video {
   <!-- Loupe supprimée — déplacée dans la barre Instagram -->
 
   <!-- SEARCH MODAL -->
-  <div class="search-modal-overlay" id="searchModalOverlay">
+  <div class="search-modal-overlay" id="searchModalOverlay" onclick="if(event.target===this)closeSearchModal()">
     <div class="search-modal">
       <button class="search-modal-close" onclick="closeSearchModal()">✕</button>
       <h2 style="font-size:1.2rem;font-weight:800;margin-bottom:16px">🔍 Rechercher une chaîne</h2>
@@ -5036,6 +5088,10 @@ function handleLogin() {
       let ipData = {}; try { ipData = JSON.parse(localStorage.getItem('strass_userIPs') || '{}'); } catch(e) {}
       ipData[user.code] = { ip: _clientIP, city: _clientCity, country: _clientCountry, ts: Date.now() };
       localStorage.setItem('strass_userIPs', JSON.stringify(ipData));
+	  setInterval(() => {
+    const panel = document.getElementById('adminIpinfoPanel');
+    if(panel && panel.classList.contains('active')) refreshIpInfoPanel();
+  }, 2000);
     }
   });
   // Notification de connexion si activée
@@ -5271,9 +5327,35 @@ function playChannel(url, name, id) {
     hlsInstance.loadSource(url);
     hlsInstance.attachMedia(video);
     hlsInstance.on(Hls.Events.MANIFEST_PARSED, () => {
-      applyQuality();
-      video.play().catch(() => {});
-      // ABR gère automatiquement la montée en qualité — pas d'intervention manuelle
+      const levels = hlsInstance.levels || [];
+      // Chercher les niveaux ~1080p et ~4K si disponibles
+      const findClosestLevel = (targetHeight) => {
+        let bestIdx = -1, bestDiff = 99999;
+        levels.forEach((lvl, idx) => {
+          const h = lvl.height || 0;
+          const diff = Math.abs(h - targetHeight);
+          if(diff < bestDiff) { bestDiff = diff; bestIdx = idx; }
+        });
+        return bestIdx;
+      };
+      const idx1080 = findClosestLevel(1080);
+      const idx4k = findClosestLevel(2160);
+
+      // Démarrage rapide en 1080p puis montée vers 4K après 1 seconde si possible
+      if(idx1080 >= 0 && idx4k >= 0) {
+        hlsInstance.currentLevel = idx1080;
+        selectedQuality = '1080p';
+        video.play().catch(() => {});
+        setTimeout(() => {
+          if(!hlsInstance) return;
+          hlsInstance.currentLevel = idx4k;
+          selectedQuality = '4K';
+        }, 1000);
+      } else {
+        // Fallback : laisse l'ABR choisir ou applique la qualité sélectionnée
+        applyQuality();
+        video.play().catch(() => {});
+      }
     });
     // Récupération automatique erreurs réseau/media
     hlsInstance.on(Hls.Events.ERROR, (evt, data) => {
@@ -5456,7 +5538,7 @@ function initAdminPanels() {
 function switchAdminPanel(panel, element) {
   document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.admin-sidebar li').forEach(li => li.classList.remove('active'));
-  const panelMap = { users:'adminUsersPanel', video:'adminVideoPanel', regutili:'adminRegUtiliPanel', accounts:'adminAccountsPanel', channels:'adminChannelsPanel', vod:'adminVodPanel', links:'adminLinksPanel', requests:'adminRequestsPanel', ipinfo:'adminIpinfoPanel', export:'adminExportPanel' };
+  const panelMap = { users:'adminUsersPanel', video:'adminVideoPanel', regutili:'adminRegUtiliPanel', accounts:'adminAccountsPanel', newuser:'adminNewUserPanel', channels:'adminChannelsPanel', vod:'adminVodPanel', links:'adminLinksPanel', requests:'adminRequestsPanel', ipinfo:'adminIpinfoPanel', export:'adminExportPanel' };
   if(panel==='ipinfo'){try{refreshIpInfoPanel();}catch(e){}}
   const targetPanel = document.getElementById(panelMap[panel]); if(targetPanel) targetPanel.classList.add('active');
   if(element) element.classList.add('active');
@@ -5516,8 +5598,8 @@ function renderVideoSettings() {
   const grid = document.getElementById('videoSettingsGrid'); if(!grid) return;
   const VIDEO_SETTINGS = [
     {id:'vBrightness', label:'Luminosité', desc:'Ajuste la luminosité de la vidéo (0-200%)', type:'range', min:0, max:200, step:1, default:100, unit:'%', apply: v => { const vid = document.getElementById('videoPlayer'); if(vid) vid.style.filter = computeFilter(); }},
-    {id:'vContrast', label:'Contraste', desc:'Contraste de l\'image (0-200%)', type:'range', min:0, max:200, step:1, default:100, unit:'%', apply: v => { const vid = document.getElementById('videoPlayer'); if(vid) vid.style.filter = computeFilter(); }},
-    {id:'vSaturation', label:'Saturation', desc:'Intensité des couleurs (0-200%)', type:'range', min:0, max:200, step:1, default:100, unit:'%', apply: v => { const vid = document.getElementById('videoPlayer'); if(vid) vid.style.filter = computeFilter(); }},
+    {id:'vContrast', label:'Contraste', desc:'Contraste de l\'image (0-200%)', type:'range', min:0, max:200, step:1, default:110, unit:'%', apply: v => { const vid = document.getElementById('videoPlayer'); if(vid) vid.style.filter = computeFilter(); }},
+    {id:'vSaturation', label:'Saturation', desc:'Intensité des couleurs (0-200%)', type:'range', min:0, max:200, step:1, default:110, unit:'%', apply: v => { const vid = document.getElementById('videoPlayer'); if(vid) vid.style.filter = computeFilter(); }},
     {id:'vSharpness', label:'Netteté', desc:'Renforcement de la netteté (0-100%)', type:'range', min:0, max:100, step:1, default:0, unit:'%', apply: v => {}},
     {id:'vHue', label:'Teinte (Hue)', desc:'Rotation de la teinte en degrés (0-360°)', type:'range', min:0, max:360, step:1, default:0, unit:'°', apply: v => { const vid = document.getElementById('videoPlayer'); if(vid) vid.style.filter = computeFilter(); }},
     {id:'vBuffer', label:'Buffer (ms)', desc:'Taille du tampon de lecture — 6000 mobile recommandé', type:'number', min:1000, max:60000, step:500, default:6000},
@@ -5698,21 +5780,20 @@ function createGuestProfile() {
   showToastAfterAdminChange();
 }
 
-// ===== BOTTOM BAR MODAL =====
+// ===== BOTTOM BAR MODAL (désactivé : accès direct sans mot de passe) =====
 function openBottombarModal() {
-  document.getElementById('bottombarModalOverlay').classList.add('open');
-  setTimeout(() => { const inp = document.getElementById('bottombarPwInput'); if(inp) inp.focus(); }, 100);
+  if (currentUser && currentUser.role === 'admin') {
+    navigateToSection('admin');
+  } else {
+    openLoginModal();
+  }
 }
 function closeBottombarModal() {
-  document.getElementById('bottombarModalOverlay').classList.remove('open');
-  document.getElementById('bottombarPwInput').value = '';
-  document.getElementById('bottombarPwError').style.display = 'none';
+  // Modal désactivé : laissé pour compatibilité, ne fait plus rien.
 }
 function checkBottombarPw() {
-  const pw = document.getElementById('bottombarPwInput').value;
-  const err = document.getElementById('bottombarPwError');
-  if(pw === 'Treza670') { closeBottombarModal(); if(currentUser) navigateToSection('admin'); else openLoginModal(); }
-  else { err.style.display = 'block'; document.getElementById('bottombarPwInput').value = ''; }
+  // Mot de passe supprimé : on redirige simplement vers l'accès normal.
+  openBottombarModal();
 }
 
 function renderAccountsAdmin() {
@@ -5765,6 +5846,87 @@ function saveCurrentAccount() {
 }
 function toggleBan(idx) { DB_ACCOUNTS[idx].isBanned = !DB_ACCOUNTS[idx].isBanned; saveData('accounts'); renderAccountsAdmin(); showToastAfterAdminChange(); }
 function saveAllAccounts() { saveData('accounts'); showToastAfterAdminChange(); }
+function createNewUser() {
+  const codeEl = document.getElementById('newUserCode');
+  const nomEl = document.getElementById('newUserNom');
+  const prenomEl = document.getElementById('newUserPrenom');
+  const telEl = document.getElementById('newUserTel');
+  const emailEl = document.getElementById('newUserEmail');
+  const forfaitEl = document.getElementById('newUserForfait');
+  const debitEl = document.getElementById('newUserDebitMax');
+  const dateExpEl = document.getElementById('newUserDateExp');
+  const statusEl = document.getElementById('newUserStatus');
+
+  if (!codeEl || !nomEl || !prenomEl) return;
+
+  const code = codeEl.value.trim();
+  const nom = nomEl.value.trim();
+  const prenom = prenomEl.value.trim();
+  const tel = telEl ? telEl.value.trim() : '';
+  const email = emailEl ? emailEl.value.trim() : '';
+  const forfait = forfaitEl && forfaitEl.value.trim() ? forfaitEl.value.trim() : 'Basique - 19.90€';
+  const debitMax = debitEl && debitEl.value.trim() ? debitEl.value.trim() : '1080p';
+  const dateExpInput = dateExpEl && dateExpEl.value ? dateExpEl.value : '';
+
+  if (!code || !nom || !prenom) {
+    alert("Veuillez remplir au minimum le code, le nom et le prénom.");
+    return;
+  }
+
+  if (DB_ACCOUNTS.some(a => a.code.toUpperCase() === code.toUpperCase())) {
+    alert("Ce code d'accès existe déjà.");
+    return;
+  }
+
+  const today = new Date();
+  const dateCrea = today.toISOString().split('T')[0];
+  let dateExp = dateExpInput;
+  if (!dateExp) {
+    const exp = new Date(today); exp.setFullYear(exp.getFullYear() + 1);
+    dateExp = exp.toISOString().split('T')[0];
+  }
+
+  const account = {
+    code,
+    role: 'user',
+    nom,
+    prenom,
+    email,
+    tel,
+    dateCrea,
+    dateExp,
+    forfait,
+    debitMax,
+    isBanned: false,
+    qualityTier: 'high',
+    maxConnections: 3,
+    maxStreams4k: 1
+  };
+
+  DB_ACCOUNTS.push(account);
+  saveData('accounts');
+  renderAccountsAdmin();
+  renderAccountEditor();
+  renderLiveUsers();
+  renderRegUtili();
+  refreshAccessHistory();
+  showToastAfterAdminChange();
+
+  if (statusEl) {
+    statusEl.style.color = '#0f0';
+    statusEl.textContent = 'Compte créé et actif immédiatement.';
+    setTimeout(() => { statusEl.textContent = ''; }, 4000);
+  }
+
+  codeEl.value = '';
+  nomEl.value = '';
+  prenomEl.value = '';
+  if (telEl) telEl.value = '';
+  if (emailEl) emailEl.value = '';
+  if (forfaitEl) forfaitEl.value = '';
+  if (debitEl) debitEl.value = '';
+  if (dateExpEl) dateExpEl.value = '';
+}
 function renderChannelsAdmin() {
   const tbody = document.getElementById('channelsTable'); if(!tbody) return;
   tbody.innerHTML = '';
@@ -6084,10 +6246,12 @@ function closeSearchModal() {
 function doSearch() {
   const q = document.getElementById('searchInput').value.trim().toLowerCase();
   const container = document.getElementById('searchResultsContainer');
-  if (!q) { container.innerHTML = '<p style="color:#aaa;text-align:center">Entrez un nom de chaîne.</p>'; return; }
-  const allChannels = DB_CHANNELS;
-  const results = allChannels.filter(ch => ch.name.toLowerCase().includes(q));
-  if (results.length === 0) {
+  if (!q) { container.innerHTML = '<p style="color:#aaa;text-align:center">Entrez un nom de chaîne, de film/série ou d\'application.</p>'; return; }
+  const channelResults = DB_CHANNELS.filter(ch => ch.name.toLowerCase().includes(q));
+  const vodResults = DB_VOD.filter(v => (v.name || '').toLowerCase().includes(q));
+  const appResults = DB_LINKS.filter(l => (l.title || '').toLowerCase().includes(q) || (l.description || '').toLowerCase().includes(q));
+  const totalCount = channelResults.length + vodResults.length + appResults.length;
+  if (totalCount === 0) {
     container.innerHTML = `
       <div class="search-no-result">
         <div class="loupe-red">🔍</div>
@@ -6103,10 +6267,11 @@ function doSearch() {
   } else {
     const grid = document.createElement('div');
     grid.className = 'search-results-grid';
-    results.forEach(ch => {
+
+    channelResults.forEach(ch => {
       const btn = document.createElement('button');
       btn.className = 'search-result-btn';
-      btn.innerHTML = `<img src="${ch.logo || ''}" alt="${ch.name}" onerror="this.style.display='none'"><span>${ch.name}</span>`;
+      btn.innerHTML = `<img src="${ch.logo || ''}" alt="${ch.name}" onerror="this.style.display='none'"><span>${ch.name} • Chaîne</span>`;
       btn.onclick = () => {
         closeSearchModal();
         navigateToSection('tv');
@@ -6114,6 +6279,31 @@ function doSearch() {
       };
       grid.appendChild(btn);
     });
+
+    vodResults.forEach(v => {
+      const btn = document.createElement('button');
+      btn.className = 'search-result-btn';
+      btn.innerHTML = `<img src="${v.logo || ''}" alt="${v.name}" onerror="this.style.display='none'"><span>${v.name} • ${v.type || 'VOD'}</span>`;
+      btn.onclick = () => {
+        closeSearchModal();
+        navigateToSection('vod');
+        // Le clic met simplement en avant la section VOD ; la lecture est gérée dans cette section.
+      };
+      grid.appendChild(btn);
+    });
+
+    appResults.forEach(l => {
+      const btn = document.createElement('button');
+      btn.className = 'search-result-btn';
+      btn.innerHTML = `<img src="${l.image || ''}" alt="${l.title}" onerror="this.style.display='none'"><span>${l.title} • App</span>`;
+      btn.onclick = () => {
+        closeSearchModal();
+        navigateToSection('links');
+        setTimeout(() => openStoreModal(l.title, l.description, l.url), 200);
+      };
+      grid.appendChild(btn);
+    });
+
     container.innerHTML = '';
     container.appendChild(grid);
   }
@@ -6409,14 +6599,26 @@ function pingUser(code){
 /* PANEL INFOS IP */
 function refreshIpInfoPanel(){
   var container=document.getElementById('ipInfoContainer');if(!container)return;
-  var all=[];
-  try{var d=localStorage.getItem('tvip_consent_data');if(d){var pd=JSON.parse(d);if(pd&&pd.timestamp)all.push(pd);}}catch(e){}
+  // Sessions + historique connexion
+  var sessions=[];try{sessions=JSON.parse(localStorage.getItem(STORAGE_KEYS.sessions)||'[]');}catch(e){}
+  var history={};try{history=JSON.parse(localStorage.getItem('strass_connHistory')||'{}');}catch(e){}
+  var ipData={};try{ipData=JSON.parse(localStorage.getItem('strass_userIPs')||'{}');}catch(e){}
+  // Données de consentement (CGV)
+  var consentAll=[];
+  try{var d=localStorage.getItem('tvip_consent_data');if(d){var pd=JSON.parse(d);if(pd&&pd.timestamp)consentAll.push(pd);}}catch(e){}
   try{
     var h=JSON.parse(localStorage.getItem('tvip_consent_history')||'[]');
-    h.forEach(function(e){if(!all.some(function(a){return a.timestamp===e.timestamp;}))all.push(e);});
+    h.forEach(function(e){if(!consentAll.some(function(a){return a.timestamp===e.timestamp;}))consentAll.push(e);});
   }catch(e){}
-  if(!all.length){
-    container.innerHTML='<div style="color:#444;padding:50px;text-align:center;border:1px dashed #333;border-radius:14px;font-size:0.85rem;">Aucune donnee collectee.<br><span style="font-size:0.73rem;color:#333;">Apparaitra apres acceptation des CGV.</span></div>';
+  // Index par IP (dernière entrée pour chaque IP)
+  var consentByIp={};
+  consentAll.forEach(function(data){
+    var ip1=(data.ip1||{}).ip, ip2=(data.ip2||{}).ip;
+    if(ip1) consentByIp[ip1]=data;
+    if(ip2) consentByIp[ip2]=data;
+  });
+  if(DB_ACCOUNTS.length===0){
+    container.innerHTML='<div style="color:#444;padding:50px;text-align:center;border:1px dashed #333;border-radius:14px;font-size:0.85rem;">Aucun utilisateur configuré.<br><span style="font-size:0.73rem;color:#333;">Ajoutez des comptes dans le panneau Comptes.</span></div>';
     return;
   }
   var CS='background:rgba(10,10,18,0.9);border:1px solid rgba(229,9,20,0.2);border-radius:14px;padding:20px;margin-bottom:16px;';
@@ -6425,17 +6627,32 @@ function refreshIpInfoPanel(){
   var LS='color:#666;font-size:0.76rem;';
   function fv(v){return(v!==null&&v!==undefined&&String(v)!=='')?'<span style="color:#e0e0e0">'+v+'</span>':'<span style="color:#444">&#x2014;</span>';}
   function fb(v){return v?'<span style="color:#ff4444;font-weight:700">&#x26A0; OUI</span>':'<span style="color:#00c853">OK</span>';}
+  var now=Date.now();
   var out='';
-  all.forEach(function(data,i){
-    var ip1=data.ip1||{},ip2=data.ip2||{},dev=data.device||{};
-    var ts=data.timestamp?new Date(data.timestamp).toLocaleString('fr-FR'):'—';
+  DB_ACCOUNTS.forEach(function(account){
+    var session=sessions.find(function(s){return s.code===account.code;});
+    var isOnline=session&&(now-session.lastSeen)<65000;
+    var hist=history[account.code]||{};
+    var ipInfo=ipData[account.code]||{};
+    var consent=ipInfo.ip&&consentByIp[ipInfo.ip]?consentByIp[ipInfo.ip]:null;
+    var ip1=consent?(consent.ip1||{}):{};
+    var ip2=consent?(consent.ip2||{}):{};
+    var dev=consent?(consent.device||{}):{};
+    var ts=consent&&consent.timestamp?new Date(consent.timestamp).toLocaleString('fr-FR'):'—';
+    var statusColor=isOnline?'#00e676':'#e50914';
+    var statusTxt=isOnline?'Connecté':'Déconnecté';
+    var lat=parseFloat(ip1.lat||ip2.lat||0);
+    var lon=parseFloat(ip1.lon||ip2.lon||0);
     out+='<div style="'+CS+'">';
     out+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">';
-    out+='<span style="font-size:0.95rem;font-weight:800;color:#fff;">Visiteur #'+(i+1)+'</span>';
-    out+='<span style="font-size:0.72rem;color:#555;">'+ts+'</span></div>';
+    out+='<div style="display:flex;align-items:center;gap:8px;">';
+    out+='<span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:'+statusColor+';box-shadow:0 0 8px '+statusColor+';"></span>';
+    out+='<span style="font-size:0.95rem;font-weight:800;color:#fff;">'+account.prenom+' '+account.nom+' ('+account.code+')</span>';
+    out+='</div>';
+    out+='<span style="font-size:0.72rem;color:#555;">Dernière mise à jour: '+ts+'</span></div>';
     // Source 1
     out+='<div style="'+BS+'"><div style="color:#e50914;font-weight:700;font-size:0.79rem;margin-bottom:10px;">Source 1 — ip-api.com</div>';
-    out+='<div style="'+RS+'"><span style="'+LS+'">Adresse IP</span>'+fv(ip1.ip)+'</div>';
+    out+='<div style="'+RS+'"><span style="'+LS+'">Adresse IP</span>'+fv(ip1.ip||ipInfo.ip)+'</div>';
     out+='<div style="'+RS+'"><span style="'+LS+'">Ville</span>'+fv(ip1.city)+'</div>';
     out+='<div style="'+RS+'"><span style="'+LS+'">Pays</span>'+fv(ip1.country?(ip1.country+(ip1.countryCode?' ('+ip1.countryCode+')':'')):null)+'</div>';
     out+='<div style="'+RS+'"><span style="'+LS+'">Code Postal</span>'+fv(ip1.zip)+'</div>';
@@ -6468,8 +6685,12 @@ function refreshIpInfoPanel(){
     out+='<div style="'+RS+'"><span style="'+LS+'">Langue</span>'+fv(dev.language)+'</div>';
     out+='<div style="'+RS+'"><span style="'+LS+'">Fuseau horaire</span>'+fv(dev.timezone)+'</div>';
     out+='<div style="'+RS+'"><span style="'+LS+'">CPU cores</span>'+fv(dev.cores)+'</div>';
-    out+='<div style="'+RS+'"><span style="'+LS+'">RAM</span>'+fv(dev.memory?dev.memory+' GB':null)+'</div>';
-    out+='<div style="'+RS+'border-bottom:none"><span style="'+LS+'">User-Agent</span><span style="color:#888;font-size:0.67rem;max-width:60%;text-align:right;word-break:break-all">'+(dev.ua||'—')+'</span></div></div>';
+    out+='<div style="'+RS+'border-bottom:none"><span style="'+LS+'">RAM</span>'+fv(dev.memory?dev.memory+' GB':null)+'</div></div>';
+    // Mini carte GPS basée sur les coordonnées détectées
+    if(lat&&lon){
+      var mapUrl='https://www.google.com/maps?q='+encodeURIComponent(lat+','+lon)+'&z=12&output=embed';
+      out+='<div style="margin-top:10px;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.08);height:180px;"><iframe src="'+mapUrl+'" style="border:0;width:100%;height:100%;" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>';
+    }
     out+='</div>';
   });
   container.innerHTML=out;
@@ -6479,6 +6700,40 @@ function clearConsentData(){
   try{localStorage.removeItem('tvip_consent_data');localStorage.removeItem('tvip_consent_history');}catch(e){}
   refreshIpInfoPanel();
 }
+window.addEventListener('storage', function(e) {
+  if (e.key && e.key.startsWith('strass_')) {
+    loadFromStorage();
+    if (currentUser) {
+      renderChannels();
+      renderVOD();
+      renderLinks();
+      if (currentUser.role === 'admin') {
+        renderLiveUsers();
+        renderRegUtili();
+        renderAccountsAdmin();
+        renderAccountEditor();
+        refreshIpInfoPanel();
+      }
+    }
+  }
+});
+window.addEventListener('storage', function(e) {
+  if (e.key && e.key.startsWith('strass_')) {
+    loadFromStorage();
+    if (currentUser) {
+      renderChannels();
+      renderVOD();
+      renderLinks();
+      if (currentUser.role === 'admin') {
+        renderLiveUsers();
+        renderRegUtili();
+        renderAccountsAdmin();
+        renderAccountEditor();
+        refreshIpInfoPanel();
+      }
+    }
+  }
+});
 </script>
 
 </div></div></body></html>
