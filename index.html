@@ -2785,77 +2785,6 @@ video {
   .pricing-title { font-size: 2rem; }
 }
 
-/* ===== BOTTOM BAR PASSWORD MODAL ===== */
-.bottombar-modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.75);
-  box-shadow: inset 0 0 120px rgba(229,9,20,0.18);
-  z-index: 9999;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(8px);
-}
-.bottombar-modal-overlay.open { display: flex; }
-.bottombar-modal {
-  width: 90%;
-  max-width: 380px;
-  background: rgba(12,12,12,0.97);
-  border: 1px solid rgba(229,9,20,0.3);
-  border-radius: 24px;
-  padding: 32px 28px 28px;
-  position: relative;
-  box-shadow: 0 0 60px rgba(229,9,20,0.18), 0 20px 60px rgba(0,0,0,0.8);
-  animation: dropdownIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
-}
-.bottombar-modal-close {
-  position: absolute;
-  top: 14px;
-  left: 14px;
-  background: rgba(229,9,20,0.15);
-  border: 1px solid rgba(229,9,20,0.3);
-  color: #fff;
-  font-size: 1.2rem;
-  cursor: pointer;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: var(--transition);
-}
-.bottombar-modal-close:hover { background: var(--primary); }
-.bottombar-modal h3 { font-size: 1.1rem; font-weight: 800; color: #fff; margin-bottom: 18px; text-align: center; }
-.bottombar-modal input {
-  width: 100%;
-  padding: 13px 16px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.15);
-  border-radius: 14px;
-  color: #fff;
-  font-size: 1rem;
-  outline: none;
-  margin-bottom: 14px;
-  transition: border 0.2s;
-}
-.bottombar-modal input:focus { border-color: var(--primary); }
-.bottombar-modal button.confirm-btn {
-  width: 100%;
-  padding: 13px;
-  background: var(--primary);
-  border: none;
-  border-radius: 14px;
-  color: #fff;
-  font-weight: 700;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: var(--transition);
-}
-.bottombar-modal button.confirm-btn:hover { background: var(--primary-hover); }
-#bottombarPwError { color: #ff4444; font-size: 0.85rem; text-align: center; margin-top: 8px; display: none; }
-
 /* ===== USER NAME DISPLAY NEXT TO "CONNECTÉ" ===== */
 .user-display-name {
   font-size: 0.72rem;
@@ -5002,7 +4931,7 @@ video {
       <div class="account-grid">
         <div class="account-field"><label>Nom</label><div class="value" id="accountNom">Jacotet</div></div>
         <div class="account-field"><label>Prénom</label><div class="value" id="accountPrenom">Brice</div></div>
-        <div class="account-field"><label>Email</label><div class="value" id="accountEmail">Strassweb67@gmail.com</div></div>
+        <div class="account-field"><label>Email</label><div class="value" id="accountEmail"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="82d1f6f0e3f1f1f5e7e0b4b5c2e5efe3ebeeace1edef">[email&#160;protected]</a></div></div>
         <div class="account-field"><label>Téléphone</label><div class="value" id="accountTel">0619696332</div></div>
         <div class="account-field"><label>Création</label><div class="value" id="accountCreation">2024-01-01</div></div>
         <div class="account-field"><label>Expiration</label><div class="value" id="accountExpiration">2099-12-31</div></div>
@@ -6373,7 +6302,7 @@ video {
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // Variables globales
 let selectedBG = localStorage.getItem('selectedBG') || null;
 let selectedNAV = localStorage.getItem('selectedNAV') || null;
@@ -7451,7 +7380,7 @@ setTimeout(generateThemeButtons, 100);
       <tr style="background:rgba(0,0,0,0.3);">
         <td><code style="color:#64c8ff;font-weight:900;">Treza670</code></td>
         <td>Brice Jacotet</td>
-        <td style="font-size:0.85rem;">Strassweb67@gmail.com<br>0619696332</td>
+        <td style="font-size:0.85rem;"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="cc9fb8beadbfbfbba9aefafb8caba1ada5a0e2afa3a1">[email&#160;protected]</a><br>0619696332</td>
         <td><span style="color:#64c8ff;font-weight:600;">GÉRANT: Admin Full Ultra HD 4K</span></td>
         <td><span style="color:#fff;font-weight:700;">high</span></td>
         <td><span style="color:#fff;">10</span></td>
@@ -7468,7 +7397,7 @@ setTimeout(generateThemeButtons, 100);
       <tr style="background:rgba(0,0,0,0.3);opacity:0.6;">
         <td><code style="color:#999;font-weight:900;">Gogo67000</code></td>
         <td>Gauthier Rauch</td>
-        <td style="font-size:0.85rem;">jean@gmail.com<br>0700000000</td>
+        <td style="font-size:0.85rem;"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="f69c939798b6919b979f9ad895999b">[email&#160;protected]</a><br>0700000000</td>
         <td><span style="color:#64c8ff;font-weight:600;">Basique - 19.90€</span></td>
         <td><span style="color:#fff;font-weight:700;">medium</span></td>
         <td><span style="color:#fff;">3</span></td>
@@ -7485,7 +7414,7 @@ setTimeout(generateThemeButtons, 100);
       <tr style="background:rgba(0,0,0,0.3);">
         <td><code style="color:#64c8ff;font-weight:900;">Marie67300</code></td>
         <td>Marie-Christine Jacotet</td>
-        <td style="font-size:0.85rem;">Mariechristinejacotet@gmail.com<br>0617633880</td>
+        <td style="font-size:0.85rem;"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="cc81adbea5a9afa4bea5bfb8a5a2a9a6adafa3b8a9b88caba1ada5a0e2afa3a1">[email&#160;protected]</a><br>0617633880</td>
         <td><span style="color:#64c8ff;font-weight:600;">Ultra Full UHD 4K</span></td>
         <td><span style="color:#fff;font-weight:700;">high</span></td>
         <td><span style="color:#fff;">5</span></td>
@@ -7570,7 +7499,7 @@ setTimeout(generateThemeButtons, 100);
       <tr style="background:rgba(0,0,0,0.3);">
         <td><code style="color:#64c8ff;font-weight:900;">Bricej</code></td>
         <td>Brice Jacotet</td>
-        <td style="font-size:0.85rem;">strassweb67@gmail.com<br>0619696332</td>
+        <td style="font-size:0.85rem;"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="1c6f686e7d6f6f6b797e2a2b5c7b717d7570327f7371">[email&#160;protected]</a><br>0619696332</td>
         <td><span style="color:#64c8ff;font-weight:600;">VIP 8K</span></td>
         <td><span style="color:#fff;font-weight:700;">high</span></td>
         <td><span style="color:#fff;">10</span></td>
@@ -7591,7 +7520,7 @@ setTimeout(generateThemeButtons, 100);
 
       <div class="admin-panel" id="adminAccountsPanel">
         <div class="admin-form-grid" id="accountEditorGrid"><div class="admin-form-field" style="grid-column: 1 / -1;"><h4>Sélectionner un utilisateur</h4><p>Choisissez un compte pour éditer toutes ses options</p><select id="accountEditorSelect" onchange="loadAccountFields()"><option value="0">Treza670 • Brice Jacotet</option><option value="1">0000012398 • ----- -----</option><option value="2">Marie67300 • Marie-Christine Jacotet</option><option value="3">ttt123 • bj test</option><option value="4">8745134534--- • ----------- -----------</option><option value="5">Jo67000 • Jordan Muller</option><option value="6">Gogo67 • Gauthier Rauch</option><option value="7">Bricej • Brice Jacotet</option></select></div><div id="accountFieldsContainer" data-account-index="0" style="display: contents;"><div class="admin-form-field"><h4>Code d'accès</h4><input data-field="code" value="Treza670"></div><div class="admin-form-field"><h4>Nom</h4><input data-field="nom" value="Jacotet"></div><div class="admin-form-field"><h4>Prénom</h4><input data-field="prenom" value="Brice"></div><div class="admin-form-field"><h4>Email</h4><input data-field="email" value="Strassweb67@gmail.com"></div><div class="admin-form-field"><h4>Téléphone</h4><input data-field="tel" value="0619696332"></div><div class="admin-form-field"><h4>Date de création</h4><input data-field="dateCrea" value="2024-01-01"></div><div class="admin-form-field"><h4>Date d'expiration</h4><input data-field="dateExp" value="2099-12-31"></div><div class="admin-form-field"><h4>Forfait</h4><input data-field="forfait" value="GÉRANT: Admin Full Ultra HD 4K"></div><div class="admin-form-field"><h4>Débit maximum</h4><input data-field="debitMax" value="Illimité"></div><div class="admin-form-field"><h4>Niveau qualité (low/medium/high)</h4><select data-field="qualityTier"><option>low</option><option>medium</option><option selected="">high</option></select></div><div class="admin-form-field"><h4>Connexions simultanées max</h4><input data-field="maxConnections" value="10"></div><div class="admin-form-field"><h4>Flux 4K simultanés max</h4><input data-field="maxStreams4k" value="10"></div></div><button class="admin-btn" style="grid-column: 1 / -1;">Enregistrer cet Utilisateur</button></div>
-        <table class="admin-table" style="margin-top:30px"><thead><tr><th>Code</th><th>Nom Complet</th><th>Contact</th><th>Création</th><th>Expiration</th><th>Statut</th><th>Actions</th></tr></thead><tbody id="accountsTable"><tr><td><code style="color:var(--primary);font-weight:900">Treza670</code></td><td>Brice Jacotet</td><td style="font-size:.85rem">Strassweb67@gmail.com<br>0619696332</td><td>2024-01-01</td><td style="">2099-12-31</td><td><span style="color:#0f0">Actif</span></td><td><button class="admin-btn-secondary" onclick="toggleBan(0)">Bannir</button></td></tr><tr><td><code style="color:var(--primary);font-weight:900">0000012398</code></td><td>----- -----</td><td style="font-size:.85rem">---------<br>---</td><td>---</td><td style="">---</td><td><span style="color:#f55;font-weight:900">BANNI</span></td><td><button class="admin-btn-secondary" onclick="toggleBan(1)">Débannir</button></td></tr><tr><td><code style="color:var(--primary);font-weight:900">Marie67300</code></td><td>Marie-Christine Jacotet</td><td style="font-size:.85rem">Mariechristinejacotet@gmail.com<br>0617633880</td><td>2024-05-10</td><td style="">2028-05-10</td><td><span style="color:#0f0">Actif</span></td><td><button class="admin-btn-secondary" onclick="toggleBan(2)">Bannir</button></td></tr><tr><td><code style="color:var(--primary);font-weight:900">ttt123</code></td><td>bj test</td><td style="font-size:.85rem">s<br></td><td>2026-03-09</td><td style="">2027-03-09</td><td><span style="color:#0f0">Actif</span></td><td><button class="admin-btn-secondary" onclick="toggleBan(3)">Bannir</button></td></tr><tr><td><code style="color:var(--primary);font-weight:900">8745134534---</code></td><td>----------- -----------</td><td style="font-size:.85rem">----------------*<br>-----------------*</td><td>--------------</td><td style="">------------</td><td><span style="color:#f55;font-weight:900">BANNI</span></td><td><button class="admin-btn-secondary" onclick="toggleBan(4)">Débannir</button></td></tr><tr><td><code style="color:var(--primary);font-weight:900">Jo67000</code></td><td>Jordan Muller</td><td style="font-size:.85rem">----------*<br>-----------*</td><td>2026-03-09</td><td style="">2099-01-01</td><td><span style="color:#0f0">Actif</span></td><td><button class="admin-btn-secondary" onclick="toggleBan(5)">Bannir</button></td></tr><tr><td><code style="color:var(--primary);font-weight:900">Gogo67</code></td><td>Gauthier Rauch</td><td style="font-size:.85rem">-----------*<br>-----------*</td><td>2026-03-09</td><td style="">2099-01-01</td><td><span style="color:#0f0">Actif</span></td><td><button class="admin-btn-secondary" onclick="toggleBan(6)">Bannir</button></td></tr><tr><td><code style="color:var(--primary);font-weight:900">Bricej</code></td><td>Brice Jacotet</td><td style="font-size:.85rem">strassweb67@gmail.com<br>0619696332</td><td>2026-03-09</td><td style="">2099-01-01</td><td><span style="color:#0f0">Actif</span></td><td><button class="admin-btn-secondary" onclick="toggleBan(7)">Bannir</button></td></tr></tbody></table>
+        <table class="admin-table" style="margin-top:30px"><thead><tr><th>Code</th><th>Nom Complet</th><th>Contact</th><th>Création</th><th>Expiration</th><th>Statut</th><th>Actions</th></tr></thead><tbody id="accountsTable"><tr><td><code style="color:var(--primary);font-weight:900">Treza670</code></td><td>Brice Jacotet</td><td style="font-size:.85rem"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="96c5e2e4f7e5e5e1f3f4a0a1d6f1fbf7fffab8f5f9fb">[email&#160;protected]</a><br>0619696332</td><td>2024-01-01</td><td style="">2099-12-31</td><td><span style="color:#0f0">Actif</span></td><td><button class="admin-btn-secondary" onclick="toggleBan(0)">Bannir</button></td></tr><tr><td><code style="color:var(--primary);font-weight:900">0000012398</code></td><td>----- -----</td><td style="font-size:.85rem">---------<br>---</td><td>---</td><td style="">---</td><td><span style="color:#f55;font-weight:900">BANNI</span></td><td><button class="admin-btn-secondary" onclick="toggleBan(1)">Débannir</button></td></tr><tr><td><code style="color:var(--primary);font-weight:900">Marie67300</code></td><td>Marie-Christine Jacotet</td><td style="font-size:.85rem"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a1ecc0d3c8c4c2c9d3c8d2d5c8cfc4cbc0c2ced5c4d5e1c6ccc0c8cd8fc2cecc">[email&#160;protected]</a><br>0617633880</td><td>2024-05-10</td><td style="">2028-05-10</td><td><span style="color:#0f0">Actif</span></td><td><button class="admin-btn-secondary" onclick="toggleBan(2)">Bannir</button></td></tr><tr><td><code style="color:var(--primary);font-weight:900">ttt123</code></td><td>bj test</td><td style="font-size:.85rem">s<br></td><td>2026-03-09</td><td style="">2027-03-09</td><td><span style="color:#0f0">Actif</span></td><td><button class="admin-btn-secondary" onclick="toggleBan(3)">Bannir</button></td></tr><tr><td><code style="color:var(--primary);font-weight:900">8745134534---</code></td><td>----------- -----------</td><td style="font-size:.85rem">----------------*<br>-----------------*</td><td>--------------</td><td style="">------------</td><td><span style="color:#f55;font-weight:900">BANNI</span></td><td><button class="admin-btn-secondary" onclick="toggleBan(4)">Débannir</button></td></tr><tr><td><code style="color:var(--primary);font-weight:900">Jo67000</code></td><td>Jordan Muller</td><td style="font-size:.85rem">----------*<br>-----------*</td><td>2026-03-09</td><td style="">2099-01-01</td><td><span style="color:#0f0">Actif</span></td><td><button class="admin-btn-secondary" onclick="toggleBan(5)">Bannir</button></td></tr><tr><td><code style="color:var(--primary);font-weight:900">Gogo67</code></td><td>Gauthier Rauch</td><td style="font-size:.85rem">-----------*<br>-----------*</td><td>2026-03-09</td><td style="">2099-01-01</td><td><span style="color:#0f0">Actif</span></td><td><button class="admin-btn-secondary" onclick="toggleBan(6)">Bannir</button></td></tr><tr><td><code style="color:var(--primary);font-weight:900">Bricej</code></td><td>Brice Jacotet</td><td style="font-size:.85rem"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="1c6f686e7d6f6f6b797e2a2b5c7b717d7570327f7371">[email&#160;protected]</a><br>0619696332</td><td>2026-03-09</td><td style="">2099-01-01</td><td><span style="color:#0f0">Actif</span></td><td><button class="admin-btn-secondary" onclick="toggleBan(7)">Bannir</button></td></tr></tbody></table>
         <button class="admin-btn" onclick="saveAllAccounts()">Enregistrer les Comptes</button>
       </div>
       <div class="admin-panel" id="adminChannelsPanel">
@@ -7852,7 +7781,7 @@ setTimeout(generateThemeButtons, 100);
         <button class="admin-btn" onclick="saveAllLinks()">Enregistrer les Modifications</button>
       </div>
       <div class="admin-panel" id="adminRequestsPanel">
-        <table class="admin-table"><thead><tr><th>Date</th><th>Nom</th><th>Prénom</th><th>Email</th><th>Téléphone</th><th>Forfait</th><th>Actions</th></tr></thead><tbody id="requestsTable"><tr><td>2026-03-02</td><td>dfd</td><td>dd</td><td>ddd</td><td>dd</td><td>3 Mois</td><td><button class="admin-btn-secondary" onclick="deleteRequest(0)">Supprimer</button></td></tr><tr><td>2026-03-09</td><td>🔔 Nouvelle connexion</td><td>Brice Jacotet</td><td>Strassweb67@gmail.com</td><td>06:46:51</td><td>1 An</td><td><button class="admin-btn-secondary" onclick="deleteRequest(1)">Supprimer</button></td></tr><tr><td>2026-03-09</td><td>🔔 Nouvelle connexion</td><td>Brice Jacotet</td><td>Strassweb67@gmail.com</td><td>06:52:56</td><td>1 An</td><td><button class="admin-btn-secondary" onclick="deleteRequest(2)">Supprimer</button></td></tr><tr><td>2026-03-09</td><td>🔔 Nouvelle connexion</td><td>Brice Jacotet</td><td>Strassweb67@gmail.com</td><td>07:09:10</td><td>1 An</td><td><button class="admin-btn-secondary" onclick="deleteRequest(3)">Supprimer</button></td></tr><tr><td>2026-03-09</td><td>🔔 Nouvelle connexion</td><td>Brice Jacotet</td><td>Strassweb67@gmail.com</td><td>07:25:32</td><td>1 An</td><td><button class="admin-btn-secondary" onclick="deleteRequest(4)">Supprimer</button></td></tr><tr><td>2026-03-09</td><td>🔔 Nouvelle connexion</td><td>Brice Jacotet</td><td>Strassweb67@gmail.com</td><td>07:33:52</td><td>1 An</td><td><button class="admin-btn-secondary" onclick="deleteRequest(5)">Supprimer</button></td></tr><tr><td>2026-03-09</td><td>🔔 Nouvelle connexion</td><td>Brice Jacotet</td><td>Strassweb67@gmail.com</td><td>07:41:20</td><td>1 An</td><td><button class="admin-btn-secondary" onclick="deleteRequest(6)">Supprimer</button></td></tr><tr><td>2026-03-09</td><td>🔔 Nouvelle connexion</td><td>Brice Jacotet</td><td>Strassweb67@gmail.com</td><td>07:51:30</td><td>1 An</td><td><button class="admin-btn-secondary" onclick="deleteRequest(7)">Supprimer</button></td></tr><tr><td>2026-03-09</td><td>🔔 Nouvelle connexion</td><td>Brice Jacotet</td><td>Strassweb67@gmail.com</td><td>07:58:08</td><td>1 An</td><td><button class="admin-btn-secondary" onclick="deleteRequest(8)">Supprimer</button></td></tr></tbody></table>
+        <table class="admin-table"><thead><tr><th>Date</th><th>Nom</th><th>Prénom</th><th>Email</th><th>Téléphone</th><th>Forfait</th><th>Actions</th></tr></thead><tbody id="requestsTable"><tr><td>2026-03-02</td><td>dfd</td><td>dd</td><td>ddd</td><td>dd</td><td>3 Mois</td><td><button class="admin-btn-secondary" onclick="deleteRequest(0)">Supprimer</button></td></tr><tr><td>2026-03-09</td><td>🔔 Nouvelle connexion</td><td>Brice Jacotet</td><td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d784a3a5b6a4a4a0b2b5e1e097b0bab6bebbf9b4b8ba">[email&#160;protected]</a></td><td>06:46:51</td><td>1 An</td><td><button class="admin-btn-secondary" onclick="deleteRequest(1)">Supprimer</button></td></tr><tr><td>2026-03-09</td><td>🔔 Nouvelle connexion</td><td>Brice Jacotet</td><td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d784a3a5b6a4a4a0b2b5e1e097b0bab6bebbf9b4b8ba">[email&#160;protected]</a></td><td>06:52:56</td><td>1 An</td><td><button class="admin-btn-secondary" onclick="deleteRequest(2)">Supprimer</button></td></tr><tr><td>2026-03-09</td><td>🔔 Nouvelle connexion</td><td>Brice Jacotet</td><td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="61321513001212160403575621060c00080d4f020e0c">[email&#160;protected]</a></td><td>07:09:10</td><td>1 An</td><td><button class="admin-btn-secondary" onclick="deleteRequest(3)">Supprimer</button></td></tr><tr><td>2026-03-09</td><td>🔔 Nouvelle connexion</td><td>Brice Jacotet</td><td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="287b5c5a495b5b5f4d4a1e1f684f45494144064b4745">[email&#160;protected]</a></td><td>07:25:32</td><td>1 An</td><td><button class="admin-btn-secondary" onclick="deleteRequest(4)">Supprimer</button></td></tr><tr><td>2026-03-09</td><td>🔔 Nouvelle connexion</td><td>Brice Jacotet</td><td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c291b6b0a3b1b1b5a7a0f4f582a5afa3abaeeca1adaf">[email&#160;protected]</a></td><td>07:33:52</td><td>1 An</td><td><button class="admin-btn-secondary" onclick="deleteRequest(5)">Supprimer</button></td></tr><tr><td>2026-03-09</td><td>🔔 Nouvelle connexion</td><td>Brice Jacotet</td><td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6e3d1a1c0f1d1d190b0c58592e09030f0702400d0103">[email&#160;protected]</a></td><td>07:41:20</td><td>1 An</td><td><button class="admin-btn-secondary" onclick="deleteRequest(6)">Supprimer</button></td></tr><tr><td>2026-03-09</td><td>🔔 Nouvelle connexion</td><td>Brice Jacotet</td><td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0c5f787e6d7f7f7b696e3a3b4c6b616d6560226f6361">[email&#160;protected]</a></td><td>07:51:30</td><td>1 An</td><td><button class="admin-btn-secondary" onclick="deleteRequest(7)">Supprimer</button></td></tr><tr><td>2026-03-09</td><td>🔔 Nouvelle connexion</td><td>Brice Jacotet</td><td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="46153234273535312324707106212b272f2a6825292b">[email&#160;protected]</a></td><td>07:58:08</td><td>1 An</td><td><button class="admin-btn-secondary" onclick="deleteRequest(8)">Supprimer</button></td></tr></tbody></table>
       </div>
       <div class="admin-panel active" id="adminExportPanel">
         <div class="admin-form-grid">
@@ -7871,7 +7800,7 @@ setTimeout(generateThemeButtons, 100);
   </div>
 
   <!-- MENU MOBILE (bas) -->
-  <div class="mobile-menu" id="mobileMenu" onclick="if(event.target===this||event.target.id==='mobileMenu')openBottombarModal()" style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(40px);">
+  <div class="mobile-menu" id="mobileMenu" style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(40px);">
     <div class="mobile-menu-grid" id="mobileMenuGrid" style="grid-template-columns: repeat(6, 1fr);">
 
       <!-- TV Live -->
@@ -7945,21 +7874,9 @@ setTimeout(generateThemeButtons, 100);
   </footer>
 </div>
 
-<!-- BOTTOM BAR INSTAGRAM PASSWORD MODAL -->
-<div class="bottombar-modal-overlay" id="bottombarModalOverlay">
-  <div class="bottombar-modal">
-    <button class="bottombar-modal-close" onclick="closeBottombarModal()">✕</button>
-    <h3>🔒 Accès Sécurisé</h3>
-    <p style="color:#888;font-size:0.85rem;text-align:center;margin-bottom:16px">Entrez le mot de passe pour accéder.</p>
-    <input type="password" id="bottombarPwInput" placeholder="Mot de passe..." onkeydown="if(event.key==='Enter')checkBottombarPw()">
-    <button class="confirm-btn" onclick="checkBottombarPw()">Valider</button>
-    <div id="bottombarPwError">Mot de passe incorrect.</div>
-  </div>
-</div>
-
 <!-- Toast notification supprimé définitivement -->
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script id="dataOverride" type="application/json">{"config":{"siteName":"Strass IPTV-","siteLogo":"","theme":{"bg":"bg26","nav":"nav8","time":1773036614595,"version":"2.0"},"lastThemeUpdate":"2026-03-09T06:10:14.595Z","newUtilAccounts":[{"code":"ttt123","nom":"test","prenom":"bj","email":"s","tel":"","forfait":"Ultra 4K","dateCrea":"2026-03-09","dateExp":"2027-03-09","quality":"4k","maxScreens":10,"createdAt":"2026-03-09T06:10:41.094Z","status":"actif"}],"accounts":[{"code":"Treza670","role":"admin","nom":"Jacotet","prenom":"Brice","email":"Strassweb67@gmail.com","tel":"0619696332","dateCrea":"2024-01-01","dateExp":"2099-12-31","forfait":"GÉRANT: Admin Full Ultra HD 4K","debitMax":"Illimité","isBanned":false,"qualityTier":"high","maxConnections":"10","maxStreams4k":"10"},{"code":"Gogo67000","role":"user","nom":"Rauch","prenom":"Gauthier","email":"jean@gmail.com","tel":"0700000000","dateCrea":"2025-01-01","dateExp":"2026-12-31","forfait":"Basique - 19.90€","debitMax":"1080p","isBanned":false,"qualityTier":"medium","maxConnections":3,"maxStreams4k":0},{"code":"Marie67300","role":"user","nom":"Jacotet","prenom":"Marie-Christine","email":"Mariechristinejacotet@gmail.com","tel":"0617633880","dateCrea":"2024-05-10","dateExp":"2028-05-10","forfait":"Ultra Full UHD 4K","debitMax":"4K","isBanned":false,"qualityTier":"high","maxConnections":5,"maxStreams4k":3},{"code":"ttt123","nom":"test","prenom":"bj","email":"s","tel":"","dateCrea":"2026-03-09","dateExp":"2027-03-09","forfait":"Ultra 4K","debitMax":"100 Mbps","qualityTier":"high","maxConnections":10,"maxStreams4k":10,"isBanned":false}]},"accounts":[{"code":"Treza670","role":"admin","nom":"Jacotet","prenom":"Brice","email":"Strassweb67@gmail.com","tel":"0619696332","dateCrea":"2024-01-01","dateExp":"2099-12-31","forfait":"GÉRANT: Admin Full Ultra HD 4K","debitMax":"Illimité","isBanned":false,"qualityTier":"high","maxConnections":"10","maxStreams4k":"10"},{"code":"0000012398","role":"user","nom":"-----","prenom":"-----","email":"---------","tel":"---","dateCrea":"---","dateExp":"---","forfait":"-----","debitMax":"---","isBanned":true,"qualityTier":"low","maxConnections":"3","maxStreams4k":"0"},{"code":"Marie67300","role":"user","nom":"Jacotet","prenom":"Marie-Christine","email":"Mariechristinejacotet@gmail.com","tel":"0617633880","dateCrea":"2024-05-10","dateExp":"2028-05-10","forfait":"Ultra Full UHD 4K","debitMax":"4K","isBanned":false,"qualityTier":"high","maxConnections":"5","maxStreams4k":"3"},{"code":"ttt123","nom":"test","prenom":"bj","email":"s","tel":"","dateCrea":"2026-03-09","dateExp":"2027-03-09","forfait":"Ultra 4K","debitMax":"100 Mbps","qualityTier":"high","maxConnections":10,"maxStreams4k":10,"isBanned":false},{"code":"8745134534---","nom":"-----------","prenom":"-----------","email":"----------------*","tel":"-----------------*","dateCrea":"--------------","dateExp":"------------","forfait":"--------","debitMax":"-------------","qualityTier":"high","maxConnections":"4","maxStreams4k":"4","isBanned":true},{"code":"Jo67000","nom":"Muller","prenom":"Jordan","email":"----------*","tel":"-----------*","dateCrea":"2026-03-09","dateExp":"2099-01-01","forfait":"VIP 8K","debitMax":"100 Mbps","qualityTier":"high","maxConnections":4,"maxStreams4k":4,"isBanned":false},{"code":"Gogo67","nom":"Rauch","prenom":"Gauthier","email":"-----------*","tel":"-----------*","dateCrea":"2026-03-09","dateExp":"2099-01-01","forfait":"VIP 8K","debitMax":"100 Mbps","qualityTier":"high","maxConnections":4,"maxStreams4k":4,"isBanned":false},{"code":"Bricej","nom":"Jacotet","prenom":"Brice","email":"strassweb67@gmail.com","tel":"0619696332","dateCrea":"2026-03-09","dateExp":"2099-01-01","forfait":"VIP 8K","debitMax":"100 Mbps","qualityTier":"high","maxConnections":10,"maxStreams4k":10,"isBanned":false}],"channels":[{"id":"ch1","name":"TF1 4K","url":"https://viamotionhsi.netplus.ch/live/eds/tf1hd/browser-HLS8/tf1hd.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tf1-fr.png","blocked":false},{"id":"ch2","name":"France 2 4K","url":"https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/france2.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-2-fr.png","blocked":false},{"id":"ch_1773039586387","name":"France 3 4K","url":"https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/france3.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-3-fr.png","blocked":false},{"id":"ch_1773039706417","name":"France 4 4K","url":"https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/france4.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-4-fr.png","blocked":false},{"id":"ch_1773039797561","name":"France 5 4K","url":"https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/france5.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-5-fr.png","blocked":false},{"id":"ch3","name":"M6 HD VIP","url":"https://viamotionhsi.netplus.ch/live/eds/m6hd/browser-HLS8/m6hd.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/m6-fr.png","blocked":false},{"id":"ch_1773039767594","name":"Arte 4K","url":"https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/arte.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/arte-fr.png","blocked":false},{"id":"ch_1773039940188","name":"La Chaine Parlementaire 4K","url":"https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/lcpps.m3u8","logo":"https://upload.wikimedia.org/wikipedia/commons/5/56/LCP.png","blocked":false},{"id":"ch_1773039876189","name":"W9 4K","url":"https://viamotionhsi.netplus.ch/live/eds/w9/browser-HLS8/w9.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/w9-fr.png","blocked":false},{"id":"ch_1773039977469","name":"TMC 4K","url":"https://viamotionhsi.netplus.ch/live/eds/tmc/browser-HLS8/tmc.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tmc-fr.png","blocked":false},{"id":"ch_1773040007908","name":"NT1 4K","url":"https://viamotionhsi.netplus.ch/live/eds/nt1/browser-HLS8/nt1.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tfx-fr.png","blocked":false},{"id":"ch_1773040924300","name":"Gulli 4K","url":"https://lbcdn.6cloud.fr/resource/m6web/l/gulli_hls_sd_short_q2hyb21h.m3u8?groups[]=m6web-live-gulli_ext","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/gulli-fr.png","blocked":false},{"id":"ch_1773039660407","name":"Alerte Cobra 24/7 4K","url":"https://alarm-for-cobra-rakuten-tv-fr.fast.rakuten.tv/v1/master/0547f18649bd788bec7b67b746e47670f558b6b2/production-LiveChannel-6477/master.m3u8","logo":"https://images.pluto.tv/channels/62f3e4bc08f5ec000744f552/featuredImage.jpg","blocked":false},{"id":"ch_1773040049331","name":"BFM TV 4K","url":"https://ncdn-live-bfm.pfd.sfr.net/shls/LIVE$BFM_TV/index.m3u8?start=LIVE&end=END","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/bfm-tv-fr.png","blocked":false},{"id":"ch_1773040114172","name":"LCI 4K","url":"https://viamotionhsi.netplus.ch/live/eds/lci/browser-HLS8/lci.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/lci-fr.png","blocked":false},{"id":"ch_1773040140098","name":"France Info 4K","url":"https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/franceinfo.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/franceinfo-fr.png","blocked":false},{"id":"ch_1773040228890","name":"Novo 19 4K","url":"https://viamotionhsi.netplus.ch/live/eds/novo19/browser-HLS8/novo19.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/novo19-fr.png","blocked":false},{"id":"ch_1773040266432","name":"TF1 Series Films 4K","url":"https://viamotionhsi.netplus.ch/live/eds/hd1/browser-HLS8/hd1.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tf1-series-films-fr.png","blocked":false},{"id":"ch_1773040360928","name":"Numero 23 4K","url":"https://d15aro46bnpfm8.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-fqkqiax1078up/RMC_Story_FR.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/rmc-story-fr.png","blocked":false},{"id":"ch_1773040303014","name":"L' Equipe 21 4K","url":"https://dq37unyetkpcz.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-m04j89j7k5gtp/LEquipe_FR.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/lequipe-fr.png","blocked":false},{"id":"ch_1773040333175","name":"6Ter 4K","url":"https://viamotionhsi.netplus.ch/live/eds/6ter/browser-HLS8/6ter.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/6ter-fr.png","blocked":false},{"id":"ch_1773040391633","name":"RMC Decouverte 4K","url":"https://d16zzycxcd0m0r.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-hixvx5kymecr9/RMC_Decouverte_FR.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/rmc-decouverte-fr.png","blocked":false},{"id":"ch_1773040417234","name":"Cherie 25 4K","url":"https://d3dcdjv6dx07iz.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-eaaww2dyp3iih/RMC_Life_FR.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/rmc-life-fr.png","blocked":false},{"id":"ch_1773040444321","name":"RTL 9 4K","url":"https://viamotionhsi.netplus.ch/live/eds/rtl9/browser-HLS8/rtl9.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/rtl9-fr.png","blocked":false}],"vod":[{"id":"vod1","name":"Inception 4K","type":"Film","logo":"https://via.placeholder.com/640x360/111/fff?text=INCEPTION","overlay":"","description":""},{"id":"vod2","name":"Breaking Bad S1-S5","type":"Série","logo":"https://via.placeholder.com/640x360/111/fff?text=BREAKING+BAD","overlay":"","description":""},{"id":"vod3","name":"Interstellar HDR","type":"Film","logo":"https://via.placeholder.com/640x360/111/fff?text=INTERSTELLAR","overlay":"","description":""}],"links":[{"id":"link1","title":"Strass IPTV","url":"https://example.com/app.apk","image":"","description":"Téléchargez notre application mobile pour Android"}],"requests":[{"id":"req_1772484803285","date":"2026-03-02","nom":"dfd","prenom":"dd","email":"ddd","tel":"dd","offer":"3M"},{"id":"notif_1773035211909","date":"2026-03-09","nom":"🔔 Nouvelle connexion","prenom":"Brice Jacotet","email":"Strassweb67@gmail.com","tel":"06:46:51","offer":"—","_isNotif":true},{"id":"notif_1773035576595","date":"2026-03-09","nom":"🔔 Nouvelle connexion","prenom":"Brice Jacotet","email":"Strassweb67@gmail.com","tel":"06:52:56","offer":"—","_isNotif":true},{"id":"notif_1773036550442","date":"2026-03-09","nom":"🔔 Nouvelle connexion","prenom":"Brice Jacotet","email":"Strassweb67@gmail.com","tel":"07:09:10","offer":"—","_isNotif":true},{"id":"notif_1773037532455","date":"2026-03-09","nom":"🔔 Nouvelle connexion","prenom":"Brice Jacotet","email":"Strassweb67@gmail.com","tel":"07:25:32","offer":"—","_isNotif":true},{"id":"notif_1773038032270","date":"2026-03-09","nom":"🔔 Nouvelle connexion","prenom":"Brice Jacotet","email":"Strassweb67@gmail.com","tel":"07:33:52","offer":"—","_isNotif":true},{"id":"notif_1773038480642","date":"2026-03-09","nom":"🔔 Nouvelle connexion","prenom":"Brice Jacotet","email":"Strassweb67@gmail.com","tel":"07:41:20","offer":"—","_isNotif":true},{"id":"notif_1773039090677","date":"2026-03-09","nom":"🔔 Nouvelle connexion","prenom":"Brice Jacotet","email":"Strassweb67@gmail.com","tel":"07:51:30","offer":"—","_isNotif":true},{"id":"notif_1773039488034","date":"2026-03-09","nom":"🔔 Nouvelle connexion","prenom":"Brice Jacotet","email":"Strassweb67@gmail.com","tel":"07:58:08","offer":"—","_isNotif":true}]}</script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script id="dataOverride" type="application/json">{"config":{"siteName":"Strass IPTV-","siteLogo":"","theme":{"bg":"bg26","nav":"nav8","time":1773036614595,"version":"2.0"},"lastThemeUpdate":"2026-03-09T06:10:14.595Z","newUtilAccounts":[{"code":"ttt123","nom":"test","prenom":"bj","email":"s","tel":"","forfait":"Ultra 4K","dateCrea":"2026-03-09","dateExp":"2027-03-09","quality":"4k","maxScreens":10,"createdAt":"2026-03-09T06:10:41.094Z","status":"actif"}],"accounts":[{"code":"Treza670","role":"admin","nom":"Jacotet","prenom":"Brice","email":"Strassweb67@gmail.com","tel":"0619696332","dateCrea":"2024-01-01","dateExp":"2099-12-31","forfait":"GÉRANT: Admin Full Ultra HD 4K","debitMax":"Illimité","isBanned":false,"qualityTier":"high","maxConnections":"10","maxStreams4k":"10"},{"code":"Gogo67000","role":"user","nom":"Rauch","prenom":"Gauthier","email":"jean@gmail.com","tel":"0700000000","dateCrea":"2025-01-01","dateExp":"2026-12-31","forfait":"Basique - 19.90€","debitMax":"1080p","isBanned":false,"qualityTier":"medium","maxConnections":3,"maxStreams4k":0},{"code":"Marie67300","role":"user","nom":"Jacotet","prenom":"Marie-Christine","email":"Mariechristinejacotet@gmail.com","tel":"0617633880","dateCrea":"2024-05-10","dateExp":"2028-05-10","forfait":"Ultra Full UHD 4K","debitMax":"4K","isBanned":false,"qualityTier":"high","maxConnections":5,"maxStreams4k":3},{"code":"ttt123","nom":"test","prenom":"bj","email":"s","tel":"","dateCrea":"2026-03-09","dateExp":"2027-03-09","forfait":"Ultra 4K","debitMax":"100 Mbps","qualityTier":"high","maxConnections":10,"maxStreams4k":10,"isBanned":false}]},"accounts":[{"code":"Treza670","role":"admin","nom":"Jacotet","prenom":"Brice","email":"Strassweb67@gmail.com","tel":"0619696332","dateCrea":"2024-01-01","dateExp":"2099-12-31","forfait":"GÉRANT: Admin Full Ultra HD 4K","debitMax":"Illimité","isBanned":false,"qualityTier":"high","maxConnections":"10","maxStreams4k":"10"},{"code":"0000012398","role":"user","nom":"-----","prenom":"-----","email":"---------","tel":"---","dateCrea":"---","dateExp":"---","forfait":"-----","debitMax":"---","isBanned":true,"qualityTier":"low","maxConnections":"3","maxStreams4k":"0"},{"code":"Marie67300","role":"user","nom":"Jacotet","prenom":"Marie-Christine","email":"Mariechristinejacotet@gmail.com","tel":"0617633880","dateCrea":"2024-05-10","dateExp":"2028-05-10","forfait":"Ultra Full UHD 4K","debitMax":"4K","isBanned":false,"qualityTier":"high","maxConnections":"5","maxStreams4k":"3"},{"code":"ttt123","nom":"test","prenom":"bj","email":"s","tel":"","dateCrea":"2026-03-09","dateExp":"2027-03-09","forfait":"Ultra 4K","debitMax":"100 Mbps","qualityTier":"high","maxConnections":10,"maxStreams4k":10,"isBanned":false},{"code":"8745134534---","nom":"-----------","prenom":"-----------","email":"----------------*","tel":"-----------------*","dateCrea":"--------------","dateExp":"------------","forfait":"--------","debitMax":"-------------","qualityTier":"high","maxConnections":"4","maxStreams4k":"4","isBanned":true},{"code":"Jo67000","nom":"Muller","prenom":"Jordan","email":"----------*","tel":"-----------*","dateCrea":"2026-03-09","dateExp":"2099-01-01","forfait":"VIP 8K","debitMax":"100 Mbps","qualityTier":"high","maxConnections":4,"maxStreams4k":4,"isBanned":false},{"code":"Gogo67","nom":"Rauch","prenom":"Gauthier","email":"-----------*","tel":"-----------*","dateCrea":"2026-03-09","dateExp":"2099-01-01","forfait":"VIP 8K","debitMax":"100 Mbps","qualityTier":"high","maxConnections":4,"maxStreams4k":4,"isBanned":false},{"code":"Bricej","nom":"Jacotet","prenom":"Brice","email":"strassweb67@gmail.com","tel":"0619696332","dateCrea":"2026-03-09","dateExp":"2099-01-01","forfait":"VIP 8K","debitMax":"100 Mbps","qualityTier":"high","maxConnections":10,"maxStreams4k":10,"isBanned":false}],"channels":[{"id":"ch1","name":"TF1 4K","url":"https://viamotionhsi.netplus.ch/live/eds/tf1hd/browser-HLS8/tf1hd.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tf1-fr.png","blocked":false},{"id":"ch2","name":"France 2 4K","url":"https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/france2.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-2-fr.png","blocked":false},{"id":"ch_1773039586387","name":"France 3 4K","url":"https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/france3.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-3-fr.png","blocked":false},{"id":"ch_1773039706417","name":"France 4 4K","url":"https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/france4.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-4-fr.png","blocked":false},{"id":"ch_1773039797561","name":"France 5 4K","url":"https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/france5.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-5-fr.png","blocked":false},{"id":"ch3","name":"M6 HD VIP","url":"https://viamotionhsi.netplus.ch/live/eds/m6hd/browser-HLS8/m6hd.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/m6-fr.png","blocked":false},{"id":"ch_1773039767594","name":"Arte 4K","url":"https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/arte.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/arte-fr.png","blocked":false},{"id":"ch_1773039940188","name":"La Chaine Parlementaire 4K","url":"https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/lcpps.m3u8","logo":"https://upload.wikimedia.org/wikipedia/commons/5/56/LCP.png","blocked":false},{"id":"ch_1773039876189","name":"W9 4K","url":"https://viamotionhsi.netplus.ch/live/eds/w9/browser-HLS8/w9.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/w9-fr.png","blocked":false},{"id":"ch_1773039977469","name":"TMC 4K","url":"https://viamotionhsi.netplus.ch/live/eds/tmc/browser-HLS8/tmc.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tmc-fr.png","blocked":false},{"id":"ch_1773040007908","name":"NT1 4K","url":"https://viamotionhsi.netplus.ch/live/eds/nt1/browser-HLS8/nt1.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tfx-fr.png","blocked":false},{"id":"ch_1773040924300","name":"Gulli 4K","url":"https://lbcdn.6cloud.fr/resource/m6web/l/gulli_hls_sd_short_q2hyb21h.m3u8?groups[]=m6web-live-gulli_ext","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/gulli-fr.png","blocked":false},{"id":"ch_1773039660407","name":"Alerte Cobra 24/7 4K","url":"https://alarm-for-cobra-rakuten-tv-fr.fast.rakuten.tv/v1/master/0547f18649bd788bec7b67b746e47670f558b6b2/production-LiveChannel-6477/master.m3u8","logo":"https://images.pluto.tv/channels/62f3e4bc08f5ec000744f552/featuredImage.jpg","blocked":false},{"id":"ch_1773040049331","name":"BFM TV 4K","url":"https://ncdn-live-bfm.pfd.sfr.net/shls/LIVE$BFM_TV/index.m3u8?start=LIVE&end=END","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/bfm-tv-fr.png","blocked":false},{"id":"ch_1773040114172","name":"LCI 4K","url":"https://viamotionhsi.netplus.ch/live/eds/lci/browser-HLS8/lci.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/lci-fr.png","blocked":false},{"id":"ch_1773040140098","name":"France Info 4K","url":"https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/franceinfo.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/franceinfo-fr.png","blocked":false},{"id":"ch_1773040228890","name":"Novo 19 4K","url":"https://viamotionhsi.netplus.ch/live/eds/novo19/browser-HLS8/novo19.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/novo19-fr.png","blocked":false},{"id":"ch_1773040266432","name":"TF1 Series Films 4K","url":"https://viamotionhsi.netplus.ch/live/eds/hd1/browser-HLS8/hd1.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tf1-series-films-fr.png","blocked":false},{"id":"ch_1773040360928","name":"Numero 23 4K","url":"https://d15aro46bnpfm8.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-fqkqiax1078up/RMC_Story_FR.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/rmc-story-fr.png","blocked":false},{"id":"ch_1773040303014","name":"L' Equipe 21 4K","url":"https://dq37unyetkpcz.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-m04j89j7k5gtp/LEquipe_FR.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/lequipe-fr.png","blocked":false},{"id":"ch_1773040333175","name":"6Ter 4K","url":"https://viamotionhsi.netplus.ch/live/eds/6ter/browser-HLS8/6ter.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/6ter-fr.png","blocked":false},{"id":"ch_1773040391633","name":"RMC Decouverte 4K","url":"https://d16zzycxcd0m0r.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-hixvx5kymecr9/RMC_Decouverte_FR.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/rmc-decouverte-fr.png","blocked":false},{"id":"ch_1773040417234","name":"Cherie 25 4K","url":"https://d3dcdjv6dx07iz.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-eaaww2dyp3iih/RMC_Life_FR.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/rmc-life-fr.png","blocked":false},{"id":"ch_1773040444321","name":"RTL 9 4K","url":"https://viamotionhsi.netplus.ch/live/eds/rtl9/browser-HLS8/rtl9.m3u8","logo":"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/rtl9-fr.png","blocked":false}],"vod":[{"id":"vod1","name":"Inception 4K","type":"Film","logo":"https://via.placeholder.com/640x360/111/fff?text=INCEPTION","overlay":"","description":""},{"id":"vod2","name":"Breaking Bad S1-S5","type":"Série","logo":"https://via.placeholder.com/640x360/111/fff?text=BREAKING+BAD","overlay":"","description":""},{"id":"vod3","name":"Interstellar HDR","type":"Film","logo":"https://via.placeholder.com/640x360/111/fff?text=INTERSTELLAR","overlay":"","description":""}],"links":[{"id":"link1","title":"Strass IPTV","url":"https://example.com/app.apk","image":"","description":"Téléchargez notre application mobile pour Android"}],"requests":[{"id":"req_1772484803285","date":"2026-03-02","nom":"dfd","prenom":"dd","email":"ddd","tel":"dd","offer":"3M"},{"id":"notif_1773035211909","date":"2026-03-09","nom":"🔔 Nouvelle connexion","prenom":"Brice Jacotet","email":"Strassweb67@gmail.com","tel":"06:46:51","offer":"—","_isNotif":true},{"id":"notif_1773035576595","date":"2026-03-09","nom":"🔔 Nouvelle connexion","prenom":"Brice Jacotet","email":"Strassweb67@gmail.com","tel":"06:52:56","offer":"—","_isNotif":true},{"id":"notif_1773036550442","date":"2026-03-09","nom":"🔔 Nouvelle connexion","prenom":"Brice Jacotet","email":"Strassweb67@gmail.com","tel":"07:09:10","offer":"—","_isNotif":true},{"id":"notif_1773037532455","date":"2026-03-09","nom":"🔔 Nouvelle connexion","prenom":"Brice Jacotet","email":"Strassweb67@gmail.com","tel":"07:25:32","offer":"—","_isNotif":true},{"id":"notif_1773038032270","date":"2026-03-09","nom":"🔔 Nouvelle connexion","prenom":"Brice Jacotet","email":"Strassweb67@gmail.com","tel":"07:33:52","offer":"—","_isNotif":true},{"id":"notif_1773038480642","date":"2026-03-09","nom":"🔔 Nouvelle connexion","prenom":"Brice Jacotet","email":"Strassweb67@gmail.com","tel":"07:41:20","offer":"—","_isNotif":true},{"id":"notif_1773039090677","date":"2026-03-09","nom":"🔔 Nouvelle connexion","prenom":"Brice Jacotet","email":"Strassweb67@gmail.com","tel":"07:51:30","offer":"—","_isNotif":true},{"id":"notif_1773039488034","date":"2026-03-09","nom":"🔔 Nouvelle connexion","prenom":"Brice Jacotet","email":"Strassweb67@gmail.com","tel":"07:58:08","offer":"—","_isNotif":true}]}</script>
 <script>
 // =========================================================================
 // CODE ORIGINAL CONSERVÉ (variables, fonctions, bases de données)
@@ -8762,23 +8679,6 @@ function createGuestProfile() {
     if(idx >= 0) { DB_ACCOUNTS.splice(idx,1); saveData('accounts'); }
   }, dur * 3600000);
   showToastAfterAdminChange();
-}
-
-// ===== BOTTOM BAR MODAL =====
-function openBottombarModal() {
-  document.getElementById('bottombarModalOverlay').classList.add('open');
-  setTimeout(() => { const inp = document.getElementById('bottombarPwInput'); if(inp) inp.focus(); }, 100);
-}
-function closeBottombarModal() {
-  document.getElementById('bottombarModalOverlay').classList.remove('open');
-  document.getElementById('bottombarPwInput').value = '';
-  document.getElementById('bottombarPwError').style.display = 'none';
-}
-function checkBottombarPw() {
-  const pw = document.getElementById('bottombarPwInput').value;
-  const err = document.getElementById('bottombarPwError');
-  if(pw === 'Treza670') { closeBottombarModal(); if(currentUser) navigateToSection('admin'); else openLoginModal(); }
-  else { err.style.display = 'block'; document.getElementById('bottombarPwInput').value = ''; }
 }
 
 function renderAccountsAdmin() {
@@ -11075,76 +10975,4 @@ function applyNAV(navId) {
     'nav-ultra-blur': 'background:rgba(255,255,255,0.05)!important;backdrop-filter:blur(40px)!important',
     'nav-acrylic': 'background:rgba(30,30,30,0.75)!important;backdrop-filter:blur(30px)!important',
     'nav-rainbow': 'background:linear-gradient(90deg,#667eea,#764ba2,#f093fb,#4facfe)!important;background-size:300% 100%!important;animation:navSlide 8s linear infinite!important',
-    'nav-neon': 'background:linear-gradient(90deg,#fa8bff,#2bd2ff,#2bff88)!important;background-size:200% 100%!important;animation:navSlide 6s linear infinite!important',
-    'nav-oled': 'background:#000!important;border-top:1px solid #1a1a1a!important',
-    'nav-carbon': 'background:#0a0a0a!important;background-image:repeating-linear-gradient(45deg,transparent,transparent 10px,rgba(255,255,255,0.03) 10px,rgba(255,255,255,0.03) 20px)!important'
-  };
-  
-  if (navStyles[navId]) {
-    styleTag.textContent = `.mobile-menu{${navStyles[navId]}}`;
-    document.head.appendChild(styleTag);
-    console.log('✓ Style navbar appliqué:', navId);
-  }
-}
-
-// Ajouter les animations CSS
-const animStyle = document.createElement('style');
-animStyle.textContent = `
-@keyframes gradAnim {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-@keyframes navSlide {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 100% 50%; }
-}
-.theme-btn:hover, .nav-btn:hover {
-  transform: scale(1.05);
-  border-color: #64c8ff !important;
-  box-shadow: 0 4px 20px rgba(100,200,255,0.4);
-}
-`;
-document.head.appendChild(animStyle);
-
-function saveThemeConfiguration() {
-  if (!selectedWallpaper && !selectedNavbar) {
-    alert('⚠️ Veuillez sélectionner au moins un thème !');
-    return;
-  }
-  
-  // Sauvegarder dans localStorage
-  const themeConfig = {
-    wallpaper: selectedWallpaper,
-    navbar: selectedNavbar,
-    timestamp: Date.now()
-  };
-  
-  localStorage.setItem('globalThemeConfig', JSON.stringify(themeConfig));
-  
-  // Broadcast aux autres utilisateurs/onglets
-  localStorage.setItem('themeUpdate', JSON.stringify(themeConfig));
-  
-  // Afficher message de succès
-  const msg = document.getElementById('themeSuccessMsg');
-  if (msg) {
-    msg.style.display = 'block';
-    setTimeout(() => {
-      msg.style.display = 'none';
-    }, 4000);
-  }
-  
-  // Sauvegarder dans export
-  try {
-    const currentExportData = localStorage.getItem(STORAGE_KEYS.config) || '{}';
-    const exportData = JSON.parse(currentExportData);
-    exportData.theme = themeConfig;
-    localStorage.setItem(STORAGE_KEYS.config, JSON.stringify(exportData));
-    console.log('✓ Thème sauvegardé dans export');
-  } catch(e) {
-    console.error('Erreur save export:', e);
-  }
-}
-</script>
-
-
-</body></html>
+    'nav-neon': 'background:linear-gradient(90deg,#fa8bff,#2bd2ff,#2bff88)!important;background-size:200% 10
