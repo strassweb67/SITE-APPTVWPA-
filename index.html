@@ -5010,7 +5010,7 @@ video {
   <div class="main-content" id="tvSection" style="display: none;">
     <div class="player-container">
       <div class="video-player">
-        <video id="videoPlayer" controls autoplay playsinline preload="auto" crossorigin="anonymous" muted></video>
+        <video id="videoPlayer" controls autoplay playsinline preload="auto" crossorigin="anonymous"></video>
       </div>
       <!-- Bloc info chaîne (collé sous le lecteur, angles carrés en haut, arrondis en bas) -->
       <div class="channel-info-block" id="channelInfoBlock">
@@ -8487,6 +8487,7 @@ window.addEventListener('storage', (e) => {
           <button class="admin-btn" onclick="downloadFullHTML()">📥 Télécharger HTML Complet</button>
           <button class="admin-btn" onclick="downloadManifest()">📄 Télécharger manifest.json</button>
           <button class="admin-btn" onclick="downloadServiceWorker()">⚙️ Télécharger sw.js</button>
+          <button class="admin-btn" onclick="downloadAdminConfig()" style="background:linear-gradient(135deg,#f7971e,#ffd200);color:#0a0e27;font-weight:900;">💾 Exporter Config Admin JSON</button>
         </div>
         
         <!-- INSTRUCTIONS -->
@@ -8957,53 +8958,53 @@ function playChannel(url, name, id) {
   loader.innerHTML = '⏳ Chargement 4K...<br><span style="font-size:0.8rem;color:#64c8ff;">Préchargement pour lecture optimale</span>';
   video.parentElement.appendChild(loader);
   
-  // Config HLS OPTIMISÉE : Préchargement 4K stable SANS coupure
+  // Config HLS OPTIMISÉE : Démarrage ultra-rapide sur 4G/5G mobile (~1s) + stabilité WiFi
   const hlsCfg = {
     enableWorker: true,
-    lowLatencyMode: false,         // OFF pour stabilité (évite micro-coupures)
-    startLevel: -1,                // ABR intelligent mais on forcera 4K après
+    lowLatencyMode: isMobile ? true : false,   // ON mobile pour démarrage rapide 4G/5G
+    startLevel: isMobile ? -1 : -1,            // ABR auto = démarrage immédiat au meilleur débit dispo
     autoStartLoad: true,
-    startFragPrefetch: true,       // Pré-charge immédiate
+    startFragPrefetch: true,                   // Pré-charge immédiate
     testBandwidth: true,
     
-    // BUFFER GÉNÉREUX : Assure chargement complet AVANT lecture
-    maxBufferLength: isMobile ? 15 : 40,      // Plus de buffer = pas de coupure
-    maxMaxBufferLength: isMobile ? 30 : 80,
-    maxBufferSize: isMobile ? 80*1000*1000 : 150*1000*1000,
-    maxBufferHole: 0.5,            // Tolérance pour éviter freeze
+    // BUFFER MOBILE LÉGER = démarrage <1s sur 4G/5G
+    maxBufferLength: isMobile ? 4 : 40,        // 4s mobile = start rapide, 40s WiFi = stable
+    maxMaxBufferLength: isMobile ? 10 : 80,
+    maxBufferSize: isMobile ? 20*1000*1000 : 150*1000*1000,  // 20MB mobile
+    maxBufferHole: isMobile ? 1.0 : 0.5,       // Plus tolérant sur mobile
     
-    // Synchronisation live douce
-    liveSyncDurationCount: 3,
-    liveMaxLatencyDurationCount: 6,
+    // Synchronisation live : latence réduite sur mobile
+    liveSyncDurationCount: isMobile ? 2 : 3,
+    liveMaxLatencyDurationCount: isMobile ? 4 : 6,
     liveDurationInfinity: true,
     
-    // ABR STABLE : Monte en 4K progressivement MAIS sans redescendre
-    abrEwmaFastLive: 3.0,
-    abrEwmaSlowLive: 12.0,         // Montée stable
-    abrEwmaFastVoD: 3.0,
-    abrEwmaSlowVoD: 12.0,
-    abrBandWidthFactor: 0.98,      // 98% pour sécurité max
-    abrBandWidthUpFactor: 0.95,
+    // ABR MOBILE AGGRESSIF : démarre bas, monte vite
+    abrEwmaFastLive: isMobile ? 1.5 : 3.0,    // Réactivité rapide
+    abrEwmaSlowLive: isMobile ? 5.0 : 12.0,
+    abrEwmaFastVoD: isMobile ? 1.5 : 3.0,
+    abrEwmaSlowVoD: isMobile ? 5.0 : 12.0,
+    abrBandWidthFactor: isMobile ? 0.85 : 0.98,  // Marge réseau mobile
+    abrBandWidthUpFactor: isMobile ? 0.80 : 0.95,
     abrMaxWithRealBitrate: true,
-    capLevelToPlayerSize: false,   // Force 4K même petit écran
+    capLevelToPlayerSize: isMobile ? true : false,  // Mobile: qualité adaptée à l'écran
     
-    // Back-buffer
-    backBufferLength: isMobile ? 15 : 40,
+    // Back-buffer réduit sur mobile
+    backBufferLength: isMobile ? 5 : 40,
     
-    // Timeouts généreux pour chargement complet
-    manifestLoadingTimeOut: 8000,
-    manifestLoadingMaxRetry: 5,
-    manifestLoadingRetryDelay: 500,
-    levelLoadingTimeOut: 10000,
-    levelLoadingMaxRetry: 5,
-    fragLoadingTimeOut: 15000,     // 15s pour charger fragments 4K
-    fragLoadingMaxRetry: 5,
-    fragLoadingRetryDelay: 500,
-    maxLoadingDelay: 4,
+    // Timeouts adaptés mobile 4G/5G
+    manifestLoadingTimeOut: isMobile ? 5000 : 8000,
+    manifestLoadingMaxRetry: isMobile ? 6 : 5,
+    manifestLoadingRetryDelay: isMobile ? 300 : 500,
+    levelLoadingTimeOut: isMobile ? 6000 : 10000,
+    levelLoadingMaxRetry: isMobile ? 6 : 5,
+    fragLoadingTimeOut: isMobile ? 8000 : 15000,   // Réduit mobile (4G peut charger en 3-5s)
+    fragLoadingMaxRetry: isMobile ? 6 : 5,
+    fragLoadingRetryDelay: isMobile ? 200 : 500,   // Retry rapide sur 4G
+    maxLoadingDelay: isMobile ? 2 : 4,
     
-    // Optimisations 4K
+    // Optimisations
     preferManagedMediaSource: true,
-    progressive: false,            // OFF = attend buffer complet
+    progressive: isMobile ? true : false,      // ON mobile = démarre sans attendre buffer complet
     highBufferWatchdogPeriod: 2,
     nudgeMaxRetry: 10,
   };
@@ -9050,8 +9051,8 @@ function playChannel(url, name, id) {
         const bufferedSeconds = buffered.end(0) - buffered.start(0);
         console.log(`📊 Buffer: ${bufferedSeconds.toFixed(1)}s`);
         
-        // Attendre au moins 2 secondes de buffer en 4K AVANT de lancer
-        if(bufferedSeconds >= 2.0 && !is4KReady) {
+        // Seuil de démarrage : 0.5s mobile (4G/5G) ou 2s WiFi
+        if(bufferedSeconds >= (isMobile ? 0.5 : 2.0) && !is4KReady) {
           is4KReady = true;
           
           // Vérifier qu'on est bien en 4K
@@ -9065,8 +9066,19 @@ function playChannel(url, name, id) {
           if(loaderEl) loaderEl.remove();
           video.style.opacity = '1';
           
-          // Lancer la lecture
-          video.play().catch(e => console.error('Erreur play:', e));
+          // Lancer la lecture avec son actif
+          video.muted = false;
+          video.volume = video.volume || 1;
+          video.play().catch(e => {
+            // Sur mobile, l'autoplay sans interaction peut être bloqué → lancer muet puis démuet
+            video.muted = true;
+            video.play().then(() => {
+              // Démuet dès que possible (1ère interaction utilisateur)
+              const unmute = () => { video.muted = false; video.volume = 1; document.removeEventListener('click', unmute); document.removeEventListener('touchstart', unmute); };
+              document.addEventListener('click', unmute, {once:true});
+              document.addEventListener('touchstart', unmute, {once:true});
+            }).catch(e2 => console.error('Erreur play:', e2));
+          });
         }
       }
     });
@@ -9121,8 +9133,10 @@ function playChannel(url, name, id) {
       const loaderEl = document.getElementById('videoLoader');
       if(loaderEl) loaderEl.remove();
       video.style.opacity = '1';
-      video.play().catch(() => {});
-    }, 2000);
+      video.muted = false;
+      video.volume = 1;
+      video.play().catch(() => { video.muted = true; video.play().then(() => { const u = () => { video.muted=false; video.volume=1; document.removeEventListener('click',u); document.removeEventListener('touchstart',u); }; document.addEventListener('click',u,{once:true}); document.addEventListener('touchstart',u,{once:true}); }); });
+    }, isMobile ? 500 : 2000);
   }
   
   window.scrollTo({top:0, behavior:'smooth'});
@@ -11144,6 +11158,50 @@ function downloadServiceWorker() {
   const sw = `self.addEventListener('install', e => { e.waitUntil( caches.open('strass-iptv-v1').then(cache => cache.addAll(['./'])) ); }); self.addEventListener('fetch', e => { e.respondWith( caches.match(e.request).then(response => response || fetch(e.request)) ); });`;
   const blob = new Blob([sw], {type: 'text/javascript'});
   const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = 'sw.js'; link.click(); URL.revokeObjectURL(link.href);
+}
+
+function downloadAdminConfig() {
+  // Sauvegarder tout avant export
+  saveData('config');
+  saveData('accounts');
+  saveData('channels');
+  saveData('vod');
+  saveData('links');
+  saveData('requests');
+
+  // Récupérer les paramètres vidéo/son depuis localStorage
+  let videoSettings = {};
+  let soundSettings = {};
+  try { videoSettings = JSON.parse(localStorage.getItem('strass_videosettings') || '{}'); } catch(e) {}
+  try { soundSettings = JSON.parse(localStorage.getItem('strass_soundsettings') || '{}'); } catch(e) {}
+
+  const exportData = {
+    exportDate: new Date().toISOString(),
+    version: '2.0',
+    config: APP_CONFIG,
+    accounts: DB_ACCOUNTS,
+    channels: DB_CHANNELS,
+    vod: DB_VOD,
+    links: DB_LINKS,
+    requests: DB_REQUESTS,
+    videoSettings,
+    soundSettings,
+    theme: {
+      bg: localStorage.getItem('selectedBG') || '',
+      nav: localStorage.getItem('selectedNAV') || '',
+    }
+  };
+
+  const json = JSON.stringify(exportData, null, 2);
+  const blob = new Blob([json], {type: 'application/json;charset=utf-8'});
+  const now = new Date();
+  const dateStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = `strass-iptv-config-${dateStr}.json`;
+  link.click();
+  URL.revokeObjectURL(link.href);
+  alert('✅ Config Admin exportée !\n\nLe fichier JSON contient :\n- Comptes & chaînes\n- VOD & liens\n- Paramètres vidéo/son\n- Thème\n\nConservez ce fichier pour restaurer votre configuration.');
 }
 (function initProtection() {
   document.addEventListener('contextmenu', e => { if(!currentUser || currentUser.role !== 'admin') e.preventDefault(); });
@@ -13197,7 +13255,7 @@ function applyNAV(navId) {
 // Charger les styles sauvegardés au démarrage
 window.addEventListener('DOMContentLoaded', () => {
   const savedBG = localStorage.getItem('selectedBG');
-  const savedNAV = localStorage.setItem('selectedNAV');
+  const savedNAV = localStorage.getItem('selectedNAV');
   
   if (savedBG) {
     selectedBG = savedBG;
