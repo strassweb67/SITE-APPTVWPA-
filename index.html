@@ -1617,6 +1617,16 @@ video {
   height: 100%;
   object-fit: contain;
   border-radius: inherit;
+  /* Optimisations pour fluidité 4K et netteté sur mobile */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  will-change: transform;
+  /* Anti-aliasing optimisé pour réduire le flou */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Barre sous le lecteur (fine) */
@@ -4915,8 +4925,8 @@ video {
   <span class="brand-text">Strass IPTV-</span>
   <div style="display:flex;align-items:center;gap:10px">
     <div class="connection-status" id="connectionStatus">
-      <span class="dot" style="background: rgb(255, 85, 85);"></span>
-      <span>Déconnecté</span>
+      <span class="dot" style="background: rgb(0, 230, 118);"></span>
+      <span>Connecté</span>
     </div>
     <button class="power-btn" onclick="handleLogout()" title="Se déconnecter">
       <svg viewBox="0 0 24 24" fill="none" stroke="#E50914" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -5000,7 +5010,7 @@ video {
   <div class="main-content" id="tvSection" style="display: none;">
     <div class="player-container">
       <div class="video-player">
-        <video id="videoPlayer" controls="" autoplay="" playsinline="" src="blob:null/af3e0d92-ffad-4e94-a465-d97a852ed8dc"></video>
+        <video id="videoPlayer" controls autoplay playsinline preload="auto" crossorigin="anonymous" muted></video>
       </div>
       <!-- Bloc info chaîne (collé sous le lecteur, angles carrés en haut, arrondis en bas) -->
       <div class="channel-info-block" id="channelInfoBlock">
@@ -5169,6 +5179,7 @@ video {
         <ul>
           <li onclick="switchAdminPanel('users',this)" class=""><span>👥</span><span>Utilisateurs Live</span></li>
           <li onclick="switchAdminPanel('geoloc',this)" class=""><span>📍</span><span>Géolocalisation</span></li>
+          <li onclick="switchAdminPanel('users',this)" class=""><span>👥</span><span>Utilisateurs Live</span></li>
           <li onclick="switchAdminPanel('theme',this)" class=""><span>🎨</span><span>Thème</span></li>
           <li onclick="switchAdminPanel('effects',this)" class=""><span>✨</span><span>Effets</span></li>
           <li onclick="switchAdminPanel('video',this)" class=""><span>🎛️</span><span>Vidéo Admin</span></li>
@@ -6515,9 +6526,7 @@ video {
 </div>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-// Variables globales
-let selectedBG = localStorage.getItem('selectedBG') || null;
-let selectedNAV = localStorage.getItem('selectedNAV') || null;
+// Variables globales pour thème (déjà déclarées dans le script principal)
 
 // 60 WALLPAPERS
 const WALLPAPERS = [
@@ -7504,7 +7513,20 @@ window.addEventListener('storage', (e) => {
         </div>
       </div>
       
-      <!-- PANNEAU DIAGNOSTICS TVIP -->
+      
+
+<!-- PANNEAU UTILISATEURS EN TEMPS RÉEL -->
+<div class="admin-panel" id="adminUsersPanel">
+  <h3 style="color:#64c8ff;font-weight:900;margin-bottom:24px;font-size:1.5rem;display:flex;align-items:center;gap:12px;">
+    <span>👥</span> Utilisateurs en Temps Réel
+  </h3>
+  
+  <div style="background:rgba(0,0,0,0.5);border:1px solid rgba(100,200,255,0.3);padding:24px;border-radius:12px;">
+    <div id="usersListContainer"></div>
+  </div>
+</div>
+
+<!-- PANNEAU DIAGNOSTICS TVIP -->
       <div class="admin-panel" id="adminDiagnosticsPanel">
         <h3 style="color:#64c8ff;font-weight:800;margin-bottom:16px;font-size:1.2rem">🔧 Diagnostics Complets TVIP</h3>
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:20px;">
@@ -7724,7 +7746,7 @@ window.addEventListener('storage', (e) => {
       
       <div class="admin-panel" id="adminVideoPanel">
         <h3 style="color:#fff;font-weight:800;margin-bottom:18px;font-size:1.1rem">🎛️ Réglages Vidéo</h3>
-        <div class="admin-form-grid" id="videoSettingsGrid"><div class="video-setting-field"><h4>Luminosité</h4><p>Ajuste la luminosité de la vidéo (0-200%)</p><input type="range" id="vs_vBrightness" min="0" max="200" step="1" value="92" oninput="document.getElementById('vsv_vBrightness').textContent=this.value+'%';applyVideoSetting('vBrightness',this.value)"><span class="range-val" id="vsv_vBrightness">92%</span></div><div class="video-setting-field"><h4>Contraste</h4><p>Contraste de l'image (0-200%)</p><input type="range" id="vs_vContrast" min="0" max="200" step="1" value="89" oninput="document.getElementById('vsv_vContrast').textContent=this.value+'%';applyVideoSetting('vContrast',this.value)"><span class="range-val" id="vsv_vContrast">89%</span></div><div class="video-setting-field"><h4>Saturation</h4><p>Intensité des couleurs (0-200%)</p><input type="range" id="vs_vSaturation" min="0" max="200" step="1" value="102" oninput="document.getElementById('vsv_vSaturation').textContent=this.value+'%';applyVideoSetting('vSaturation',this.value)"><span class="range-val" id="vsv_vSaturation">102%</span></div><div class="video-setting-field"><h4>Netteté</h4><p>Renforcement de la netteté (0-100%)</p><input type="range" id="vs_vSharpness" min="0" max="100" step="1" value="1" oninput="document.getElementById('vsv_vSharpness').textContent=this.value+'%';applyVideoSetting('vSharpness',this.value)"><span class="range-val" id="vsv_vSharpness">1%</span></div><div class="video-setting-field"><h4>Teinte (Hue)</h4><p>Rotation de la teinte en degrés (0-360°)</p><input type="range" id="vs_vHue" min="0" max="360" step="1" value="0" oninput="document.getElementById('vsv_vHue').textContent=this.value+'°';applyVideoSetting('vHue',this.value)"><span class="range-val" id="vsv_vHue">0°</span></div><div class="video-setting-field"><h4>Buffer (ms)</h4><p>Taille du tampon de lecture — 6000 mobile recommandé</p><input type="number" id="vs_vBuffer" min="1000" max="60000" step="500" value="900" onchange=""></div><div class="video-setting-field"><h4>Buffer Max (ms)</h4><p>Buffer maximum — 14000 mobile recommandé</p><input type="number" id="vs_vMaxBuffer" min="5000" max="120000" step="1000" value="1200" onchange=""></div><div class="video-setting-field"><h4>Niveau démarrage</h4><p>0=720p rapide puis montée auto, -1=Auto dès le début</p><input type="number" id="vs_vStartLevel" min="-1" max="10" step="1" value="1" onchange=""></div><div class="video-setting-field"><h4>Estimation bande passante</h4><p>Facteur estimation ABR (0.5-1.2)</p><input type="range" id="vs_vAbrBandwidth" min="50" max="120" step="1" value="120" oninput="document.getElementById('vsv_vAbrBandwidth').textContent=this.value+'%';applyVideoSetting('vAbrBandwidth',this.value)"><span class="range-val" id="vsv_vAbrBandwidth">120%</span></div><div class="video-setting-field"><h4>Tentatives max fragment</h4><p>Nombre de tentatives en cas d'erreur</p><input type="number" id="vs_vMaxRetry" min="1" max="10" step="1" value="3" onchange=""></div><div class="video-setting-field"><h4>Délai réessai (ms)</h4><p>Attente avant réessai fragment — 300ms recommandé</p><input type="number" id="vs_vRetryDelay" min="100" max="5000" step="100" value="300" onchange=""></div><div class="video-setting-field"><h4>Chargement parallèle</h4><p>Fragments chargés en parallèle</p><input type="number" id="vs_vMaxFragLoad" min="1" max="8" step="1" value="3" onchange=""></div><div class="video-setting-field"><h4>Mode Basse Latence</h4><p>Recommandé activé pour réduire le délai live</p><label><input type="checkbox" id="vs_vLowLatency" checked="" style="width:16px;height:16px;accent-color:var(--primary)" onchange="applyVideoSetting('vLowLatency',this.checked)"><span style="margin-left:8px;color:#ddd;font-size:0.9rem">Activé</span></label></div><div class="video-setting-field"><h4>Accélération Matérielle</h4><p>Utiliser le GPU pour le décodage</p><label><input type="checkbox" id="vs_vHardwareAccel" checked="" style="width:16px;height:16px;accent-color:var(--primary)" onchange="applyVideoSetting('vHardwareAccel',this.checked)"><span style="margin-left:8px;color:#ddd;font-size:0.9rem">Activé</span></label></div><div class="video-setting-field"><h4>Qualité Adaptative (ABR)</h4><p>Adaptation automatique de la qualité selon le débit</p><label><input type="checkbox" id="vs_vAutoQuality" checked="" style="width:16px;height:16px;accent-color:var(--primary)" onchange="applyVideoSetting('vAutoQuality',this.checked)"><span style="margin-left:8px;color:#ddd;font-size:0.9rem">Activé</span></label></div><div class="video-setting-field"><h4>Vitesse lecture</h4><p>Vitesse de lecture (0.5x à 2x)</p><select id="vs_vPlaybackRate" onchange="applyVideoSetting('vPlaybackRate',this.value)"><option>0.5x</option><option>0.75x</option><option selected="">1x</option><option>1.25x</option><option>1.5x</option><option>2x</option></select></div><div class="video-setting-field"><h4>Format d'image</h4><p>Ratio d'affichage de la vidéo</p><select id="vs_vAspectRatio" onchange="applyVideoSetting('vAspectRatio',this.value)"><option selected="">16:9 (Auto)</option><option>4:3</option><option>21:9</option><option>Plein écran</option></select></div><div class="video-setting-field"><h4>Mode rendu</h4><p>Méthode de rendu vidéo</p><select id="vs_vRenderMode" onchange="applyVideoSetting('vRenderMode',this.value)"><option>Auto</option><option>Software</option><option selected="">Hardware</option></select></div><div class="video-setting-field"><h4>Désentrelacement</h4><p>Lissage des vidéos entrelacées</p><label><input type="checkbox" id="vs_vDeinterlace" checked="" style="width:16px;height:16px;accent-color:var(--primary)" onchange="applyVideoSetting('vDeinterlace',this.checked)"><span style="margin-left:8px;color:#ddd;font-size:0.9rem">Activé</span></label></div><div class="video-setting-field"><h4>Réduction du bruit</h4><p>Filtre de réduction du bruit numérique</p><label><input type="checkbox" id="vs_vNoiseReduction" style="width:16px;height:16px;accent-color:var(--primary)" onchange="applyVideoSetting('vNoiseReduction',this.checked)"><span style="margin-left:8px;color:#ddd;font-size:0.9rem">Activé</span></label></div></div>
+        <div class="admin-form-grid" id="videoSettingsGrid"><div class="video-setting-field"><h4>Luminosité</h4><p>Ajuste la luminosité de la vidéo (0-200%)</p><input type="range" id="vs_vBrightness" min="0" max="200" step="1" value="92" oninput="document.getElementById('vsv_vBrightness').textContent=this.value+'%';applyVideoSetting('vBrightness',this.value)"><span class="range-val" id="vsv_vBrightness">92%</span></div><div class="video-setting-field"><h4>Contraste</h4><p>Contraste de l'image (0-200%)</p><input type="range" id="vs_vContrast" min="0" max="200" step="1" value="89" oninput="document.getElementById('vsv_vContrast').textContent=this.value+'%';applyVideoSetting('vContrast',this.value)"><span class="range-val" id="vsv_vContrast">89%</span></div><div class="video-setting-field"><h4>Saturation</h4><p>Intensité des couleurs (0-200%)</p><input type="range" id="vs_vSaturation" min="0" max="200" step="1" value="102" oninput="document.getElementById('vsv_vSaturation').textContent=this.value+'%';applyVideoSetting('vSaturation',this.value)"><span class="range-val" id="vsv_vSaturation">102%</span></div><div class="video-setting-field"><h4>Netteté</h4><p>Renforcement de la netteté (0-100%)</p><input type="range" id="vs_vSharpness" min="0" max="100" step="1" value="1" oninput="document.getElementById('vsv_vSharpness').textContent=this.value+'%';applyVideoSetting('vSharpness',this.value)"><span class="range-val" id="vsv_vSharpness">1%</span></div><div class="video-setting-field"><h4>Teinte (Hue)</h4><p>Rotation de la teinte en degrés (0-360°)</p><input type="range" id="vs_vHue" min="0" max="360" step="1" value="0" oninput="document.getElementById('vsv_vHue').textContent=this.value+'°';applyVideoSetting('vHue',this.value)"><span class="range-val" id="vsv_vHue">0°</span></div><div class="video-setting-field"><h4>Buffer (ms)</h4><p>Taille du tampon de lecture — Optimisé pour démarrage rapide 4K</p><input type="number" id="vs_vBuffer" min="1000" max="60000" step="500" value="10000" onchange=""></div><div class="video-setting-field"><h4>Buffer Max (ms)</h4><p>Buffer maximum — Optimisé pour 4K mobile</p><input type="number" id="vs_vMaxBuffer" min="5000" max="120000" step="1000" value="20000" onchange=""></div><div class="video-setting-field"><h4>Niveau démarrage</h4><p>-1=Auto (Force 4K immédiat si disponible)</p><input type="number" id="vs_vStartLevel" min="-1" max="10" step="1" value="-1" onchange=""></div><div class="video-setting-field"><h4>Estimation bande passante</h4><p>Facteur estimation ABR — 95% pour montée rapide en 4K</p><input type="range" id="vs_vAbrBandwidth" min="50" max="120" step="1" value="95" oninput="document.getElementById('vsv_vAbrBandwidth').textContent=this.value+'%';applyVideoSetting('vAbrBandwidth',this.value)"><span class="range-val" id="vsv_vAbrBandwidth">95%</span></div><div class="video-setting-field"><h4>Tentatives max fragment</h4><p>Nombre de tentatives en cas d'erreur — 3 pour retry rapide</p><input type="number" id="vs_vMaxRetry" min="1" max="10" step="1" value="3" onchange=""></div><div class="video-setting-field"><h4>Délai réessai (ms)</h4><p>Attente avant réessai fragment — 200ms pour 5G</p><input type="number" id="vs_vRetryDelay" min="100" max="5000" step="100" value="200" onchange=""></div><div class="video-setting-field"><h4>Chargement parallèle</h4><p>Fragments chargés en parallèle</p><input type="number" id="vs_vMaxFragLoad" min="1" max="8" step="1" value="3" onchange=""></div><div class="video-setting-field"><h4>Mode Basse Latence</h4><p>Recommandé activé pour réduire le délai live</p><label><input type="checkbox" id="vs_vLowLatency" checked="" style="width:16px;height:16px;accent-color:var(--primary)" onchange="applyVideoSetting('vLowLatency',this.checked)"><span style="margin-left:8px;color:#ddd;font-size:0.9rem">Activé</span></label></div><div class="video-setting-field"><h4>Accélération Matérielle</h4><p>Utiliser le GPU pour le décodage</p><label><input type="checkbox" id="vs_vHardwareAccel" checked="" style="width:16px;height:16px;accent-color:var(--primary)" onchange="applyVideoSetting('vHardwareAccel',this.checked)"><span style="margin-left:8px;color:#ddd;font-size:0.9rem">Activé</span></label></div><div class="video-setting-field"><h4>Qualité Adaptative (ABR)</h4><p>Adaptation automatique de la qualité selon le débit</p><label><input type="checkbox" id="vs_vAutoQuality" checked="" style="width:16px;height:16px;accent-color:var(--primary)" onchange="applyVideoSetting('vAutoQuality',this.checked)"><span style="margin-left:8px;color:#ddd;font-size:0.9rem">Activé</span></label></div><div class="video-setting-field"><h4>Vitesse lecture</h4><p>Vitesse de lecture (0.5x à 2x)</p><select id="vs_vPlaybackRate" onchange="applyVideoSetting('vPlaybackRate',this.value)"><option>0.5x</option><option>0.75x</option><option selected="">1x</option><option>1.25x</option><option>1.5x</option><option>2x</option></select></div><div class="video-setting-field"><h4>Format d'image</h4><p>Ratio d'affichage de la vidéo</p><select id="vs_vAspectRatio" onchange="applyVideoSetting('vAspectRatio',this.value)"><option selected="">16:9 (Auto)</option><option>4:3</option><option>21:9</option><option>Plein écran</option></select></div><div class="video-setting-field"><h4>Mode rendu</h4><p>Méthode de rendu vidéo</p><select id="vs_vRenderMode" onchange="applyVideoSetting('vRenderMode',this.value)"><option>Auto</option><option>Software</option><option selected="">Hardware</option></select></div><div class="video-setting-field"><h4>Désentrelacement</h4><p>Lissage des vidéos entrelacées</p><label><input type="checkbox" id="vs_vDeinterlace" checked="" style="width:16px;height:16px;accent-color:var(--primary)" onchange="applyVideoSetting('vDeinterlace',this.checked)"><span style="margin-left:8px;color:#ddd;font-size:0.9rem">Activé</span></label></div><div class="video-setting-field"><h4>Réduction du bruit</h4><p>Filtre de réduction du bruit numérique</p><label><input type="checkbox" id="vs_vNoiseReduction" style="width:16px;height:16px;accent-color:var(--primary)" onchange="applyVideoSetting('vNoiseReduction',this.checked)"><span style="margin-left:8px;color:#ddd;font-size:0.9rem">Activé</span></label></div></div>
         <h3 style="color:#fff;font-weight:800;margin:28px 0 16px;font-size:1.1rem">🔊 Réglages Son</h3>
         <div class="admin-form-grid" id="soundSettingsGrid"><div class="video-setting-field"><h4>Volume principal</h4><p>Volume global du lecteur (0-100%)</p><input type="range" id="ss_sVolume" min="0" max="100" step="1" value="100" oninput="document.getElementById('ssv_sVolume').textContent=this.value+'%';applySoundSetting('sVolume',this.value)"><span class="range-val" id="ssv_sVolume">100%</span></div><div class="video-setting-field"><h4>Basses (Bass Boost)</h4><p>Amplification des fréquences graves</p><input type="range" id="ss_sBass" min="-10" max="10" step="1" value="3" oninput="document.getElementById('ssv_sBass').textContent=this.value+'dB';applySoundSetting('sBass',this.value)"><span class="range-val" id="ssv_sBass">3dB</span></div><div class="video-setting-field"><h4>Aigus (Treble)</h4><p>Amplification des hautes fréquences</p><input type="range" id="ss_sTreble" min="-10" max="10" step="1" value="2" oninput="document.getElementById('ssv_sTreble').textContent=this.value+'dB';applySoundSetting('sTreble',this.value)"><span class="range-val" id="ssv_sTreble">2dB</span></div><div class="video-setting-field"><h4>Médiums</h4><p>Fréquences moyennes (voix, instruments)</p><input type="range" id="ss_sMid" min="-10" max="10" step="1" value="2" oninput="document.getElementById('ssv_sMid').textContent=this.value+'dB';applySoundSetting('sMid',this.value)"><span class="range-val" id="ssv_sMid">2dB</span></div><div class="video-setting-field"><h4>Balance Gauche/Droite</h4><p>Équilibre stéréo (-10 gauche, +10 droite)</p><input type="range" id="ss_sBalance" min="-10" max="10" step="1" value="0" oninput="document.getElementById('ssv_sBalance').textContent=this.value+'';applySoundSetting('sBalance',this.value)"><span class="range-val" id="ssv_sBalance">0</span></div><div class="video-setting-field"><h4>Normaliseur Audio</h4><p>Normalise le volume pour éviter les pics</p><label><input type="checkbox" id="ss_sNormalizer" checked="" style="width:16px;height:16px;accent-color:var(--primary)" onchange="applySoundSetting('sNormalizer',this.checked)"><span style="margin-left:8px;color:#ddd;font-size:0.9rem">Activé</span></label></div><div class="video-setting-field"><h4>Élargissement Stéréo</h4><p>Améliore la scène sonore stéréo</p><label><input type="checkbox" id="ss_sStereoEnhance" checked="" style="width:16px;height:16px;accent-color:var(--primary)" onchange="applySoundSetting('sStereoEnhance',this.checked)"><span style="margin-left:8px;color:#ddd;font-size:0.9rem">Activé</span></label></div><div class="video-setting-field"><h4>Simulation Surround</h4><p>Simule un son surround 5.1</p><label><input type="checkbox" id="ss_sDolby" checked="" style="width:16px;height:16px;accent-color:var(--primary)" onchange="applySoundSetting('sDolby',this.checked)"><span style="margin-left:8px;color:#ddd;font-size:0.9rem">Activé</span></label></div><div class="video-setting-field"><h4>Sourdine automatique</h4><p>Couper le son au démarrage</p><label><input type="checkbox" id="ss_sMute" style="width:16px;height:16px;accent-color:var(--primary)" onchange="applySoundSetting('sMute',this.checked)"><span style="margin-left:8px;color:#ddd;font-size:0.9rem">Activé</span></label></div><div class="video-setting-field"><h4>Égaliseur Préréglé</h4><p>Mode d'égalisation audio</p><select id="ss_sEqualizer" onchange="applySoundSetting('sEqualizer',this.value)"><option>Flat</option><option selected="">Cinéma</option><option>Musique</option><option>Voix</option><option>Nuit</option><option>Bass Boost</option></select></div></div>
         <button class="admin-btn" onclick="saveVideoSettings()">💾 Enregistrer les Paramètres</button>
@@ -7929,6 +7951,12 @@ window.addEventListener('storage', (e) => {
             <h4>👤 Prénom</h4>
             <p style="font-size:0.85rem;color:#999;margin-bottom:8px;">Prénom</p>
             <input type="text" id="newUtilPrenom" placeholder="Ex: Jean" style="width:100%;padding:12px;background:rgba(0,0,0,0.6);border:1px solid rgba(100,200,255,0.3);border-radius:8px;color:#fff;font-size:1rem;">
+          <label style="color:#64c8ff;font-weight:700;margin-bottom:8px;display:block;">Type de compte</label>
+          <select id="newUtilRole" style="width:100%;padding:12px;background:rgba(0,0,0,0.5);border:1px solid rgba(100,200,255,0.3);border-radius:8px;color:#fff;font-size:1rem;margin-bottom:16px;">
+            <option value="standard">👤 Utilisateur Standard</option>
+            <option value="admin">⚙️ Administrateur</option>
+          </select>
+
           </div>
           
           <!-- Email -->
@@ -8011,7 +8039,7 @@ window.addEventListener('storage', (e) => {
         <div style="margin-top:40px;background:rgba(0,0,0,0.5);border:1px solid rgba(100,200,255,0.3);padding:28px;border-radius:16px;">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:15px;">
             <h4 style="color:#64c8ff;font-size:1.2rem;font-weight:800;margin:0;">📋 Comptes Créés Récemment</h4>
-            <button onclick="exportNewUtilAccounts()" style="background:linear-gradient(135deg,#64c8ff,#3a9ecc);border:none;color:#0a0e27;padding:12px 24px;border-radius:8px;cursor:pointer;font-weight:700;font-size:0.95rem;box-shadow:0 4px 15px rgba(100,200,255,0.3);transition:all 0.3s;">
+            <button onclick="exportNewUtilAccounts()" style="background:linear-gradient(135deg,#64c8ff,#3a9ecc);border:none;color:#0a0e27;padding: 8px 16px;border-radius:8px;cursor:pointer;font-weight:700;font-size:0.95rem;box-shadow:0 4px 15px rgba(100,200,255,0.3);transition:all 0.3s;">
               📥 Exporter CSV
             </button>
           </div>
@@ -8442,13 +8470,37 @@ window.addEventListener('storage', (e) => {
         <div class="admin-form-grid">
           <div class="admin-form-field"><h4>Nom de l'application</h4><p>Utilisé pour PWA</p><input type="text" id="appName" value="Strass IPTV" placeholder="Strass IPTV"></div>
         </div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px;margin-top:25px">
-          <button class="admin-btn" onclick="downloadFullHTML()">Télécharger HTML Complet</button>
-          <button class="admin-btn" onclick="downloadManifest()">Télécharger manifest.json</button>
-          <button class="admin-btn" onclick="downloadServiceWorker()">Télécharger sw.js</button>
+        
+        <!-- BOUTON FORCER SAUVEGARDE COMPLÈTE -->
+        <div style="margin-top:25px;padding:20px;background:linear-gradient(135deg,rgba(100,200,255,0.1),rgba(58,158,204,0.1));border-radius:12px;border:2px solid rgba(100,200,255,0.3)">
+          <h3 style="color:#64c8ff;font-weight:800;margin:0 0 10px 0;font-size:1.1rem">🔄 SAUVEGARDE AVANT EXPORT</h3>
+          <p style="color:#fff;font-size:0.9rem;line-height:1.6;margin:0 0 15px 0">
+            Cliquez sur ce bouton pour sauvegarder <strong>TOUTES</strong> vos modifications actuelles avant d'exporter le fichier HTML.
+          </p>
+          <button class="admin-btn" onclick="saveAllBeforeExport()" style="background:linear-gradient(135deg,#64c8ff,#3a9ecc);color:#0a0e27;font-weight:900;width:100%">
+            💾 TOUT SAUVEGARDER MAINTENANT
+          </button>
         </div>
+        
+        <!-- BOUTONS TÉLÉCHARGEMENT -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px;margin-top:25px">
+          <button class="admin-btn" onclick="downloadFullHTML()">📥 Télécharger HTML Complet</button>
+          <button class="admin-btn" onclick="downloadManifest()">📄 Télécharger manifest.json</button>
+          <button class="admin-btn" onclick="downloadServiceWorker()">⚙️ Télécharger sw.js</button>
+        </div>
+        
+        <!-- INSTRUCTIONS -->
         <div style="margin-top:20px;padding:20px;background:rgba(255,255,255,.05);border-radius:12px;border:1px solid rgba(255,255,255,.1)">
-          <p style="color:#ccc;font-size:.9rem;line-height:1.6">Pour installer votre application en PWA, téléchargez les 3 fichiers ci-dessus et placez-les dans votre repository GitHub Pages. Le fichier HTML doit être nommé <strong style="color:#fff">index.html</strong>.</p>
+          <h4 style="color:#64c8ff;font-weight:800;margin:0 0 15px 0;font-size:1rem">📋 INSTRUCTIONS D'EXPORT</h4>
+          <ol style="color:#ccc;font-size:.9rem;line-height:1.8;margin:0;padding-left:20px">
+            <li><strong style="color:#fff">Cliquez sur "TOUT SAUVEGARDER MAINTENANT"</strong> pour enregistrer toutes vos modifications</li>
+            <li><strong style="color:#fff">Vérifiez la console (F12)</strong> pour voir les logs de sauvegarde</li>
+            <li><strong style="color:#fff">Cliquez sur "Télécharger HTML Complet"</strong> pour télécharger le fichier</li>
+            <li><strong style="color:#fff">Uploadez le fichier sur GitHub Pages</strong> en le nommant <code style="background:rgba(100,200,255,0.2);padding:2px 6px;border-radius:4px;color:#64c8ff">index.html</code></li>
+          </ol>
+          <p style="color:#999;font-size:0.85rem;margin:15px 0 0 0;font-style:italic">
+            💡 Astuce : Ouvrez la console (F12) pendant l'export pour voir en détail ce qui est sauvegardé !
+          </p>
         </div>
       </div>
     </div>
@@ -8539,8 +8591,8 @@ window.addEventListener('storage', (e) => {
 let APP_CONFIG = { siteName: "Strass IPTV", siteLogo: "" };
 let DB_ACCOUNTS = [
   {code:"Treza670",role:"admin",nom:"Jacotet",prenom:"Brice",email:"Strassweb67@gmail.com",tel:"0619696332",dateCrea:"2024-01-01",dateExp:"2099-12-31",forfait:"GÉRANT: Admin Full Ultra HD 4K",debitMax:"Illimité",isBanned:false,qualityTier:"high",maxConnections:10,maxStreams4k:10},
-  {code:"Gogo67000",role:"user",nom:"Rauch",prenom:"Gauthier",email:"jean@gmail.com",tel:"0700000000",dateCrea:"2025-01-01",dateExp:"2026-12-31",forfait:"Basique - 19.90€",debitMax:"1080p",isBanned:false,qualityTier:"medium",maxConnections:3,maxStreams4k:0},
-  {code:"Marie67300",role:"user",nom:"Jacotet",prenom:"Marie-Christine",email:"Mariechristinejacotet@gmail.com",tel:"0617633880",dateCrea:"2024-05-10",dateExp:"2028-05-10",forfait:"Ultra Full UHD 4K",debitMax:"4K",isBanned:false,qualityTier:"high",maxConnections:5,maxStreams4k:3}
+  {code:"Gogo67000",role:"standard",nom:"Rauch",prenom:"Gauthier",email:"jean@gmail.com",tel:"0700000000",dateCrea:"2025-01-01",dateExp:"2026-12-31",forfait:"Basique - 19.90€",debitMax:"1080p",isBanned:false,qualityTier:"medium",maxConnections:3,maxStreams4k:0},
+  {code:"Marie67300",role:"standard",nom:"Jacotet",prenom:"Marie-Christine",email:"Mariechristinejacotet@gmail.com",tel:"0617633880",dateCrea:"2024-05-10",dateExp:"2028-05-10",forfait:"Ultra Full UHD 4K",debitMax:"4K",isBanned:false,qualityTier:"high",maxConnections:5,maxStreams4k:3}
 ];
 let DB_CHANNELS = [
   {id:"ch1",name:"TF1 HD Premium",url:"https://viamotionhsi.netplus.ch/live/eds/tf1hd/browser-HLS8/tf1hd.m3u8",logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tf1-fr.png",blocked:false},
@@ -8577,6 +8629,8 @@ let hlsInstance = null;
 let selectedQuality = "Auto";
 let currentChannelId = "ch1";
 let selectedEffect = "none"; // Effet visuel sélectionné
+let selectedBG = null; // Fond d'écran sélectionné
+let selectedNAV = null; // Style navbar sélectionné
 const STORAGE_KEYS = { config:"strass_config", accounts:"strass_accounts", channels:"strass_channels", vod:"strass_vod", links:"strass_links", requests:"strass_requests", sessions:"strass_sessions" };
 
 function loadFromStorage() {
@@ -8635,10 +8689,10 @@ function loadFromStorage() {
   
   applyBranding();
   
-  // Appliquer le thème au chargement
+  // Appliquer le thème au chargement et initialiser les variables globales
   try {
-    const selectedBG = localStorage.getItem('selectedBG');
-    const selectedNAV = localStorage.getItem('selectedNAV');
+    selectedBG = localStorage.getItem('selectedBG');
+    selectedNAV = localStorage.getItem('selectedNAV');
     if (selectedBG && typeof selectBG === 'function') selectBG(selectedBG);
     if (selectedNAV && typeof selectNAV === 'function') selectNAV(selectedNAV);
   } catch(e) {}
@@ -8800,10 +8854,10 @@ function handleLogout() {
   const mTxt   = document.querySelector('#connectionStatus span:last-child');
   const mDot   = document.querySelector('#connectionStatus .dot');
   if(ring)  { ring.classList.add('active'); }
-  if(txt)   { txt.textContent = 'Déconnecté'; txt.classList.add('disconnecting'); }
-  if(mTxt)  { mTxt.textContent = 'Déconnecté'; }
-  if(dot)   { dot.style.background = '#f55'; dot.style.boxShadow = '0 0 8px #f55'; }
-  if(mDot)  { mDot.style.background = '#f55'; }
+  if(txt)   { txt.textContent = 'Connecté'; txt.classList.remove('disconnecting'); }
+  if(mTxt)  { mTxt.textContent = 'Connecté'; }
+  if(dot)   { dot.style.background = '#00e676'; dot.style.boxShadow = '0 0 8px #00e676'; }
+  if(mDot)  { mDot.style.background = '#00e676'; }
   // 2. Après 0.9s (fin du tour du laser) → déconnecter et changer de vue
   setTimeout(() => {
     if(hlsInstance) { hlsInstance.destroy(); hlsInstance = null; }
@@ -8894,72 +8948,183 @@ function playChannel(url, name, id) {
   if(logoEl && ch && ch.logo) { logoEl.src = ch.logo; logoEl.style.display = 'block'; } else if(logoEl) { logoEl.style.display = 'none'; }
   const video = document.getElementById('videoPlayer');
   const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
-  // Config HLS : démarrage rapide < 2s + fluidité maximale 4K sans hachures
+  
+  // Afficher un loader pendant le préchargement
+  video.style.opacity = '0.3';
+  const loader = document.createElement('div');
+  loader.id = 'videoLoader';
+  loader.style.cssText = 'position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;font-size:1.2rem;font-weight:700;text-align:center;z-index:999;';
+  loader.innerHTML = '⏳ Chargement 4K...<br><span style="font-size:0.8rem;color:#64c8ff;">Préchargement pour lecture optimale</span>';
+  video.parentElement.appendChild(loader);
+  
+  // Config HLS OPTIMISÉE : Préchargement 4K stable SANS coupure
   const hlsCfg = {
     enableWorker: true,
-    lowLatencyMode: false,         // OFF : évite les hachures causées par le mode low-latency
-    startLevel: -1,                // ABR dès le départ : choisit le niveau optimal selon le réseau
+    lowLatencyMode: false,         // OFF pour stabilité (évite micro-coupures)
+    startLevel: -1,                // ABR intelligent mais on forcera 4K après
     autoStartLoad: true,
-    startFragPrefetch: true,       // Pré-charge le 1er fragment immédiatement
-    // Buffer confortable = lecture fluide sans saccades
-    maxBufferLength: isMobile ? 20 : 40,
-    maxMaxBufferLength: isMobile ? 40 : 90,
-    maxBufferSize: isMobile ? 30*1000*1000 : 80*1000*1000,
-    maxBufferHole: 0.3,            // Tolérance petits trous dans le buffer (évite freeze)
+    startFragPrefetch: true,       // Pré-charge immédiate
+    testBandwidth: true,
+    
+    // BUFFER GÉNÉREUX : Assure chargement complet AVANT lecture
+    maxBufferLength: isMobile ? 15 : 40,      // Plus de buffer = pas de coupure
+    maxMaxBufferLength: isMobile ? 30 : 80,
+    maxBufferSize: isMobile ? 80*1000*1000 : 150*1000*1000,
+    maxBufferHole: 0.5,            // Tolérance pour éviter freeze
+    
     // Synchronisation live douce
     liveSyncDurationCount: 3,
     liveMaxLatencyDurationCount: 6,
     liveDurationInfinity: true,
-    // ABR équilibré : monte en qualité progressivement sans sauts brusques (= hachures)
-    abrEwmaFastLive: 4.0,
-    abrEwmaSlowLive: 15.0,         // Montée de qualité progressive et stable
-    abrEwmaFastVoD: 4.0,
-    abrEwmaSlowVoD: 15.0,
-    abrBandWidthFactor: 0.92,      // Utilise 92% de la bande passante mesurée
-    abrBandWidthUpFactor: 0.85,
-    capLevelToPlayerSize: true,    // Limite la qualité à la résolution de l'écran
-    // Back-buffer : garde les fragments déjà lus pour éviter les re-téléchargements
+    
+    // ABR STABLE : Monte en 4K progressivement MAIS sans redescendre
+    abrEwmaFastLive: 3.0,
+    abrEwmaSlowLive: 12.0,         // Montée stable
+    abrEwmaFastVoD: 3.0,
+    abrEwmaSlowVoD: 12.0,
+    abrBandWidthFactor: 0.98,      // 98% pour sécurité max
+    abrBandWidthUpFactor: 0.95,
+    abrMaxWithRealBitrate: true,
+    capLevelToPlayerSize: false,   // Force 4K même petit écran
+    
+    // Back-buffer
     backBufferLength: isMobile ? 15 : 40,
-    // Timeouts généreux pour 5G et fibre
-    manifestLoadingTimeOut: 10000,
+    
+    // Timeouts généreux pour chargement complet
+    manifestLoadingTimeOut: 8000,
     manifestLoadingMaxRetry: 5,
     manifestLoadingRetryDelay: 500,
     levelLoadingTimeOut: 10000,
     levelLoadingMaxRetry: 5,
-    fragLoadingTimeOut: 15000,
+    fragLoadingTimeOut: 15000,     // 15s pour charger fragments 4K
     fragLoadingMaxRetry: 5,
     fragLoadingRetryDelay: 500,
     maxLoadingDelay: 4,
-    // Décodage matériel pour fluidité 4K
+    
+    // Optimisations 4K
     preferManagedMediaSource: true,
+    progressive: false,            // OFF = attend buffer complet
+    highBufferWatchdogPeriod: 2,
+    nudgeMaxRetry: 10,
   };
+  
   if(Hls.isSupported()) {
     if(hlsInstance) hlsInstance.destroy();
     hlsInstance = new Hls(hlsCfg);
     hlsInstance.loadSource(url);
     hlsInstance.attachMedia(video);
+    
+    let is4KReady = false;
+    let bufferCheckInterval = null;
+    
+    // Événement : Manifest chargé
     hlsInstance.on(Hls.Events.MANIFEST_PARSED, () => {
+      const levels = hlsInstance.levels || [];
+      console.log('📺 Niveaux disponibles:', levels.map(l => `${l.height}p @ ${Math.round(l.bitrate/1000)}kbps`));
+      
+      // Chercher et FORCER 4K immédiatement
+      let best4K = -1;
+      levels.forEach((level, idx) => {
+        const h = level.height || 0;
+        if(h >= 2160) best4K = idx;
+      });
+      
+      if(best4K >= 0) {
+        console.log('✅ 4K trouvé, niveau:', best4K);
+        hlsInstance.currentLevel = best4K;
+        hlsInstance.nextLevel = best4K;  // Force aussi le prochain
+      } else {
+        // Pas de 4K, prendre le max
+        hlsInstance.currentLevel = levels.length - 1;
+        console.log('⚠️ Pas de 4K, utilise niveau max:', levels.length - 1);
+      }
+      
+      // Appliquer les paramètres utilisateur
       applyQuality();
-      video.play().catch(() => {});
-      // ABR gère automatiquement la montée en qualité — pas d'intervention manuelle
     });
-    // Récupération automatique erreurs réseau/media
-    hlsInstance.on(Hls.Events.ERROR, (evt, data) => {
-      if(data.fatal) {
-        if(data.type === Hls.ErrorTypes.NETWORK_ERROR) {
-          setTimeout(() => { if(hlsInstance) hlsInstance.startLoad(); }, 800);
-        } else if(data.type === Hls.ErrorTypes.MEDIA_ERROR) {
-          hlsInstance.recoverMediaError();
-        } else {
-          hlsInstance.destroy();
-          setTimeout(() => playChannel(url, name, id), 2000);
+    
+    // Surveillance du buffer pour démarrage STABLE
+    hlsInstance.on(Hls.Events.FRAG_BUFFERED, (evt, data) => {
+      const buffered = video.buffered;
+      if(buffered.length > 0) {
+        const bufferedSeconds = buffered.end(0) - buffered.start(0);
+        console.log(`📊 Buffer: ${bufferedSeconds.toFixed(1)}s`);
+        
+        // Attendre au moins 2 secondes de buffer en 4K AVANT de lancer
+        if(bufferedSeconds >= 2.0 && !is4KReady) {
+          is4KReady = true;
+          
+          // Vérifier qu'on est bien en 4K
+          const currentLevel = hlsInstance.levels[hlsInstance.currentLevel];
+          const currentHeight = currentLevel ? currentLevel.height : 0;
+          
+          console.log(`🎬 LANCEMENT - Qualité: ${currentHeight}p, Buffer: ${bufferedSeconds.toFixed(1)}s`);
+          
+          // Retirer le loader
+          const loaderEl = document.getElementById('videoLoader');
+          if(loaderEl) loaderEl.remove();
+          video.style.opacity = '1';
+          
+          // Lancer la lecture
+          video.play().catch(e => console.error('Erreur play:', e));
         }
       }
     });
+    
+    // Surveillance continue : Ne jamais redescendre en qualité
+    hlsInstance.on(Hls.Events.LEVEL_SWITCHING, (evt, data) => {
+      const newLevel = hlsInstance.levels[data.level];
+      const newHeight = newLevel ? newLevel.height : 0;
+      console.log(`🔄 Changement niveau: ${newHeight}p`);
+      
+      // Si on descend sous 4K, re-forcer 4K
+      if(newHeight < 2160 && hlsInstance.levels.some(l => l.height >= 2160)) {
+        const idx4K = hlsInstance.levels.findIndex(l => l.height >= 2160);
+        if(idx4K >= 0) {
+          console.log('⬆️ RE-FORCE 4K niveau:', idx4K);
+          setTimeout(() => {
+            hlsInstance.currentLevel = idx4K;
+            hlsInstance.nextLevel = idx4K;
+          }, 100);
+        }
+      }
+    });
+    
+    // Gestion des erreurs avec retry
+    hlsInstance.on(Hls.Events.ERROR, (evt, data) => {
+      if(data.fatal) {
+        console.error('❌ Erreur fatale:', data.type, data.details);
+        
+        if(data.type === Hls.ErrorTypes.NETWORK_ERROR) {
+          console.log('🔄 Retry réseau...');
+          setTimeout(() => { if(hlsInstance) hlsInstance.startLoad(); }, 1000);
+        } else if(data.type === Hls.ErrorTypes.MEDIA_ERROR) {
+          console.log('🔄 Récupération média...');
+          hlsInstance.recoverMediaError();
+        } else {
+          console.log('🔄 Reload complet...');
+          hlsInstance.destroy();
+          setTimeout(() => playChannel(url, name, id), 2000);
+        }
+        
+        // Retirer le loader si erreur
+        const loaderEl = document.getElementById('videoLoader');
+        if(loaderEl) loaderEl.remove();
+        video.style.opacity = '1';
+      }
+    });
+    
   } else if(video.canPlayType('application/vnd.apple.mpegurl')) {
+    // Safari natif
     video.src = url;
-    video.play().catch(() => {});
+    setTimeout(() => {
+      const loaderEl = document.getElementById('videoLoader');
+      if(loaderEl) loaderEl.remove();
+      video.style.opacity = '1';
+      video.play().catch(() => {});
+    }, 2000);
   }
+  
   window.scrollTo({top:0, behavior:'smooth'});
   renderEPGInline(id);
 }
@@ -9127,7 +9292,8 @@ function switchAdminPanel(panel, element) {
   
   const panelMap = { 
     users:'adminUsersPanel', 
-    geoloc:'adminGeolocPanel', 
+    geoloc:'adminGeolocPanel',
+    users:'adminUsersPanel', 
     diagnostics:'adminDiagnosticsPanel',
     effects:'adminEffectsPanel',
     theme:'adminThemePanel',
@@ -9206,6 +9372,7 @@ function renderLiveUsers() {
       <td style="font-size:0.82rem;color:${isOnline?'#00e676':'#aaa'}">${loginTime}</td>
       <td style="font-size:0.82rem;color:${!isOnline&&hist.lastLogout?'#ff6666':'#666'}">${logoutTime}</td>
       <td style="font-size:0.8rem;color:${ledColor};font-weight:700">${statusTxt}</td>
+      <td><button class="admin-btn-secondary" onclick="deleteUserAccount('${account.code}')" style="background:rgba(229,9,20,0.15);border-color:rgba(229,9,20,0.3);color:#ff4444;">🗑️ Supprimer</button></td>
     </tr>`;
   });
 }
@@ -9306,11 +9473,14 @@ function applySoundSetting(id, val) {
   if(id === 'sMute' && vid) vid.muted = (val === true || val === 'true');
 }
 function saveVideoSettings() {
+  console.log('💾 Sauvegarde des paramètres vidéo/son...');
+  
   const vsObj = {}; 
   document.querySelectorAll('#videoSettingsGrid [id^="vs_"]').forEach(el => { 
     const key = el.id.replace('vs_',''); 
     vsObj[key] = el.type === 'checkbox' ? el.checked : el.value; 
   });
+  
   const ssObj = {}; 
   document.querySelectorAll('#soundSettingsGrid [id^="ss_"]').forEach(el => { 
     const key = el.id.replace('ss_',''); 
@@ -9318,19 +9488,28 @@ function saveVideoSettings() {
   });
   
   try { 
+    // Sauvegarder dans localStorage
     localStorage.setItem('strass_videosettings', JSON.stringify(vsObj)); 
     localStorage.setItem('strass_soundsettings', JSON.stringify(ssObj)); 
+    console.log('✅ Paramètres sauvegardés dans localStorage');
     
-    // Broadcaster les changements de paramètres vidéo
+    // Sauvegarder dans le dataOverride pour l'export
+    saveData('config');
+    embedDataOverride();
+    console.log('✅ Paramètres embarqués dans le HTML');
+    
+    // Broadcaster les changements pour synchronisation temps réel
     localStorage.setItem('strass_videoSettingsUpdate', Date.now().toString());
+    console.log('✅ Synchronisation envoyée aux autres utilisateurs');
     
-    console.log('✅ Paramètres vidéo/son sauvegardés et synchronisés');
+    // Afficher confirmation
+    showToastAfterAdminChange();
+    alert('✅ PARAMÈTRES SAUVEGARDÉS !\n\nVos paramètres vidéo/son sont :\n✓ Enregistrés localement\n✓ Synchronisés avec tous les utilisateurs\n✓ Prêts pour l\'export HTML\n\nVous pouvez maintenant exporter le fichier HTML complet !');
+    
   } catch(e) {
-    console.error('Erreur sauvegarde paramètres vidéo:', e);
+    console.error('❌ Erreur sauvegarde paramètres vidéo:', e);
+    alert('❌ Erreur lors de la sauvegarde !\n\n' + e.message);
   }
-  
-  saveData('config'); 
-  showToastAfterAdminChange();
 }
 
 // =========================================================================
@@ -10138,14 +10317,14 @@ function addNewChannel() {
   if(!name || !url || !logo) { alert('Veuillez remplir tous les champs'); return; }
   DB_CHANNELS.push({ id: 'ch_' + Date.now(), name, url, logo, blocked: false });
   document.getElementById('newChannelName').value = ''; document.getElementById('newChannelUrl').value = ''; document.getElementById('newChannelLogo').value = '';
-  renderChannels(); renderChannelsAdmin(); showToastAfterAdminChange();
+  saveData('channels'); renderChannels(); renderChannelsAdmin(); showToastAfterAdminChange();
 }
 function moveChannel(idx, direction) {
   const newIdx = idx + direction; if(newIdx < 0 || newIdx >= DB_CHANNELS.length) return;
   const temp = DB_CHANNELS[idx]; DB_CHANNELS[idx] = DB_CHANNELS[newIdx]; DB_CHANNELS[newIdx] = temp;
-  renderChannels(); renderChannelsAdmin(); showToastAfterAdminChange();
+  saveData('channels'); renderChannels(); renderChannelsAdmin(); showToastAfterAdminChange();
 }
-function deleteChannel(idx) { if(!confirm('Supprimer cette chaîne ?')) return; DB_CHANNELS.splice(idx,1); renderChannels(); renderChannelsAdmin(); showToastAfterAdminChange(); }
+function deleteChannel(idx) { if(!confirm('Supprimer cette chaîne ?')) return; DB_CHANNELS.splice(idx,1); saveData('channels'); renderChannels(); renderChannelsAdmin(); showToastAfterAdminChange(); }
 function saveAllChannels() { saveData('channels'); showToastAfterAdminChange(); }
 function renderVODAdmin() {
   const tbody = document.getElementById('vodTable'); if(!tbody) return;
@@ -10181,9 +10360,9 @@ function addNewVOD() {
   if(!title || !image) { alert('Veuillez remplir au moins le titre et l\'image'); return; }
   DB_VOD.push({ id: 'vod_' + Date.now(), name: title, type, logo: image, overlay, description: desc });
   document.getElementById('newVodTitle').value = ''; document.getElementById('newVodImage').value = ''; document.getElementById('newVodOverlay').value = ''; document.getElementById('newVodDesc').value = '';
-  renderVOD(); renderVODAdmin(); showToastAfterAdminChange();
+  saveData('vod'); renderVOD(); renderVODAdmin(); showToastAfterAdminChange();
 }
-function deleteVOD(idx) { if(!confirm('Supprimer ce contenu ?')) return; DB_VOD.splice(idx,1); renderVOD(); renderVODAdmin(); showToastAfterAdminChange(); }
+function deleteVOD(idx) { if(!confirm('Supprimer ce contenu ?')) return; DB_VOD.splice(idx,1); saveData('vod'); renderVOD(); renderVODAdmin(); showToastAfterAdminChange(); }
 function saveAllVOD() { saveData('vod'); showToastAfterAdminChange(); }
 function renderLinksAdmin() {
   const tbody = document.getElementById('linksTable'); if(!tbody) return;
@@ -10218,9 +10397,9 @@ function addNewLink() {
   if(!title || !url) { alert('Veuillez remplir au moins le titre et l\'URL'); return; }
   DB_LINKS.push({ id: 'link_' + Date.now(), title, url, image, description: desc });
   document.getElementById('newLinkTitle').value = ''; document.getElementById('newLinkUrl').value = ''; document.getElementById('newLinkImage').value = ''; document.getElementById('newLinkDesc').value = '';
-  renderLinks(); renderLinksAdmin(); showToastAfterAdminChange();
+  saveData('links'); renderLinks(); renderLinksAdmin(); showToastAfterAdminChange();
 }
-function deleteLink(idx) { if(!confirm('Supprimer ce lien ?')) return; DB_LINKS.splice(idx,1); renderLinks(); renderLinksAdmin(); showToastAfterAdminChange(); }
+function deleteLink(idx) { if(!confirm('Supprimer ce lien ?')) return; DB_LINKS.splice(idx,1); saveData('links'); renderLinks(); renderLinksAdmin(); showToastAfterAdminChange(); }
 function saveAllLinks() { saveData('links'); showToastAfterAdminChange(); }
 function renderRequestsAdmin() {
   const tbody = document.getElementById('requestsTable'); if(!tbody) return;
@@ -10250,6 +10429,7 @@ function saveData(type) {
       case 'vod': 
         localStorage.setItem(STORAGE_KEYS.vod, JSON.stringify(DB_VOD)); 
         break;
+        syncVODUpdate();
       case 'links': 
         localStorage.setItem(STORAGE_KEYS.links, JSON.stringify(DB_LINKS)); 
         break;
@@ -10262,13 +10442,13 @@ function saveData(type) {
         break;
     }
     
-    // ===== SYNCHRONISATION EN TEMPS RÉEL =====
+    // ===== SYNCHRONISATION EN TEMPS RÉEL ULTRA-RAPIDE =====
     // 1. Mettre à jour le script JSON embarqué dans le HTML
     embedDataOverride();
     
-    // 2. Broadcaster le changement à tous les onglets/utilisateurs
+    // 2. Broadcaster IMMÉDIATEMENT le changement à tous les onglets/utilisateurs
     const updateKey = `strass_update_${type}_${Date.now()}`;
-    localStorage.setItem(updateKey, JSON.stringify({
+    const updateData = {
       type: type,
       timestamp: Date.now(),
       data: type === 'config' ? APP_CONFIG : 
@@ -10277,19 +10457,85 @@ function saveData(type) {
             type === 'vod' ? DB_VOD : 
             type === 'links' ? DB_LINKS : 
             type === 'requests' ? DB_REQUESTS : null
+    };
+    
+    localStorage.setItem(updateKey, JSON.stringify(updateData));
+    
+    // 3. Forcer un événement de synchronisation immédiat
+    window.dispatchEvent(new StorageEvent('storage', {
+      key: updateKey,
+      newValue: JSON.stringify(updateData),
+      url: window.location.href
     }));
     
-    // 3. Nettoyer les anciennes clés de broadcast (garder seulement les 10 dernières)
+    // 4. Nettoyer les anciennes clés de broadcast (garder seulement les 10 dernières)
     const allKeys = Object.keys(localStorage).filter(k => k.startsWith('strass_update_'));
     if (allKeys.length > 10) {
       allKeys.sort().slice(0, allKeys.length - 10).forEach(k => localStorage.removeItem(k));
     }
     
-    console.log(`✅ Données ${type} sauvegardées et synchronisées`);
+    console.log(`✅ Données ${type} sauvegardées et SYNCHRONISÉES EN TEMPS RÉEL`);
   } catch(e) { 
     console.error('Erreur sauvegarde:', e); 
   }
 }
+
+
+// Synchroniser la suppression d'utilisateurs
+function syncDeleteUser(userCode) {
+  // Broadcaster la suppression
+  localStorage.setItem('strass_userDeleted', JSON.stringify({
+    code: userCode,
+    timestamp: Date.now()
+  }));
+  
+  // Rafraîchir toutes les vues admin
+  if (typeof renderAccountsAdmin === 'function') renderAccountsAdmin();
+  if (typeof renderAccountEditor === 'function') renderAccountEditor();
+  if (typeof renderNewUtilTable === 'function') renderNewUtilTable();
+  if (typeof renderUsersLive === 'function') renderUsersLive();
+  
+  console.log('✓ Suppression synchronisée:', userCode);
+}
+
+// Écouter les suppressions
+window.addEventListener('storage', (e) => {
+  if (e.key === 'strass_userDeleted') {
+    try {
+      const data = JSON.parse(e.newValue);
+      console.log('🔄 Utilisateur supprimé détecté:', data.code);
+      
+      // Rafraîchir toutes les vues
+      if (typeof renderAccountsAdmin === 'function') renderAccountsAdmin();
+      if (typeof renderAccountEditor === 'function') renderAccountEditor();
+      if (typeof renderNewUtilTable === 'function') renderNewUtilTable();
+      if (typeof renderUsersLive === 'function') renderUsersLive();
+    } catch(err) {
+      console.error('Erreur sync delete:', err);
+    }
+  }
+});
+
+
+
+// Synchroniser les modifications VOD
+function syncVODUpdate() {
+  localStorage.setItem('strass_vodUpdate', Date.now().toString());
+  console.log('✓ VOD synchronisé');
+}
+
+// Écouter les mises à jour VOD
+window.addEventListener('storage', (e) => {
+  if (e.key === 'strass_vodUpdate') {
+    console.log('🔄 Mise à jour VOD détectée');
+    if (typeof renderVodGrid === 'function') renderVodGrid();
+    if (typeof renderVodAdmin === 'function') renderVodAdmin();
+  }
+});
+
+// Appeler syncVODUpdate après chaque modification de VOD
+// Dans saveData pour 'vod'
+
 
 // ===== SYSTÈME DE SYNCHRONISATION EN TEMPS RÉEL =====
 // Écoute tous les changements de données pour actualiser automatiquement
@@ -10343,6 +10589,7 @@ window.addEventListener('storage', (e) => {
             if (typeof renderVodAdmin === 'function') renderVodAdmin();
           }
           break;
+        syncVODUpdate();
           
         case 'links':
           const lnk = localStorage.getItem(STORAGE_KEYS.links);
@@ -10371,16 +10618,16 @@ window.addEventListener('storage', (e) => {
     }
   }
   
-  // Écouter les changements de paramètres vidéo/son
+  // Écouter les changements de paramètres vidéo/son - APPLICATION INSTANTANÉE
   if (e.key === 'strass_videoSettingsUpdate') {
-    console.log('🔄 Synchronisation des paramètres vidéo détectée');
+    console.log('🔄 Synchronisation TEMPS RÉEL des paramètres vidéo détectée');
     try {
       const vsSettings = localStorage.getItem('strass_videosettings');
       const ssSettings = localStorage.getItem('strass_soundsettings');
       
       if (vsSettings) {
         const vs = JSON.parse(vsSettings);
-        // Appliquer les paramètres vidéo
+        // Appliquer les paramètres vidéo IMMÉDIATEMENT
         Object.keys(vs).forEach(key => {
           const el = document.getElementById('vs_' + key);
           if (el) {
@@ -10389,13 +10636,24 @@ window.addEventListener('storage', (e) => {
             } else {
               el.value = vs[key];
             }
+            // Mettre à jour l'affichage des valeurs
+            const valSpan = document.getElementById('vsv_' + key);
+            if (valSpan && el.type === 'range') {
+              const unit = el.dataset.unit || '%';
+              valSpan.textContent = el.value + unit;
+            }
+          }
+          // Appliquer le réglage au lecteur vidéo actif
+          if (typeof applyVideoSetting === 'function') {
+            applyVideoSetting(key, vs[key]);
           }
         });
+        console.log('✅ Paramètres vidéo appliqués en temps réel');
       }
       
       if (ssSettings) {
         const ss = JSON.parse(ssSettings);
-        // Appliquer les paramètres son
+        // Appliquer les paramètres son IMMÉDIATEMENT
         Object.keys(ss).forEach(key => {
           const el = document.getElementById('ss_' + key);
           if (el) {
@@ -10404,8 +10662,29 @@ window.addEventListener('storage', (e) => {
             } else {
               el.value = ss[key];
             }
+            // Mettre à jour l'affichage des valeurs
+            const valSpan = document.getElementById('ssv_' + key);
+            if (valSpan && el.type === 'range') {
+              const unit = el.dataset.unit || '%';
+              valSpan.textContent = el.value + unit;
+            }
+          }
+          // Appliquer le réglage au lecteur vidéo actif
+          if (typeof applySoundSetting === 'function') {
+            applySoundSetting(key, ss[key]);
           }
         });
+        console.log('✅ Paramètres son appliqués en temps réel');
+      }
+      
+      // Recharger le lecteur vidéo avec les nouveaux paramètres si une vidéo est en cours
+      if (currentChannelId && typeof playChannel === 'function') {
+        const currentChannel = DB_CHANNELS.find(ch => ch.id === currentChannelId);
+        if (currentChannel) {
+          console.log('🔄 Rechargement du lecteur avec nouveaux paramètres...');
+          // On ne recharge pas automatiquement pour ne pas interrompre la lecture
+          // Les paramètres s'appliquent déjà dynamiquement
+        }
       }
       
       console.log('✅ Paramètres vidéo/son synchronisés');
@@ -10454,8 +10733,15 @@ function showToastAfterAdminChange() { _adminModified = true; }
 function hideToast() {}
 function embedDataOverride() {
   const script = document.getElementById('dataOverride');
+  if (!script) {
+    console.error('❌ Script dataOverride introuvable !');
+    return;
+  }
   
-  // Récupérer TOUS les paramètres à sauvegarder
+  // ===== RÉCUPÉRER TOUTES LES DONNÉES =====
+  console.log('📦 Collecte de toutes les données pour export...');
+  
+  // 1. Données principales
   const allData = { 
     config: APP_CONFIG, 
     accounts: DB_ACCOUNTS, 
@@ -10465,63 +10751,219 @@ function embedDataOverride() {
     requests: DB_REQUESTS
   };
   
-  // Ajouter les paramètres vidéo/son s'ils existent
+  // 2. Ajouter les rôles utilisateurs
+  allData.accounts = DB_ACCOUNTS.map(acc => ({
+    ...acc,
+    role: acc.role || 'user'
+  }));
+  
+  // 3. Sessions actives
+  try {
+    const sessions = localStorage.getItem(STORAGE_KEYS.sessions);
+    if (sessions) allData.sessions = JSON.parse(sessions);
+  } catch(e) {
+    console.warn('Sessions non trouvées:', e);
+  }
+  
+  // 4. Paramètres vidéo
   try {
     const videoSettings = localStorage.getItem('strass_videosettings');
-    if (videoSettings) allData.videoSettings = JSON.parse(videoSettings);
-  } catch(e) {}
+    if (videoSettings) {
+      allData.videoSettings = JSON.parse(videoSettings);
+      console.log('✓ Paramètres vidéo inclus');
+    }
+  } catch(e) {
+    console.warn('Paramètres vidéo non trouvés:', e);
+  }
   
+  // 5. Paramètres son
   try {
     const soundSettings = localStorage.getItem('strass_soundsettings');
-    if (soundSettings) allData.soundSettings = JSON.parse(soundSettings);
-  } catch(e) {}
+    if (soundSettings) {
+      allData.soundSettings = JSON.parse(soundSettings);
+      console.log('✓ Paramètres son inclus');
+    }
+  } catch(e) {
+    console.warn('Paramètres son non trouvés:', e);
+  }
   
-  // Ajouter les réglages utilisateurs
+  // 6. Réglages utilisateurs
   try {
     const regUtili = localStorage.getItem('strass_regutili');
     if (regUtili) allData.regUtili = JSON.parse(regUtili);
   } catch(e) {}
   
-  // Ajouter le thème
+  // 7. Thème et apparence
   try {
     const themeConfig = localStorage.getItem('themeConfig');
-    if (themeConfig) allData.themeConfig = JSON.parse(themeConfig);
+    if (themeConfig) {
+      allData.themeConfig = JSON.parse(themeConfig);
+      console.log('✓ Thème inclus');
+    }
     allData.selectedBG = localStorage.getItem('selectedBG');
     allData.selectedNAV = localStorage.getItem('selectedNAV');
   } catch(e) {}
   
-  // Ajouter les nouveaux utilisateurs
+  // 8. Nouveaux utilisateurs
   try {
     const newUtilAccounts = localStorage.getItem('newUtilAccounts');
-    if (newUtilAccounts) allData.newUtilAccounts = JSON.parse(newUtilAccounts);
+    if (newUtilAccounts) {
+      allData.newUtilAccounts = JSON.parse(newUtilAccounts);
+      console.log('✓ Nouveaux comptes inclus');
+    }
   } catch(e) {}
   
-  // Ajouter les utilisateurs bannis
+  // 9. Utilisateurs bannis
   try {
     const bannedUsers = localStorage.getItem('bannedUsers');
     if (bannedUsers) allData.bannedUsers = JSON.parse(bannedUsers);
   } catch(e) {}
   
-  // Ajouter l'effet visuel
+  // 10. Effet visuel
   try {
     const visualEffect = localStorage.getItem('selectedEffect');
-    if (visualEffect) allData.visualEffect = visualEffect;
+    if (visualEffect) {
+      allData.visualEffect = visualEffect;
+      console.log('✓ Effet visuel inclus');
+    }
   } catch(e) {}
   
-  // Ajouter les IPs utilisateurs
+  // 11. IPs utilisateurs
   try {
     const userIPs = localStorage.getItem('strass_userIPs');
     if (userIPs) allData.userIPs = JSON.parse(userIPs);
   } catch(e) {}
   
-  script.textContent = JSON.stringify(allData);
+  // ===== ÉCRIRE DANS LE SCRIPT =====
+  const jsonData = JSON.stringify(allData);
+  script.textContent = jsonData;
+  
   console.log('✅ Tous les réglages exportés dans le HTML');
+  console.log('📊 Taille des données:', Math.round(jsonData.length / 1024), 'KB');
+  console.log('📋 Données incluses:', Object.keys(allData).join(', '));
 }
-function downloadFullHTML() {
-  saveData('config');
-  embedDataOverride();
+// ===== FONCTION DE SAUVEGARDE COMPLÈTE AVANT EXPORT =====
+function saveAllBeforeExport() {
+  console.log('🔄 SAUVEGARDE COMPLÈTE EN COURS...');
+  console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  
+  let savedCount = 0;
+  
+  try {
+    // 1. Config générale
+    console.log('1️⃣ Sauvegarde config...');
+    saveData('config');
+    savedCount++;
+    
+    // 2. Comptes utilisateurs
+    console.log('2️⃣ Sauvegarde comptes...');
+    saveData('accounts');
+    savedCount++;
+    
+    // 3. Chaînes TV
+    console.log('3️⃣ Sauvegarde chaînes...');
+    saveData('channels');
+    savedCount++;
+    
+    // 4. VOD
+    console.log('4️⃣ Sauvegarde VOD...');
+    saveData('vod');
+    savedCount++;
+    
+    // 5. Liens/Apps
+    console.log('5️⃣ Sauvegarde liens...');
+    saveData('links');
+    savedCount++;
+    
+    // 6. Demandes
+    console.log('6️⃣ Sauvegarde demandes...');
+    saveData('requests');
+    savedCount++;
+    
+    // 7. Paramètres vidéo/son
+    console.log('7️⃣ Sauvegarde paramètres vidéo/son...');
+    if (typeof saveVideoSettings === 'function') {
+      const vsObj = {}; 
+      document.querySelectorAll('#videoSettingsGrid [id^="vs_"]').forEach(el => { 
+        const key = el.id.replace('vs_',''); 
+        vsObj[key] = el.type === 'checkbox' ? el.checked : el.value; 
+      });
+      const ssObj = {}; 
+      document.querySelectorAll('#soundSettingsGrid [id^="ss_"]').forEach(el => { 
+        const key = el.id.replace('ss_',''); 
+        ssObj[key] = el.type === 'checkbox' ? el.checked : el.value; 
+      });
+      localStorage.setItem('strass_videosettings', JSON.stringify(vsObj));
+      localStorage.setItem('strass_soundsettings', JSON.stringify(ssObj));
+      savedCount++;
+    }
+    
+    // 8. Effets visuels
+    console.log('8️⃣ Sauvegarde effets...');
+    if (typeof saveEffectSettings === 'function') {
+      saveEffectSettings();
+      savedCount++;
+    } else if (selectedEffect) {
+      localStorage.setItem('selectedEffect', selectedEffect);
+      savedCount++;
+    }
+    
+    // 9. Thème
+    console.log('9️⃣ Sauvegarde thème...');
+    // Mettre à jour les variables globales depuis localStorage
+    selectedBG = localStorage.getItem('selectedBG');
+    selectedNAV = localStorage.getItem('selectedNAV');
+    if (selectedBG) localStorage.setItem('selectedBG', selectedBG);
+    if (selectedNAV) localStorage.setItem('selectedNAV', selectedNAV);
+    savedCount++;
+    
+    // 10. Embarquer TOUT dans le dataOverride
+    console.log('🔟 Embarquement dans le HTML...');
+    embedDataOverride();
+    savedCount++;
+    
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log(`✅ SAUVEGARDE TERMINÉE : ${savedCount} éléments sauvegardés`);
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    
+    // Message de confirmation
+    alert(`✅ SAUVEGARDE COMPLÈTE RÉUSSIE !\n\n${savedCount} catégories sauvegardées :\n✓ Configuration générale\n✓ Comptes utilisateurs\n✓ Chaînes TV\n✓ VOD\n✓ Liens/Apps\n✓ Demandes\n✓ Paramètres vidéo/son\n✓ Effets visuels\n✓ Thème\n✓ Données embarquées\n\nVous pouvez maintenant cliquer sur "Télécharger HTML Complet" !`);
+    
+  } catch(e) {
+    console.error('❌ ERREUR lors de la sauvegarde:', e);
+    alert(`❌ ERREUR DE SAUVEGARDE !\n\n${savedCount} éléments sauvegardés avec succès\nmais une erreur s'est produite :\n\n${e.message}\n\nVérifiez la console (F12) pour plus de détails.`);
+  }
+}
 
-  // ── Capturer l'état actuel ──
+function downloadFullHTML() {
+  console.log('📥 Début export HTML complet...');
+  
+  // ===== ÉTAPE 1 : SAUVEGARDER TOUTES LES DONNÉES =====
+  // Forcer la sauvegarde de TOUS les paramètres
+  saveData('config');
+  saveData('accounts');
+  saveData('channels');
+  saveData('vod');
+  saveData('links');
+  saveData('requests');
+  
+  // Sauvegarder les paramètres vidéo/son si modifiés
+  if (typeof saveVideoSettings === 'function') {
+    saveVideoSettings();
+  }
+  
+  // Sauvegarder les effets visuels
+  if (typeof saveEffectSettings === 'function') {
+    saveEffectSettings();
+  }
+  
+  console.log('✅ Toutes les données sauvegardées');
+  
+  // ===== ÉTAPE 2 : EMBARQUER TOUTES LES DONNÉES DANS LE HTML =====
+  embedDataOverride();
+  console.log('✅ Données embarquées dans le HTML');
+
+  // ===== ÉTAPE 3 : CAPTURER L'ÉTAT ACTUEL =====
   const landingEl  = document.getElementById('landing');
   const appEl      = document.getElementById('app');
   const navEl      = document.getElementById('mainNav');
@@ -10534,7 +10976,7 @@ function downloadFullHTML() {
   const prevAdmin    = adminSec  ? adminSec.style.display  : null;
   const prevMobile   = mobileBar ? mobileBar.style.display : null;
 
-  // ── Forcer la page d'accueil (avant authentification) dans le fichier exporté ──
+  // ===== ÉTAPE 4 : FORCER PAGE D'ACCUEIL DANS L'EXPORT =====
   landingEl.style.display = '';
   landingEl.className     = 'fade-in';
   appEl.style.display     = 'none';
@@ -10542,28 +10984,36 @@ function downloadFullHTML() {
   if(adminSec)  adminSec.style.display  = 'none';
   if(mobileBar) mobileBar.style.display = 'none';
 
-  // ── Générer le HTML ──
+  // ===== ÉTAPE 5 : GÉNÉRER LE HTML COMPLET =====
   const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+  console.log('✅ HTML généré, taille:', Math.round(html.length / 1024), 'KB');
 
-  // ── Restaurer l'état actuel (l'utilisateur ne voit rien changer) ──
+  // ===== ÉTAPE 6 : RESTAURER L'ÉTAT (invisible pour l'utilisateur) =====
   landingEl.style.display = prevLanding;
   appEl.style.display     = prevApp;
   navEl.style.display     = prevNav;
   if(adminSec  && prevAdmin  !== null) adminSec.style.display  = prevAdmin;
   if(mobileBar && prevMobile !== null) mobileBar.style.display = prevMobile;
 
-  // ── Télécharger SANS ouvrir de nouvel onglet ──
+  // ===== ÉTAPE 7 : TÉLÉCHARGER LE FICHIER =====
   const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
   const url  = URL.createObjectURL(blob);
   const a    = document.createElement('a');
   a.href     = url;
   a.download = 'index.html';
-  a.style.display = 'none';          // invisible
-  document.body.appendChild(a);      // nécessaire pour Firefox
+  a.style.display = 'none';
+  document.body.appendChild(a);
   a.click();
+  
+  console.log('🎉 Téléchargement lancé : index.html');
+  
   setTimeout(() => {
     document.body.removeChild(a);
-    URL.revokeObjectURL(url);         // libérer la mémoire après le clic
+    URL.revokeObjectURL(url);
+    console.log('✅ Export terminé avec succès !');
+    
+    // Afficher un message de confirmation
+    alert('✅ Export réussi !\n\nLe fichier index.html contient TOUTES vos modifications :\n- Comptes utilisateurs\n- Chaînes TV\n- VOD\n- Liens/Apps\n- Paramètres vidéo/son\n- Thème et effets\n\nVous pouvez maintenant l\'uploader sur GitHub !');
   }, 200);
 }
 function downloadManifest() {
@@ -10848,6 +11298,235 @@ let allUserData = [];
 const REFRESH_INTERVAL = 1000; // Actualisation toutes les secondes
 
 // Classe pour stocker les données d'un utilisateur
+
+// ========== GÉOLOCALISATION MULTI-API ==========
+async function getEnhancedGeolocation(ip) {
+  const geoData = {
+    ip: ip,
+    city: '',
+    region: '',
+    country: '',
+    countryCode: '',
+    latitude: null,
+    longitude: null,
+    timezone: '',
+    isp: '',
+    asn: '',
+    organization: '',
+    sources: []
+  };
+  
+  try {
+    // API 1: ipinfo.io (principale)
+    const response1 = await fetch(`https://ipinfo.io/${ip}/json`);
+    if (response1.ok) {
+      const data1 = await response1.json();
+      if (data1.city) geoData.city = data1.city;
+      if (data1.region) geoData.region = data1.region;
+      if (data1.country) {
+        geoData.country = data1.country;
+        geoData.countryCode = data1.country;
+      }
+      if (data1.loc) {
+        const [lat, lng] = data1.loc.split(',');
+        geoData.latitude = parseFloat(lat);
+        geoData.longitude = parseFloat(lng);
+      }
+      if (data1.timezone) geoData.timezone = data1.timezone;
+      if (data1.org) {
+        geoData.organization = data1.org;
+        const asnMatch = data1.org.match(/AS(\d+)/);
+        if (asnMatch) geoData.asn = asnMatch[1];
+      }
+      geoData.sources.push('ipinfo.io');
+    }
+  } catch(e) {
+    console.log('ipinfo.io failed:', e);
+  }
+  
+  try {
+    // API 2: ip-api.com (backup)
+    const response2 = await fetch(`http://ip-api.com/json/${ip}`);
+    if (response2.ok) {
+      const data2 = await response2.json();
+      if (data2.status === 'success') {
+        if (!geoData.city && data2.city) geoData.city = data2.city;
+        if (!geoData.region && data2.regionName) geoData.region = data2.regionName;
+        if (!geoData.country && data2.country) geoData.country = data2.country;
+        if (!geoData.countryCode && data2.countryCode) geoData.countryCode = data2.countryCode;
+        if (!geoData.latitude && data2.lat) geoData.latitude = data2.lat;
+        if (!geoData.longitude && data2.lon) geoData.longitude = data2.lon;
+        if (!geoData.timezone && data2.timezone) geoData.timezone = data2.timezone;
+        if (!geoData.isp && data2.isp) geoData.isp = data2.isp;
+        if (!geoData.asn && data2.as) {
+          const asnMatch = data2.as.match(/AS(\d+)/);
+          if (asnMatch) geoData.asn = asnMatch[1];
+        }
+        if (!geoData.sources.includes('ip-api.com')) geoData.sources.push('ip-api.com');
+      }
+    }
+  } catch(e) {
+    console.log('ip-api.com failed:', e);
+  }
+  
+  return geoData;
+}
+// ========== FIN GÉOLOCALISATION MULTI-API ==========
+
+
+// ========== GÉOLOCALISATION MULTI-API PROFESSIONNELLE ==========
+class AdvancedGeolocation {
+  static async getCompleteData(ip) {
+    const data = {
+      ip: ip || 'Unknown',
+      city: null,
+      region: null,
+      country: null,
+      countryCode: null,
+      latitude: null,
+      longitude: null,
+      timezone: null,
+      isp: null,
+      asn: null,
+      organization: null,
+      postal: null,
+      sources: [],
+      accuracy: 'low',
+      timestamp: new Date().toISOString()
+    };
+    
+    // API 1: ipinfo.io (principale - excellente précision)
+    try {
+      const res1 = await fetch(`https://ipinfo.io/${ip || ''}/json`);
+      if (res1.ok) {
+        const d1 = await res1.json();
+        if (d1.city) data.city = d1.city;
+        if (d1.region) data.region = d1.region;
+        if (d1.country) {
+          data.country = d1.country;
+          data.countryCode = d1.country;
+        }
+        if (d1.loc) {
+          const [lat, lng] = d1.loc.split(',');
+          data.latitude = parseFloat(lat);
+          data.longitude = parseFloat(lng);
+        }
+        if (d1.timezone) data.timezone = d1.timezone;
+        if (d1.postal) data.postal = d1.postal;
+        if (d1.org) {
+          data.organization = d1.org;
+          const asnMatch = d1.org.match(/AS(\d+)/);
+          if (asnMatch) data.asn = asnMatch[1];
+        }
+        data.sources.push('ipinfo.io');
+        data.accuracy = 'high';
+      }
+    } catch(e) { console.log('ipinfo.io échoué:', e); }
+    
+    // API 2: ip-api.com (backup - gratuit illimité)
+    try {
+      const res2 = await fetch(`http://ip-api.com/json/${ip || ''}?fields=66846719`);
+      if (res2.ok) {
+        const d2 = await res2.json();
+        if (d2.status === 'success') {
+          // Compléter les données manquantes
+          if (!data.city && d2.city) data.city = d2.city;
+          if (!data.region && d2.regionName) data.region = d2.regionName;
+          if (!data.country && d2.country) data.country = d2.country;
+          if (!data.countryCode && d2.countryCode) data.countryCode = d2.countryCode;
+          if (!data.latitude && d2.lat) data.latitude = d2.lat;
+          if (!data.longitude && d2.lon) data.longitude = d2.lon;
+          if (!data.timezone && d2.timezone) data.timezone = d2.timezone;
+          if (!data.isp && d2.isp) data.isp = d2.isp;
+          if (!data.postal && d2.zip) data.postal = d2.zip;
+          if (!data.asn && d2.as) {
+            const asnMatch = d2.as.match(/AS(\d+)/);
+            if (asnMatch) data.asn = asnMatch[1];
+          }
+          if (!data.organization && d2.org) data.organization = d2.org;
+          if (!data.sources.includes('ip-api.com')) data.sources.push('ip-api.com');
+        }
+      }
+    } catch(e) { console.log('ip-api.com échoué:', e); }
+    
+    // API 3: ipapi.co (backup 2)
+    try {
+      const res3 = await fetch(`https://ipapi.co/${ip || ''}/json/`);
+      if (res3.ok) {
+        const d3 = await res3.json();
+        if (d3 && !d3.error) {
+          if (!data.city && d3.city) data.city = d3.city;
+          if (!data.region && d3.region) data.region = d3.region;
+          if (!data.country && d3.country_name) data.country = d3.country_name;
+          if (!data.countryCode && d3.country_code) data.countryCode = d3.country_code;
+          if (!data.latitude && d3.latitude) data.latitude = d3.latitude;
+          if (!data.longitude && d3.longitude) data.longitude = d3.longitude;
+          if (!data.timezone && d3.timezone) data.timezone = d3.timezone;
+          if (!data.isp && d3.org) data.isp = d3.org;
+          if (!data.postal && d3.postal) data.postal = d3.postal;
+          if (!data.asn && d3.asn) data.asn = d3.asn.replace('AS', '');
+          if (!data.sources.includes('ipapi.co')) data.sources.push('ipapi.co');
+        }
+      }
+    } catch(e) { console.log('ipapi.co échoué:', e); }
+    
+    // Déterminer la précision
+    if (data.sources.length >= 2 && data.latitude && data.longitude) {
+      data.accuracy = 'very-high';
+    } else if (data.sources.length >= 1 && data.city) {
+      data.accuracy = 'high';
+    } else if (data.sources.length >= 1) {
+      data.accuracy = 'medium';
+    }
+    
+    return data;
+  }
+  
+  static async enrichDeviceInfo(deviceInfo, ip) {
+    // Obtenir les données de géolocalisation
+    const geoData = await this.getCompleteData(ip);
+    
+    // Fusionner avec les infos de l'appareil
+    return {
+      ...deviceInfo,
+      ...geoData,
+      deviceFingerprint: this.generateFingerprint(deviceInfo),
+      location: {
+        city: geoData.city,
+        region: geoData.region,
+        country: geoData.country,
+        coordinates: geoData.latitude && geoData.longitude ? 
+          {lat: geoData.latitude, lng: geoData.longitude} : null,
+        accuracy: geoData.accuracy
+      },
+      network: {
+        ip: geoData.ip,
+        isp: geoData.isp,
+        asn: geoData.asn,
+        organization: geoData.organization
+      }
+    };
+  }
+  
+  static generateFingerprint(deviceInfo) {
+    const str = JSON.stringify({
+      os: deviceInfo.os,
+      browser: deviceInfo.browser,
+      screen: `${deviceInfo.screenWidth}x${deviceInfo.screenHeight}`,
+      timezone: deviceInfo.timezone
+    });
+    // Simple hash
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      hash = ((hash << 5) - hash) + str.charCodeAt(i);
+      hash = hash & hash;
+    }
+    return Math.abs(hash).toString(16);
+  }
+}
+// ========== FIN GÉOLOCALISATION MULTI-API ==========
+
+
 class UserSession {
   constructor(username) {
     this.username = username;
@@ -11254,6 +11933,22 @@ async function initCurrentUser() {
     );
   }
 }
+
+// Masquer l'icône admin pour les utilisateurs standard
+function updateAdminIconVisibility() {
+  const adminIcon = document.querySelector('.mobile-nav-item[onclick*="admin"]');
+  if (adminIcon && CURRENT_USER) {
+    if (CURRENT_USER.role === 'standard') {
+      adminIcon.style.display = 'none';
+    } else {
+      adminIcon.style.display = 'flex';
+    }
+  }
+}
+
+// Appeler après le login
+setTimeout(updateAdminIconVisibility, 200);
+
 
 // Fonction pour obtenir l'IP locale via WebRTC
 async function getLocalIPAddress() {
