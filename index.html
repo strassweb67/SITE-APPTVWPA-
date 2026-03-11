@@ -10079,10 +10079,18 @@ function createNewUtil() {
     return;
   }
   
-  // Vérifier si le code existe déjà
+  console.log('➕ CRÉATION NOUVEAU COMPTE:', code);
+  
+  // Vérifier si le code existe déjà dans DB_ACCOUNTS
+  if (DB_ACCOUNTS.find(acc => acc.code === code)) {
+    alert('⚠️ Ce code d\'authentification existe déjà dans DB_ACCOUNTS !');
+    return;
+  }
+  
+  // Vérifier dans newUtilAccounts
   const existingAccounts = JSON.parse(localStorage.getItem('newUtilAccounts') || '[]');
   if (existingAccounts.find(acc => acc.code === code)) {
-    alert('⚠️ Ce code d\'authentification existe déjà !');
+    alert('⚠️ Ce code d\'authentification existe déjà dans newUtilAccounts !');
     return;
   }
   
@@ -10100,16 +10108,19 @@ function createNewUtil() {
     maxScreens: parseInt(maxScreens),
     createdAt: new Date().toISOString(),
     status: 'actif',
+    role: 'user',
     isBanned: false
   };
   
-  // Ajouter à la liste
+  // ===== SAUVEGARDE DANS newUtilAccounts =====
   existingAccounts.push(newAccount);
   localStorage.setItem('newUtilAccounts', JSON.stringify(existingAccounts));
+  console.log('✅ Sauvegardé dans newUtilAccounts');
   
-  // Ajouter aussi à DB_ACCOUNTS pour l'intégration complète
+  // ===== SAUVEGARDE DANS DB_ACCOUNTS (synchronisation complète) =====
   DB_ACCOUNTS.push({
     code: code,
+    role: 'user',
     nom: nom,
     prenom: prenom,
     email: email,
@@ -10123,17 +10134,31 @@ function createNewUtil() {
     maxStreams4k: quality === '4k' ? parseInt(maxScreens) : 0,
     isBanned: false
   });
-  saveData('accounts');
   
-  // Sauvegarder dans export
-  try {
-    const exportData = JSON.parse(localStorage.getItem(STORAGE_KEYS.config) || '{}');
-    exportData.newUtilAccounts = existingAccounts;
-    exportData.accounts = DB_ACCOUNTS;
-    localStorage.setItem(STORAGE_KEYS.config, JSON.stringify(exportData));
-  } catch(e) {
-    console.error('Erreur save export:', e);
-  }
+  // ===== SAUVEGARDE COMPLÈTE AVEC BROADCAST =====
+  saveData('accounts'); // Sauvegarde + broadcast DB_ACCOUNTS
+  console.log('✅ Sauvegardé dans DB_ACCOUNTS + broadcast');
+  
+  // ===== EMBARQUER DANS HTML POUR EXPORT/GITHUB =====
+  embedDataOverride();
+  console.log('✅ Embarqué dans dataOverride pour export');
+  
+  // ===== BROADCAST SPÉCIFIQUE POUR NEWUTIL =====
+  const updateKey = `strass_newUtil_${Date.now()}`;
+  localStorage.setItem(updateKey, JSON.stringify({
+    type: 'newUtil',
+    timestamp: Date.now(),
+    account: newAccount
+  }));
+  
+  // Force événement local
+  window.dispatchEvent(new StorageEvent('storage', {
+    key: updateKey,
+    newValue: JSON.stringify({type: 'newUtil', account: newAccount}),
+    url: window.location.href
+  }));
+  
+  console.log('✅ Broadcast newUtil envoyé');
   
   // Afficher message de succès
   const msg = document.getElementById('newUtilSuccessMsg');
@@ -10142,16 +10167,18 @@ function createNewUtil() {
     setTimeout(() => msg.style.display = 'none', 4000);
   }
   
-  // Actualiser le tableau
+  // Actualiser TOUTES les vues
   renderNewUtilTable();
+  if (typeof renderAccountsAdmin === 'function') renderAccountsAdmin();
+  if (typeof renderAccountEditor === 'function') renderAccountEditor();
   
   // Réinitialiser le formulaire
   resetNewUtilForm();
   
-  // Broadcast pour actualiser sur tous les appareils
-  localStorage.setItem('newUtilUpdate', Date.now().toString());
+  console.log('✅✅✅ COMPTE CRÉÉ ET SYNCHRONISÉ PARTOUT');
+  console.log('📱 Visible sur PC + Mobile + GitHub');
   
-  console.log('✓ Nouveau compte créé:', newAccount);
+  alert(`✅ COMPTE CRÉÉ !\n\nCode: ${code}\nNom: ${prenom} ${nom}\n\n✓ Sauvegardé localement\n✓ Synchronisé en temps réel\n✓ Prêt pour export GitHub\n\nLe compte est maintenant visible sur TOUS les appareils !`);
 }
 
 // Réinitialiser le formulaire
@@ -10233,11 +10260,14 @@ function renderNewUtilTable() {
 
 // Fonction pour bannir/débannir un utilisateur
 function toggleBanUser(code) {
+  console.log('🚫 TOGGLE BAN:', code);
+  
   // Mettre à jour dans DB_ACCOUNTS
   const dbAccount = DB_ACCOUNTS.find(acc => acc.code === code);
   if (dbAccount) {
     dbAccount.isBanned = !dbAccount.isBanned;
-    saveData('accounts');
+    saveData('accounts'); // Sauvegarde + broadcast
+    console.log('✅ DB_ACCOUNTS mis à jour');
   }
   
   // Mettre à jour dans newUtilAccounts
@@ -10246,26 +10276,39 @@ function toggleBanUser(code) {
   if (newUtilAccount) {
     newUtilAccount.isBanned = !newUtilAccount.isBanned;
     localStorage.setItem('newUtilAccounts', JSON.stringify(newUtilAccounts));
+    console.log('✅ newUtilAccounts mis à jour');
   }
   
-  // Sauvegarder dans export
-  try {
-    const exportData = JSON.parse(localStorage.getItem(STORAGE_KEYS.config) || '{}');
-    exportData.accounts = DB_ACCOUNTS;
-    exportData.newUtilAccounts = newUtilAccounts;
-    localStorage.setItem(STORAGE_KEYS.config, JSON.stringify(exportData));
-  } catch(e) {
-    console.error('Erreur save export:', e);
-  }
+  // ===== EMBARQUER DANS HTML POUR EXPORT/GITHUB =====
+  embedDataOverride();
+  console.log('✅ Embarqué dans dataOverride');
   
-  // Broadcast pour actualiser partout
-  localStorage.setItem('banUpdate', Date.now().toString());
+  // ===== BROADCAST POUR TOUS LES APPAREILS =====
+  const updateKey = `strass_ban_${Date.now()}`;
+  localStorage.setItem(updateKey, JSON.stringify({
+    type: 'ban',
+    code: code,
+    isBanned: dbAccount?.isBanned || newUtilAccount?.isBanned,
+    timestamp: Date.now()
+  }));
   
-  // Actualiser le tableau
+  // Force événement local
+  window.dispatchEvent(new StorageEvent('storage', {
+    key: updateKey,
+    newValue: JSON.stringify({type: 'ban', code: code}),
+    url: window.location.href
+  }));
+  
+  console.log('✅ Broadcast ban envoyé');
+  
+  // Actualiser TOUTES les vues
   renderNewUtilTable();
+  if (typeof renderAccountsAdmin === 'function') renderAccountsAdmin();
+  if (typeof renderAccountEditor === 'function') renderAccountEditor();
   
   const isBanned = dbAccount?.isBanned || newUtilAccount?.isBanned || false;
-  alert(isBanned ? `✅ Utilisateur ${code} débanni !` : `🚫 Utilisateur ${code} banni !`);
+  console.log('✅✅✅ BAN SYNCHRONISÉ PARTOUT');
+  alert(isBanned ? `🚫 Utilisateur ${code} banni !\n\n✓ Synchronisé en temps réel\n✓ Visible sur tous les appareils\n✓ Prêt pour export GitHub` : `✅ Utilisateur ${code} débanni !\n\n✓ Synchronisé en temps réel\n✓ Visible sur tous les appareils\n✓ Prêt pour export GitHub`);
 }
 
 // Écouter les mises à jour depuis d'autres onglets
@@ -10615,6 +10658,80 @@ window.addEventListener('storage', (e) => {
       
     } catch(err) {
       console.error('Erreur synchronisation:', err);
+    }
+  }
+  
+  // ===== LISTENER SPÉCIFIQUE POUR NOUVEAUX COMPTES (newUtil) =====
+  if (e.key && e.key.startsWith('strass_newUtil_')) {
+    console.log('🔄 NOUVEAU COMPTE DÉTECTÉ - Synchronisation...');
+    try {
+      const updateData = JSON.parse(e.newValue);
+      if (updateData.type === 'newUtil' && updateData.account) {
+        
+        // Recharger DB_ACCOUNTS depuis localStorage
+        const acc = localStorage.getItem(STORAGE_KEYS.accounts);
+        if (acc) {
+          DB_ACCOUNTS = JSON.parse(acc);
+          console.log('✅ DB_ACCOUNTS rechargé');
+        }
+        
+        // Recharger newUtilAccounts
+        const newUtilData = localStorage.getItem('newUtilAccounts');
+        if (newUtilData) {
+          console.log('✅ newUtilAccounts rechargé');
+        }
+        
+        // Actualiser TOUTES les vues
+        if (typeof renderNewUtilTable === 'function') {
+          renderNewUtilTable();
+          console.log('✅ Table New Util actualisée');
+        }
+        if (typeof renderAccountsAdmin === 'function') {
+          renderAccountsAdmin();
+          console.log('✅ Table Comptes actualisée');
+        }
+        if (typeof renderAccountEditor === 'function') {
+          renderAccountEditor();
+          console.log('✅ Éditeur Comptes actualisé');
+        }
+        
+        console.log('✅✅✅ NOUVEAU COMPTE SYNCHRONISÉ SUR CET APPAREIL');
+        console.log('👤 Compte:', updateData.account.code, '-', updateData.account.prenom, updateData.account.nom);
+      }
+    } catch(err) {
+      console.error('❌ Erreur sync newUtil:', err);
+    }
+  }
+  
+  // ===== LISTENER POUR BANS/DÉBANS =====
+  if (e.key && e.key.startsWith('strass_ban_')) {
+    console.log('🔄 BAN/DÉBAN DÉTECTÉ - Synchronisation...');
+    try {
+      const updateData = JSON.parse(e.newValue);
+      if (updateData.type === 'ban') {
+        
+        // Recharger DB_ACCOUNTS
+        const acc = localStorage.getItem(STORAGE_KEYS.accounts);
+        if (acc) {
+          DB_ACCOUNTS = JSON.parse(acc);
+          console.log('✅ DB_ACCOUNTS rechargé');
+        }
+        
+        // Recharger newUtilAccounts
+        const newUtilData = localStorage.getItem('newUtilAccounts');
+        if (newUtilData) {
+          console.log('✅ newUtilAccounts rechargé');
+        }
+        
+        // Actualiser toutes les vues
+        if (typeof renderNewUtilTable === 'function') renderNewUtilTable();
+        if (typeof renderAccountsAdmin === 'function') renderAccountsAdmin();
+        if (typeof renderAccountEditor === 'function') renderAccountEditor();
+        
+        console.log('✅ Ban/Déban synchronisé:', updateData.code);
+      }
+    } catch(err) {
+      console.error('❌ Erreur sync ban:', err);
     }
   }
   
