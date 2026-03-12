@@ -1610,6 +1610,10 @@ body {
   border: 2px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8);
   position: relative;
+  /* Isolation GPU du conteneur = 0 repaints parasites */
+  contain: layout style paint;
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 video {
@@ -1617,16 +1621,23 @@ video {
   height: 100%;
   object-fit: contain;
   border-radius: inherit;
-  /* Optimisations pour fluidité 4K et netteté sur mobile */
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
+
+  /* ── Accélération GPU maximale ── */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  will-change: contents;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  transform: translateZ(0);
-  will-change: transform;
-  /* Anti-aliasing optimisé pour réduire le flou */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+
+  /* ── Netteté maximale (sans aliasing) ── */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: high-quality;
+  -ms-interpolation-mode: bicubic;
+
+  /* ── Fluidité décodage ── */
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  isolation: isolate;
 }
 
 /* Barre sous le lecteur (fine) */
@@ -5010,7 +5021,7 @@ video {
   <div class="main-content" id="tvSection" style="display: none;">
     <div class="player-container">
       <div class="video-player">
-        <video id="videoPlayer" controls autoplay playsinline preload="auto" crossorigin="anonymous"></video>
+        <video id="videoPlayer" controls autoplay playsinline preload="none" x-webkit-airplay="allow"></video>
       </div>
       <!-- Bloc info chaîne (collé sous le lecteur, angles carrés en haut, arrondis en bas) -->
       <div class="channel-info-block" id="channelInfoBlock">
@@ -8946,199 +8957,243 @@ function playChannel(url, name, id) {
   currentChannelId = id;
   const ch = DB_CHANNELS.find(c => c.id === id);
   const logoEl = document.getElementById('channelInfoLogo');
-  if(logoEl && ch && ch.logo) { logoEl.src = ch.logo; logoEl.style.display = 'block'; } else if(logoEl) { logoEl.style.display = 'none'; }
+  if(logoEl && ch && ch.logo) { logoEl.src = ch.logo; logoEl.style.display='block'; }
+  else if(logoEl) { logoEl.style.display='none'; }
+
   const video = document.getElementById('videoPlayer');
-  const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
-  
-  // Afficher un loader pendant le préchargement
-  video.style.opacity = '0.3';
+
+  // ── 1. NETTOYAGE COMPLET ────────────────────────────────────────
+  if(hlsInstance) { try { hlsInstance.destroy(); } catch(e){} hlsInstance = null; }
+  if(video._hlsClean) { try { video._hlsClean(); } catch(e){} }
+  video.pause();
+  video.removeAttribute('src');
+  try { video.load(); } catch(e){}
+  video.style.opacity = '0';
+
+  // ── 2. LOADER ──────────────────────────────────────────────────
+  const oldL = document.getElementById('videoLoader');
+  if(oldL) oldL.remove();
+  if(!document.getElementById('_spinSt')) {
+    const st = document.createElement('style');
+    st.id = '_spinSt';
+    st.textContent = '@keyframes _spin{to{transform:rotate(360deg)}}@keyframes _pulse{0%,100%{opacity:1}50%{opacity:.45}}';
+    document.head.appendChild(st);
+  }
   const loader = document.createElement('div');
   loader.id = 'videoLoader';
-  loader.style.cssText = 'position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;font-size:1.2rem;font-weight:700;text-align:center;z-index:999;';
-  loader.innerHTML = '⏳ Chargement 4K...<br><span style="font-size:0.8rem;color:#64c8ff;">Préchargement pour lecture optimale</span>';
+  loader.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;z-index:999;pointer-events:none;background:rgba(0,0,0,.72);border-radius:inherit;';
+  loader.innerHTML = '<div style="width:42px;height:42px;border:3px solid rgba(255,255,255,.1);border-top-color:#64c8ff;border-radius:50%;animation:_spin .8s linear infinite"></div>'
+    + '<span id="loaderStatus" style="font-size:.95rem;font-weight:700;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.8)">⚡ Connexion…</span>'
+    + '<span id="loaderSub" style="font-size:.75rem;color:#64c8ff;animation:_pulse 2s ease-in-out infinite">Chargement de la chaîne</span>';
   video.parentElement.appendChild(loader);
-  
-  // Config HLS OPTIMISÉE : Démarrage ultra-rapide sur 4G/5G mobile (~1s) + stabilité WiFi
-  const hlsCfg = {
-    enableWorker: true,
-    lowLatencyMode: isMobile ? true : false,   // ON mobile pour démarrage rapide 4G/5G
-    startLevel: isMobile ? -1 : -1,            // ABR auto = démarrage immédiat au meilleur débit dispo
-    autoStartLoad: true,
-    startFragPrefetch: true,                   // Pré-charge immédiate
-    testBandwidth: true,
-    
-    // BUFFER MOBILE LÉGER = démarrage <1s sur 4G/5G
-    maxBufferLength: isMobile ? 4 : 40,        // 4s mobile = start rapide, 40s WiFi = stable
-    maxMaxBufferLength: isMobile ? 10 : 80,
-    maxBufferSize: isMobile ? 20*1000*1000 : 150*1000*1000,  // 20MB mobile
-    maxBufferHole: isMobile ? 1.0 : 0.5,       // Plus tolérant sur mobile
-    
-    // Synchronisation live : latence réduite sur mobile
-    liveSyncDurationCount: isMobile ? 2 : 3,
-    liveMaxLatencyDurationCount: isMobile ? 4 : 6,
-    liveDurationInfinity: true,
-    
-    // ABR MOBILE AGGRESSIF : démarre bas, monte vite
-    abrEwmaFastLive: isMobile ? 1.5 : 3.0,    // Réactivité rapide
-    abrEwmaSlowLive: isMobile ? 5.0 : 12.0,
-    abrEwmaFastVoD: isMobile ? 1.5 : 3.0,
-    abrEwmaSlowVoD: isMobile ? 5.0 : 12.0,
-    abrBandWidthFactor: isMobile ? 0.85 : 0.98,  // Marge réseau mobile
-    abrBandWidthUpFactor: isMobile ? 0.80 : 0.95,
-    abrMaxWithRealBitrate: true,
-    capLevelToPlayerSize: isMobile ? true : false,  // Mobile: qualité adaptée à l'écran
-    
-    // Back-buffer réduit sur mobile
-    backBufferLength: isMobile ? 5 : 40,
-    
-    // Timeouts adaptés mobile 4G/5G
-    manifestLoadingTimeOut: isMobile ? 5000 : 8000,
-    manifestLoadingMaxRetry: isMobile ? 6 : 5,
-    manifestLoadingRetryDelay: isMobile ? 300 : 500,
-    levelLoadingTimeOut: isMobile ? 6000 : 10000,
-    levelLoadingMaxRetry: isMobile ? 6 : 5,
-    fragLoadingTimeOut: isMobile ? 8000 : 15000,   // Réduit mobile (4G peut charger en 3-5s)
-    fragLoadingMaxRetry: isMobile ? 6 : 5,
-    fragLoadingRetryDelay: isMobile ? 200 : 500,   // Retry rapide sur 4G
-    maxLoadingDelay: isMobile ? 2 : 4,
-    
-    // Optimisations
-    preferManagedMediaSource: true,
-    progressive: isMobile ? true : false,      // ON mobile = démarre sans attendre buffer complet
-    highBufferWatchdogPeriod: 2,
-    nudgeMaxRetry: 10,
+
+  const setL = (main, sub, err) => {
+    const e1 = document.getElementById('loaderStatus');
+    const e2 = document.getElementById('loaderSub');
+    if(e1) { e1.textContent = main; e1.style.color = err ? '#ff6b6b' : '#fff'; }
+    if(e2) { e2.textContent = sub;  e2.style.color = err ? '#ff9999' : '#64c8ff'; }
   };
-  
-  if(Hls.isSupported()) {
-    if(hlsInstance) hlsInstance.destroy();
-    hlsInstance = new Hls(hlsCfg);
-    hlsInstance.loadSource(url);
-    hlsInstance.attachMedia(video);
-    
-    let is4KReady = false;
-    let bufferCheckInterval = null;
-    
-    // Événement : Manifest chargé
-    hlsInstance.on(Hls.Events.MANIFEST_PARSED, () => {
-      const levels = hlsInstance.levels || [];
-      console.log('📺 Niveaux disponibles:', levels.map(l => `${l.height}p @ ${Math.round(l.bitrate/1000)}kbps`));
-      
-      // Chercher et FORCER 4K immédiatement
-      let best4K = -1;
-      levels.forEach((level, idx) => {
-        const h = level.height || 0;
-        if(h >= 2160) best4K = idx;
-      });
-      
-      if(best4K >= 0) {
-        console.log('✅ 4K trouvé, niveau:', best4K);
-        hlsInstance.currentLevel = best4K;
-        hlsInstance.nextLevel = best4K;  // Force aussi le prochain
-      } else {
-        // Pas de 4K, prendre le max
-        hlsInstance.currentLevel = levels.length - 1;
-        console.log('⚠️ Pas de 4K, utilise niveau max:', levels.length - 1);
-      }
-      
-      // Appliquer les paramètres utilisateur
-      applyQuality();
+  const rmLoader = () => {
+    const el = document.getElementById('videoLoader');
+    if(el) el.remove();
+    video.style.opacity = '1';
+  };
+
+  // ── 3. PLAY (autoplay policy safe) ─────────────────────────────
+  let _played = false;
+  const doPlay = () => {
+    if(_played) return; _played = true;
+    const p = video.play();
+    if(p && p.catch) p.catch(() => {
+      video.muted = true;
+      video.play().then(() => {
+        const u = () => {
+          video.muted = false; video.volume = 1;
+          document.removeEventListener('click', u);
+          document.removeEventListener('touchstart', u);
+        };
+        document.addEventListener('click', u, {once:true});
+        document.addEventListener('touchstart', u, {once:true});
+      }).catch(()=>{});
     });
-    
-    // Surveillance du buffer pour démarrage STABLE
-    hlsInstance.on(Hls.Events.FRAG_BUFFERED, (evt, data) => {
-      const buffered = video.buffered;
-      if(buffered.length > 0) {
-        const bufferedSeconds = buffered.end(0) - buffered.start(0);
-        console.log(`📊 Buffer: ${bufferedSeconds.toFixed(1)}s`);
-        
-        // Seuil de démarrage : 0.5s mobile (4G/5G) ou 2s WiFi
-        if(bufferedSeconds >= (isMobile ? 0.5 : 2.0) && !is4KReady) {
-          is4KReady = true;
-          
-          // Vérifier qu'on est bien en 4K
-          const currentLevel = hlsInstance.levels[hlsInstance.currentLevel];
-          const currentHeight = currentLevel ? currentLevel.height : 0;
-          
-          console.log(`🎬 LANCEMENT - Qualité: ${currentHeight}p, Buffer: ${bufferedSeconds.toFixed(1)}s`);
-          
-          // Retirer le loader
-          const loaderEl = document.getElementById('videoLoader');
-          if(loaderEl) loaderEl.remove();
-          video.style.opacity = '1';
-          
-          // Lancer la lecture avec son actif
-          video.muted = false;
-          video.volume = video.volume || 1;
-          video.play().catch(e => {
-            // Sur mobile, l'autoplay sans interaction peut être bloqué → lancer muet puis démuet
-            video.muted = true;
-            video.play().then(() => {
-              // Démuet dès que possible (1ère interaction utilisateur)
-              const unmute = () => { video.muted = false; video.volume = 1; document.removeEventListener('click', unmute); document.removeEventListener('touchstart', unmute); };
-              document.addEventListener('click', unmute, {once:true});
-              document.addEventListener('touchstart', unmute, {once:true});
-            }).catch(e2 => console.error('Erreur play:', e2));
-          });
-        }
-      }
-    });
-    
-    // Surveillance continue : Ne jamais redescendre en qualité
-    hlsInstance.on(Hls.Events.LEVEL_SWITCHING, (evt, data) => {
-      const newLevel = hlsInstance.levels[data.level];
-      const newHeight = newLevel ? newLevel.height : 0;
-      console.log(`🔄 Changement niveau: ${newHeight}p`);
-      
-      // Si on descend sous 4K, re-forcer 4K
-      if(newHeight < 2160 && hlsInstance.levels.some(l => l.height >= 2160)) {
-        const idx4K = hlsInstance.levels.findIndex(l => l.height >= 2160);
-        if(idx4K >= 0) {
-          console.log('⬆️ RE-FORCE 4K niveau:', idx4K);
-          setTimeout(() => {
-            hlsInstance.currentLevel = idx4K;
-            hlsInstance.nextLevel = idx4K;
-          }, 100);
-        }
-      }
-    });
-    
-    // Gestion des erreurs avec retry
-    hlsInstance.on(Hls.Events.ERROR, (evt, data) => {
-      if(data.fatal) {
-        console.error('❌ Erreur fatale:', data.type, data.details);
-        
-        if(data.type === Hls.ErrorTypes.NETWORK_ERROR) {
-          console.log('🔄 Retry réseau...');
-          setTimeout(() => { if(hlsInstance) hlsInstance.startLoad(); }, 1000);
-        } else if(data.type === Hls.ErrorTypes.MEDIA_ERROR) {
-          console.log('🔄 Récupération média...');
-          hlsInstance.recoverMediaError();
-        } else {
-          console.log('🔄 Reload complet...');
-          hlsInstance.destroy();
-          setTimeout(() => playChannel(url, name, id), 2000);
-        }
-        
-        // Retirer le loader si erreur
-        const loaderEl = document.getElementById('videoLoader');
-        if(loaderEl) loaderEl.remove();
-        video.style.opacity = '1';
-      }
-    });
-    
-  } else if(video.canPlayType('application/vnd.apple.mpegurl')) {
-    // Safari natif
-    video.src = url;
-    setTimeout(() => {
-      const loaderEl = document.getElementById('videoLoader');
-      if(loaderEl) loaderEl.remove();
-      video.style.opacity = '1';
-      video.muted = false;
-      video.volume = 1;
-      video.play().catch(() => { video.muted = true; video.play().then(() => { const u = () => { video.muted=false; video.volume=1; document.removeEventListener('click',u); document.removeEventListener('touchstart',u); }; document.addEventListener('click',u,{once:true}); document.addEventListener('touchstart',u,{once:true}); }); });
-    }, isMobile ? 500 : 2000);
+  };
+
+  // ── 4. LISTENERS vidéo natifs ──────────────────────────────────
+  const onPlaying  = () => { if(wd) { clearTimeout(wd); wd = null; } rmLoader(); };
+  const onWaiting  = () => {
+    if(document.getElementById('videoLoader')) return;
+    const m = document.createElement('div');
+    m.id = 'videoLoader';
+    m.style.cssText = 'position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:999;pointer-events:none;';
+    m.innerHTML = '<div style="width:34px;height:34px;border:3px solid rgba(255,255,255,.1);border-top-color:#64c8ff;border-radius:50%;animation:_spin .8s linear infinite"></div>';
+    video.parentElement.appendChild(m);
+  };
+  const onCanPlay  = () => {
+    const el = document.getElementById('videoLoader');
+    if(el && !el.querySelector('#loaderStatus')) el.remove();
+    video.style.opacity = '1';
+  };
+  video.addEventListener('playing', onPlaying);
+  video.addEventListener('waiting', onWaiting);
+  video.addEventListener('canplay', onCanPlay);
+  video._hlsClean = () => {
+    video.removeEventListener('playing', onPlaying);
+    video.removeEventListener('waiting', onWaiting);
+    video.removeEventListener('canplay', onCanPlay);
+  };
+
+  // ── 5. WATCHDOG + erreurs ──────────────────────────────────────
+  let wd = null;
+  let mediaErrCount = 0;
+
+  const startWatchdog = (label) => {
+    if(wd) clearTimeout(wd);
+    // Watchdog 1s : délai mini garanti avant play (évite écran noir codec pas prêt)
+    wd = setTimeout(() => {
+      if(!video.paused) return; // déjà en lecture → OK
+      console.warn('⚠️ WD1s — force play:', label);
+      _played = false; // reset flag pour retry
+      doPlay();
+      // Watchdog 4s : si toujours rien → reload
+      wd = setTimeout(() => {
+        if(!video.paused) return;
+        console.warn('⚠️ WD5s — reload complet');
+        setL('🔄 Rechargement…', 'Reconnexion en cours…');
+        if(hlsInstance) { hlsInstance.destroy(); hlsInstance = null; }
+        setTimeout(() => playChannel(url, name, id), 300);
+      }, 4000);
+    }, 1000);
+  };
+
+  // ── 6. CONFIG HLS universelle ──────────────────────────────────
+  // Compatible : Rakuten/FAST, Netplus, SFR, 6cloud, Cloudfront, GitHub raw, etc.
+  // Pas de lowLatencyMode (casse flux standard), pas de testBandwidth au départ
+  const hlsCfg = {
+    enableWorker:          true,
+    lowLatencyMode:        false,   // OFF = compat universel
+    startLevel:            -1,      // ABR auto = démarre au bon niveau direct
+    autoStartLoad:         true,
+    startFragPrefetch:     true,
+    testBandwidth:         false,   // OFF = pas d'attente test réseau au départ
+
+    // Buffer équilibré : assez pour fluidité, pas trop pour ne pas attendre
+    maxBufferLength:       20,
+    maxMaxBufferLength:    40,
+    maxBufferSize:         40*1024*1024,
+    maxBufferHole:         0.5,
+    backBufferLength:      20,
+
+    // Live
+    liveSyncDurationCount:        3,
+    liveMaxLatencyDurationCount:  10,
+    liveDurationInfinity:         true,
+
+    // ABR : montée rapide qualité
+    abrEwmaFastLive:       4.0,
+    abrEwmaSlowLive:       10.0,
+    abrEwmaFastVoD:        4.0,
+    abrEwmaSlowVoD:        10.0,
+    abrBandWidthFactor:    0.95,
+    abrBandWidthUpFactor:  0.90,
+    abrMaxWithRealBitrate: true,
+    capLevelToPlayerSize:  false,
+
+    // Timeouts : assez longs pour connexions lentes, assez courts pour fail-fast
+    manifestLoadingTimeOut:    8000,
+    manifestLoadingMaxRetry:   4,
+    manifestLoadingRetryDelay: 500,
+    levelLoadingTimeOut:       8000,
+    levelLoadingMaxRetry:      4,
+    levelLoadingRetryDelay:    500,
+    fragLoadingTimeOut:        10000,
+    fragLoadingMaxRetry:       4,
+    fragLoadingRetryDelay:     500,
+    maxLoadingDelay:           3,
+
+    preferManagedMediaSource:  true,
+    progressive:               true,
+    highBufferWatchdogPeriod:  2,
+    nudgeMaxRetry:             10,
+
+    // XHR : pas de credentials (évite CORS preflight)
+    // Compatible Rakuten, FAST TV, CDN génériques
+    xhrSetup: (xhr, reqUrl) => {
+      xhr.withCredentials = false;
+    }
+  };
+
+  // ── 7. Safari natif (pas HLS.js) ──────────────────────────────
+  if(!Hls.isSupported()) {
+    if(video.canPlayType('application/vnd.apple.mpegurl')) {
+      setL('📺 Chargement…', 'Safari natif');
+      video.src = url;
+      video.addEventListener('canplaythrough', () => { rmLoader(); doPlay(); }, {once:true});
+      setTimeout(() => { rmLoader(); _played = false; doPlay(); }, 3000);
+    } else {
+      setL('❌ Non supporté', 'Utilisez Chrome ou Safari', true);
+    }
+    window.scrollTo({top:0, behavior:'smooth'});
+    renderEPGInline(id);
+    return;
   }
-  
+
+  // ── 8. HLS.js ─────────────────────────────────────────────────
+  hlsInstance = new Hls(hlsCfg);
+
+  hlsInstance.on(Hls.Events.MEDIA_ATTACHED, () => {
+    setL('⚡ Connexion…', 'Chargement du flux');
+  });
+
+  hlsInstance.on(Hls.Events.MANIFEST_PARSED, (e, d) => {
+    const lvls = hlsInstance.levels || [];
+    console.log('📺', url.split('/').pop(), '→', lvls.map(l=>`${l.height||'?'}p`).join('/'));
+    setL('📺 Flux prêt', lvls.length + ' qualité(s)');
+    startWatchdog('manifest');
+  });
+
+  hlsInstance.on(Hls.Events.FRAG_BUFFERED, (e, d) => {
+    if(video.paused && video.readyState >= 2 && !_played) {
+      const lvl = (hlsInstance.levels||[])[hlsInstance.currentLevel];
+      setL('▶ Lecture ' + (lvl ? (lvl.height||'?')+'p' : ''), '');
+      doPlay();
+    }
+  });
+
+  hlsInstance.on(Hls.Events.ERROR, (e, d) => {
+    if(!d.fatal) return; // non-fatal : HLS.js gère seul
+    if(wd) { clearTimeout(wd); wd = null; }
+    console.warn('HLS FATAL', d.type, d.details);
+
+    if(d.type === Hls.ErrorTypes.NETWORK_ERROR) {
+      setL('📡 Réseau…', 'Reconnexion…');
+      setTimeout(() => {
+        if(!hlsInstance) return;
+        hlsInstance.startLoad();
+        startWatchdog('network-retry');
+      }, 1000);
+    } else if(d.type === Hls.ErrorTypes.MEDIA_ERROR) {
+      mediaErrCount++;
+      if(mediaErrCount <= 2) {
+        setL('🔧 Correction…', 'Réparation codec ' + mediaErrCount + '/2');
+        hlsInstance.recoverMediaError();
+        _played = false;
+        startWatchdog('media-recover');
+      } else {
+        mediaErrCount = 0;
+        setL('🔄 Rechargement…', 'Réinitialisation…');
+        hlsInstance.destroy(); hlsInstance = null;
+        setTimeout(() => playChannel(url, name, id), 800);
+      }
+    } else {
+      setL('🔄 Rechargement…', 'Reconnexion…');
+      hlsInstance.destroy(); hlsInstance = null;
+      setTimeout(() => playChannel(url, name, id), 1000);
+    }
+  });
+
+  hlsInstance.attachMedia(video);
+  hlsInstance.loadSource(url);
+
   window.scrollTo({top:0, behavior:'smooth'});
   renderEPGInline(id);
 }
@@ -9307,7 +9362,6 @@ function switchAdminPanel(panel, element) {
   const panelMap = { 
     users:'adminUsersPanel', 
     geoloc:'adminGeolocPanel',
-    users:'adminUsersPanel', 
     diagnostics:'adminDiagnosticsPanel',
     effects:'adminEffectsPanel',
     theme:'adminThemePanel',
@@ -9329,12 +9383,23 @@ function switchAdminPanel(panel, element) {
     targetPanel.classList.add('active');
     if(welcomeMsg) welcomeMsg.style.display = 'none';
   } else {
-    // Aucun panneau actif -> afficher le message de bienvenue
     if(welcomeMsg) welcomeMsg.style.display = 'block';
   }
   
   if(element) element.classList.add('active');
-  
+
+  // ── AUTO-SAVE : synchro localStorage + script embarqué à chaque changement d'onglet
+  try {
+    localStorage.setItem(STORAGE_KEYS.accounts, JSON.stringify(DB_ACCOUNTS));
+    localStorage.setItem(STORAGE_KEYS.channels, JSON.stringify(DB_CHANNELS));
+    localStorage.setItem(STORAGE_KEYS.vod, JSON.stringify(DB_VOD));
+    localStorage.setItem(STORAGE_KEYS.links, JSON.stringify(DB_LINKS));
+    localStorage.setItem(STORAGE_KEYS.requests, JSON.stringify(DB_REQUESTS));
+    localStorage.setItem(STORAGE_KEYS.config, JSON.stringify(APP_CONFIG));
+    embedDataOverride(); // Met à jour le script embarqué = export toujours à jour
+    console.log('✅ Auto-save onglet admin →', panel);
+  } catch(e) { console.warn('Auto-save onglet:', e); }
+
   // Déclencher le chargement des données si nécessaire
   if(panel === 'geoloc') {
     updateGeolocInterface();
@@ -10484,9 +10549,9 @@ function saveData(type) {
         localStorage.setItem(STORAGE_KEYS.channels, JSON.stringify(DB_CHANNELS)); 
         break;
       case 'vod': 
-        localStorage.setItem(STORAGE_KEYS.vod, JSON.stringify(DB_VOD)); 
-        break;
+        localStorage.setItem(STORAGE_KEYS.vod, JSON.stringify(DB_VOD));
         syncVODUpdate();
+        break;
       case 'links': 
         localStorage.setItem(STORAGE_KEYS.links, JSON.stringify(DB_LINKS)); 
         break;
